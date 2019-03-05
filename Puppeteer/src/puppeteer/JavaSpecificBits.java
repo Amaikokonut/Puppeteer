@@ -81,6 +81,12 @@ public class JavaSpecificBits
 	
 	
 	
+	public static String[] splitlines(String s)
+	{
+		return splitlines(s, WhatToDoWithEmpties.LeaveInEmpties); //leaving them in keeps more information and allows us to reconstitute the original input; which is many important for (eg source code) rewriters! 0,0     the lossless option is usually a good default option methinks ^^
+	}
+	
+	
 	public static String[] splitlines(String s, WhatToDoWithEmpties whatToDoWithEmpties)
 	{
 		//Todo support all three newlines, "\n", "\r", and "\r\n" more efficiently ^^''
@@ -89,12 +95,6 @@ public class JavaSpecificBits
 		
 		return split(s, '\n', -1, whatToDoWithEmpties);
 	}
-	
-	public static String[] splitlines(String s)
-	{
-		return splitlines(s, WhatToDoWithEmpties.LeaveInEmpties); //leaving them in keeps more information and allows us to reconstitute the original input; which is many important for (eg source code) rewriters! 0,0     the lossless option is usually a good default option methinks ^^
-	}
-	
 	
 	//@PossiblySnapshotPossiblyLiveValue  //Future-proofing ^^'
 	public static char[] universalNewlinesCharArrayOPC(char[] oldc)
