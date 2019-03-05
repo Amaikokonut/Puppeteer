@@ -8,10 +8,17 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class JavaSpecificBits
 {
+	//@Nonnull
+	public static String readAllTextUTF8(File file) throws IOException
+	{
+		return readAllText(file, StandardCharsets.UTF_8);
+	}
+	
 	//@Nonnull
 	public static String readAllText(File file, Charset encoding) throws IOException
 	{
