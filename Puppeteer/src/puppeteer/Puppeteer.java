@@ -1,7 +1,6 @@
 package puppeteer;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.Window.Type;
 import javax.swing.JLabel;
@@ -42,44 +41,92 @@ import javax.swing.ButtonGroup;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
-//Does me editing work? :D   —PP
-public class Puppeteer {
-
+// Does me editing work? :D —PP
+public class Puppeteer
+{
+	
 	private JFrame frmPuppeteer;
 	
-	//generate the initial default creature:
+	// generate the initial default creature:
 	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
+	// and the initial selected part for that matter
 	int selectedPart = 0;
 	
+	// define all the UI bits now so we can access them later
+	JComboBox comboSlot;
+	JRadioButton rdbtnM;
+	JRadioButton rdbtnF;
+	JComboBox comboAge;
+	JSpinner spinMainPose;
+	JComboBox comboMainDirn;
+	JComboBox comboExpression;
+	JCheckBox chckbxEyesClosed;
+	JComboBox comboPartSelector = new JComboBox(CreatureInfo.bodyParts);
+	JComboBox comboPartSpecies = new JComboBox(CreatureInfo.availableSpecies);
+	JComboBox comboPartSlot = new JComboBox(CreatureInfo.availableSlots);
+	JSpinner spinPartPose = new JSpinner();
+	JComboBox comboPartDirn = new JComboBox(CreatureInfo.dirn);
+	JSpinner spinXoffset = new JSpinner();
+	JSpinner spinYoffset = new JSpinner();
+	
+	// a method to properly update body part UI bits
+	public void updatePartsUI()
+	{
+		//spcs includes mf status in this case and we don't want that
+		int x = creature.part[selectedPart].spcs;
+		if (x > 3)
+		{
+			x -= 4;
+		}
+		comboPartSpecies.setSelectedIndex(x);
+		//convert char to index
+		char y = 'a';
+		char z = creature.part[selectedPart].slot;
+		
+		comboPartSlot.setSelectedIndex(z - y);
+		comboPartDirn.setSelectedIndex(creature.part[selectedPart].dirn);
+		spinPartPose.setValue(creature.part[selectedPart].pose);
+		spinXoffset.setValue(creature.part[selectedPart].x);
+		spinYoffset.setValue(creature.part[selectedPart].x);
+	}
 	
 	private final ButtonGroup buttonGroupMF = new ButtonGroup();
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					Puppeteer window = new Puppeteer();
 					window.frmPuppeteer.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the application.
 	 */
-	public Puppeteer() {
+	public Puppeteer()
+	{
 		initialize();
 	}
-
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize()
+	{
 		frmPuppeteer = new JFrame();
 		frmPuppeteer.setTitle("Puppeteer");
 		frmPuppeteer.setBounds(100, 100, 800, 600);
@@ -102,20 +149,23 @@ public class Puppeteer {
 		pnlSpcsSlot.add(lblSpecies);
 		
 		JComboBox comboSpcs = new JComboBox(CreatureInfo.availableSpecies);
-		comboSpcs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		comboSpcs.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				creature.UpdateSpcs(comboSpcs.getSelectedIndex());
 			}
 		});
 		pnlSpcsSlot.add(comboSpcs);
 		
-		
 		JLabel lblSlot = new JLabel("Slot:");
 		pnlSpcsSlot.add(lblSlot);
 		
 		JComboBox comboSlot = new JComboBox(CreatureInfo.availableSlots);
-		comboSlot.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		comboSlot.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				char x = 'a';
 				x += comboSlot.getSelectedIndex();
 				creature.UpdateSlot(x);
@@ -127,8 +177,10 @@ public class Puppeteer {
 		panelMain.add(pnlMaleFemale);
 		
 		JRadioButton rdbtnM = new JRadioButton("M");
-		rdbtnM.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		rdbtnM.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				creature.UpdateMF(0);
 			}
 		});
@@ -136,8 +188,10 @@ public class Puppeteer {
 		pnlMaleFemale.add(rdbtnM);
 		
 		JRadioButton rdbtnF = new JRadioButton("F");
-		rdbtnF.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		rdbtnF.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				creature.UpdateMF(1);
 			}
 		});
@@ -161,15 +215,20 @@ public class Puppeteer {
 		pnlMainPose.add(lblPose);
 		
 		JSpinner spinMainPose = new JSpinner();
-		spinMainPose.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				//According to The Internet 'you should also call spinner.commitEdit()
-				//prior to calling getValue() to ensure manually typed values with the
-				//editor are propagated to the model, otherwise you will only get the old value.'
-				try {
+		spinMainPose.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent arg0)
+			{
+				// According to The Internet 'you should also call spinner.commitEdit()
+				// prior to calling getValue() to ensure manually typed values with the
+				// editor are propagated to the model, otherwise you will only get the old value.'
+				try
+				{
 					spinMainPose.commitEdit();
-				} catch ( java.text.ParseException e ) { 
-					//do something here maybe
+				}
+				catch (java.text.ParseException e)
+				{
+					// do something here maybe
 				}
 				creature.UpdatePose((Integer) spinMainPose.getValue());
 			}
@@ -184,8 +243,10 @@ public class Puppeteer {
 		pnlMainDirn.add(lblDirection);
 		
 		JComboBox comboMainDirn = new JComboBox(CreatureInfo.dirn);
-		comboMainDirn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		comboMainDirn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				creature.UpdateDirn(comboMainDirn.getSelectedIndex());
 			}
 		});
@@ -199,8 +260,10 @@ public class Puppeteer {
 		pnlExpression.add(lblExpression);
 		
 		JComboBox comboExpression = new JComboBox(CreatureInfo.expressions);
-		comboExpression.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		comboExpression.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				creature.UpdateExpression(comboExpression.getSelectedIndex());
 			}
 		});
@@ -210,11 +273,16 @@ public class Puppeteer {
 		panelMain.add(pnlEyes);
 		
 		JCheckBox chckbxEyesClosed = new JCheckBox("Eyes Closed");
-		chckbxEyesClosed.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (chckbxEyesClosed.isSelected()) {
+		chckbxEyesClosed.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if (chckbxEyesClosed.isSelected())
+				{
 					creature.UpdateEyes(1);
-				} else {
+				}
+				else
+				{
 					creature.UpdateEyes(0);
 				}
 			}
@@ -246,18 +314,16 @@ public class Puppeteer {
 		JSeparator separator = new JSeparator();
 		panelParts.add(separator);
 		
-		JComboBox comboPartSelector = new JComboBox(CreatureInfo.bodyParts);
-		comboPartSelector.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		comboPartSelector.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				selectedPart = comboPartSelector.getSelectedIndex();
-				//now you gotta refresh all the other boxes but this is kind of a pain
-				//because we're dealing with some scope issues
-				//so this DOES NOT currently work
+				updatePartsUI();
 				
 			}
 		});
 		panelParts.add(comboPartSelector);
-		
 		
 		JPanel panelPartSpcsSlot = new JPanel();
 		panelParts.add(panelPartSpcsSlot);
@@ -265,10 +331,11 @@ public class Puppeteer {
 		JLabel labelPartSpcs = new JLabel("Species:");
 		panelPartSpcsSlot.add(labelPartSpcs);
 		
-		JComboBox comboPartSpecies = new JComboBox(CreatureInfo.availableSpecies);
-		comboPartSpecies.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int x = CreatureInfo.GetSpcs(creature.mf,comboPartSpecies.getSelectedIndex());
+		comboPartSpecies.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				int x = CreatureInfo.GetSpcs(creature.mf, comboPartSpecies.getSelectedIndex());
 				creature.part[selectedPart].UpdateSpcs(x);
 			}
 		});
@@ -277,9 +344,10 @@ public class Puppeteer {
 		JLabel labelPartSlot = new JLabel("Slot:");
 		panelPartSpcsSlot.add(labelPartSlot);
 		
-		JComboBox comboPartSlot = new JComboBox(CreatureInfo.availableSlots);
-		comboPartSlot.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		comboPartSlot.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				char x = 'a';
 				x += comboPartSlot.getSelectedIndex();
 				creature.part[selectedPart].UpdateSlot(x);
@@ -293,16 +361,20 @@ public class Puppeteer {
 		JLabel lblPose_1 = new JLabel("Pose");
 		pnlPartPose.add(lblPose_1);
 		
-		JSpinner spinPartPose = new JSpinner();
-		spinPartPose.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				//According to The Internet 'you should also call spinner.commitEdit()
-				//prior to calling getValue() to ensure manually typed values with the
-				//editor are propagated to the model, otherwise you will only get the old value.'
-				try {
+		spinPartPose.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent arg0)
+			{
+				// According to The Internet 'you should also call spinner.commitEdit()
+				// prior to calling getValue() to ensure manually typed values with the
+				// editor are propagated to the model, otherwise you will only get the old value.'
+				try
+				{
 					spinPartPose.commitEdit();
-				} catch ( java.text.ParseException e ) { 
-					//do something here maybe
+				}
+				catch (java.text.ParseException e)
+				{
+					// do something here maybe
 				}
 				creature.part[selectedPart].UpdatePose((Integer) spinPartPose.getValue());
 			}
@@ -316,10 +388,11 @@ public class Puppeteer {
 		JLabel label_1 = new JLabel("Direction");
 		pnlPartDirn.add(label_1);
 		
-		JComboBox comboPartDirn = new JComboBox(CreatureInfo.dirn);
 		comboPartDirn.setSelectedIndex(1);
-		comboPartDirn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		comboPartDirn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				creature.part[selectedPart].UpdateDirn(comboPartDirn.getSelectedIndex());
 			}
 		});
@@ -331,13 +404,17 @@ public class Puppeteer {
 		JLabel lblXoffset = new JLabel("X-offset");
 		pnlPartOffsets.add(lblXoffset);
 		
-		JSpinner spinXoffset = new JSpinner();
-		spinXoffset.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				try {
+		spinXoffset.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent e)
+			{
+				try
+				{
 					spinXoffset.commitEdit();
-				} catch ( java.text.ParseException f ) { 
-					//do something here maybe
+				}
+				catch (java.text.ParseException f)
+				{
+					// do something here maybe
 				}
 				creature.part[selectedPart].UpdateX((Integer) spinXoffset.getValue());
 				
@@ -352,13 +429,17 @@ public class Puppeteer {
 		JLabel lblYoffset = new JLabel("Y-offset");
 		pnlPartOffsets.add(lblYoffset);
 		
-		JSpinner spinYoffset = new JSpinner();
-		spinYoffset.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				try {
+		spinYoffset.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent e)
+			{
+				try
+				{
 					spinYoffset.commitEdit();
-				} catch ( java.text.ParseException f ) { 
-					//do something here maybe
+				}
+				catch (java.text.ParseException f)
+				{
+					// do something here maybe
 				}
 				creature.part[selectedPart].UpdateY((Integer) spinYoffset.getValue());
 			}
@@ -390,7 +471,10 @@ public class Puppeteer {
 		
 		JComboBox comboBreedTestMom = new JComboBox();
 		pnlBreedTestMom.add(comboBreedTestMom);
-		comboBreedTestMom.setModel(new DefaultComboBoxModel(new String[] {"Displayed Creature", "Random Creatures", "Main Settings Creature"}));
+		comboBreedTestMom.setModel(new DefaultComboBoxModel(new String[]
+		{
+				"Displayed Creature", "Random Creatures", "Main Settings Creature"
+		}));
 		
 		JPanel pnlBreedTestDad = new JPanel();
 		panelExperimental.add(pnlBreedTestDad);
@@ -400,14 +484,19 @@ public class Puppeteer {
 		
 		JComboBox comboBreedTestDad = new JComboBox();
 		pnlBreedTestDad.add(comboBreedTestDad);
-		comboBreedTestDad.setModel(new DefaultComboBoxModel(new String[] {"Random Creature"}));
+		comboBreedTestDad.setModel(new DefaultComboBoxModel(new String[]
+		{
+				"Random Creature"
+		}));
 		
 		JButton btnGo = new JButton("Go!");
 		panelExperimental.add(btnGo);
 		
 		JButton btnPrintDebugInfo = new JButton("Print Debug Info");
-		btnPrintDebugInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnPrintDebugInfo.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				creature.DbgOuts();
 			}
 		});
@@ -418,8 +507,5 @@ public class Puppeteer {
 		
 		//
 		
-		
 	}
 }
-
-
