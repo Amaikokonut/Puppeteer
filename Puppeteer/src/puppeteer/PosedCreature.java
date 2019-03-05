@@ -27,7 +27,7 @@ public class PosedCreature {
 		
 //now you gotta create all the body parts in their default states 
 		for(int i = 0; i < 14; i++) {
-			part[i] = new PosedPart(gspcs, slot, pose, dirn, 0, 0);
+			part[i] = new PosedPart(spcs, mf, slot, pose, dirn, 0, 0);
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class PosedCreature {
 		System.out.println("");
 		for(int i = 0; i < 14; i++) {
 			System.out.println("Part " + CreatureInfo.bodyParts[i]);
-			System.out.println("Species: " + CreatureInfo.speciesList[this.part[i].spcs]);
+			System.out.println("Species: " + CreatureInfo.speciesList[this.part[i].gspcs]);
 			System.out.println("Slot: " + this.part[i].slot);
 			System.out.println("Pose: " + this.part[i].pose);
 			System.out.println("Direction: " + CreatureInfo.dirn[this.part[i].dirn]);
@@ -63,7 +63,7 @@ public class PosedCreature {
 		
 		//update all the part spcs too:
 		for(int i = 0; i < 14; i++) {
-			part[i].UpdateSpcs(gspcs);
+			part[i].UpdateSpcs(spcs);
 		}
 	}
 	
@@ -73,7 +73,7 @@ public class PosedCreature {
 		
 		//update all the part spcs too:
 		for(int i = 0; i < 14; i++) {
-			part[i].UpdateSpcs(gspcs);
+			part[i].UpdateMF(mf);
 		}
 	}
 	

@@ -72,13 +72,7 @@ public class Puppeteer
 	// a method to properly update body part UI bits
 	public void updatePartsUI()
 	{
-		//spcs includes mf status in this case and we don't want that
-		int x = creature.part[selectedPart].spcs;
-		if (x > 3)
-		{
-			x -= 4;
-		}
-		comboPartSpecies.setSelectedIndex(x);
+		comboPartSpecies.setSelectedIndex(creature.part[selectedPart].spcs);
 		//convert char to index
 		char y = 'a';
 		char z = creature.part[selectedPart].slot;
@@ -87,7 +81,7 @@ public class Puppeteer
 		comboPartDirn.setSelectedIndex(creature.part[selectedPart].dirn);
 		spinPartPose.setValue(creature.part[selectedPart].pose);
 		spinXoffset.setValue(creature.part[selectedPart].x);
-		spinYoffset.setValue(creature.part[selectedPart].x);
+		spinYoffset.setValue(creature.part[selectedPart].y);
 	}
 	
 	private final ButtonGroup buttonGroupMF = new ButtonGroup();
@@ -162,6 +156,7 @@ public class Puppeteer
 		pnlSpcsSlot.add(lblSlot);
 		
 		JComboBox comboSlot = new JComboBox(CreatureInfo.availableSlots);
+		comboSlot.setSelectedIndex(3);
 		comboSlot.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -335,14 +330,14 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				int x = CreatureInfo.GetSpcs(creature.mf, comboPartSpecies.getSelectedIndex());
-				creature.part[selectedPart].UpdateSpcs(x);
+				creature.part[selectedPart].UpdateSpcs(comboPartSpecies.getSelectedIndex());
 			}
 		});
 		panelPartSpcsSlot.add(comboPartSpecies);
 		
 		JLabel labelPartSlot = new JLabel("Slot:");
 		panelPartSpcsSlot.add(labelPartSlot);
+		comboPartSlot.setSelectedIndex(3);
 		
 		comboPartSlot.addActionListener(new ActionListener()
 		{
