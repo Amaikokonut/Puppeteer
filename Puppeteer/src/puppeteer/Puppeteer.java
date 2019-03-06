@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextPane;
+import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JDesktopPane;
 import java.awt.GridBagLayout;
@@ -40,6 +41,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.ButtonGroup;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 
 // Does me editing work? :D —PP
 public class Puppeteer
@@ -51,6 +57,8 @@ public class Puppeteer
 	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
 	// and the initial selected part for that matter
 	int selectedPart = 0;
+	// load the game paths from the cfg file
+	
 	
 	// define all the UI bits now so we can access them later
 	JComboBox comboSlot;
@@ -86,6 +94,7 @@ public class Puppeteer
 	
 	private final ButtonGroup buttonGroupMF = new ButtonGroup();
 	
+	//
 	/**
 	 * Launch the application.
 	 */
@@ -500,7 +509,23 @@ public class Puppeteer
 		JPanel PanelATT2 = new JPanel();
 		frmPuppeteer.getContentPane().add(PanelATT2);
 		
-		//
+		JMenuBar menuBar = new JMenuBar();
+		frmPuppeteer.setJMenuBar(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		JMenuItem mntmSetGameDirectories = new JMenuItem("Set Game Paths");
+		mntmSetGameDirectories.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				gamePathsWindow gamePathsDialog = new gamePathsWindow();
+				gamePathsDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				gamePathsDialog.setLocationRelativeTo(frmPuppeteer);
+				gamePathsDialog.setVisible(true);
+				
+			}
+		});
+		mnFile.add(mntmSetGameDirectories);
 		
 	}
 }
