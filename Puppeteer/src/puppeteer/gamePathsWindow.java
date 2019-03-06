@@ -5,11 +5,15 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
 import javax.swing.JList;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import javax.swing.JTextPane;
+import javax.swing.JOptionPane;
+import javax.swing.AbstractListModel;
 
 public class gamePathsWindow
 extends JDialog
@@ -40,6 +44,15 @@ extends JDialog
 		getContentPane().add(btnAddNewGame);
 		
 		JList list = new JList();
+		list.setModel(new AbstractListModel() {
+			String[] values = Configgles.readableGamePaths;
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
 		list.setBounds(12, 67, 439, 85);
 		getContentPane().add(list);
 		
@@ -63,6 +76,25 @@ extends JDialog
 		getContentPane().add(btnRemovePath);
 		
 		JButton btnEnterPath = new JButton("Enter Path");
+		btnEnterPath.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String inputValue = JOptionPane.showInputDialog("Paste your game path here");
+				try
+				{
+					JOptionPane.showMessageDialog(null,Configgles.pathStatus(inputValue));
+				}
+				catch (HeadlessException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				catch (IOException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+			}
+		});
 		btnEnterPath.setBounds(131, 162, 98, 26);
 		getContentPane().add(btnEnterPath);
 		
