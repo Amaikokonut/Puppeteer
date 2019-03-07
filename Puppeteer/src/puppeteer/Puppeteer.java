@@ -157,6 +157,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				creature.UpdateSpcs(comboSpcs.getSelectedIndex());
+				updatePartsUI();
 			}
 		});
 		pnlSpcsSlot.add(comboSpcs);
@@ -173,6 +174,7 @@ public class Puppeteer
 				char x = 'a';
 				x += comboSlot.getSelectedIndex();
 				creature.UpdateSlot(x);
+				updatePartsUI();
 			}
 		});
 		pnlSpcsSlot.add(comboSlot);
@@ -235,6 +237,7 @@ public class Puppeteer
 					// do something here maybe
 				}
 				creature.UpdatePose((Integer) spinMainPose.getValue());
+				updatePartsUI();
 			}
 		});
 		pnlMainPose.add(spinMainPose);
@@ -252,6 +255,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateDirn(comboMainDirn.getSelectedIndex());
+				updatePartsUI();
 			}
 		});
 		comboMainDirn.setSelectedIndex(1);
