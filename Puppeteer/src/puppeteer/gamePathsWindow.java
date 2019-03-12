@@ -69,6 +69,26 @@ extends JDialog
 		getContentPane().add(lblNewLabel_1);
 		
 		JButton btnRemovePath = new JButton("Remove Path");
+		btnRemovePath.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int indexToRemove = list.getSelectedIndex();
+				if (indexToRemove > -1) {
+					Configgles.removePath(indexToRemove);
+					//refresh the display
+					//this is copypasted, again, because I'm too tired to figure out
+					//how to make this repeatable or fix all the warnings
+					list.setModel(new AbstractListModel() {
+						String[] values = Configgles.readableGamePaths;
+						public int getSize() {
+							return values.length;
+						}
+						public Object getElementAt(int index) {
+							return values[index];
+						}
+					});
+				}
+			}
+		});
 		btnRemovePath.setBounds(241, 162, 109, 26);
 		getContentPane().add(btnRemovePath);
 		
@@ -92,7 +112,8 @@ extends JDialog
 					e1.printStackTrace();
 				}
 				//this seems to be the way to refresh the list and it's driving me insane
-				//that I can't figure out a more simple way
+				//that I can't figure out the formatting to just make this an object itself
+				//but I am tired and brainfoggy
 				list.setModel(new AbstractListModel() {
 					String[] values = Configgles.readableGamePaths;
 					public int getSize() {

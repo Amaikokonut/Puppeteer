@@ -191,6 +191,12 @@ public class Configgles
 			}
 		}
 	}
+	
+	public static void removePath(int index) {
+		gamePaths.remove(index);
+		ListGamePaths();
+		savePathsToFile();
+	}
 }
 
 	
