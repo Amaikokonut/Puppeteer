@@ -178,8 +178,8 @@ public class Configgles
 			}
 
 		} catch (IOException ex) {
-			//we should probably do something here...you're gonna get this the first time 
-			//you start the program every time, since there's no properties pile yet
+			//we should probably do something here...you're always gonna get this the first time 
+			//you start the program, since there's no properties file yet
 			ex.printStackTrace();
 		} finally {
 			if (input != null) {
