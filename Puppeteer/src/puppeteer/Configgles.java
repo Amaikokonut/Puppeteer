@@ -10,7 +10,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import puppeteer.pathcaseinsensitivity.CaseInsensitiveDirectory;
+
 
 public class Configgles
 {
@@ -84,6 +90,7 @@ public class Configgles
 			
 			gamePaths.add(new gamePathSet(path, bd.toPath(), img.toPath()));
 			ListGamePaths();
+			savePathsToFile();
 			return pathStatuses[0];
 		}
 		else
@@ -93,4 +100,98 @@ public class Configgles
 			
 		}
 	}
+	
+	// this should save everything in the gamePaths list to file
+	public static void savePathsToFile()
+	{
+		
+		Properties prop = new Properties();
+		OutputStream output = null;
+		
+		try
+		{
+			
+			output = new FileOutputStream("paths.properties");
+			
+			if (gamePaths.size() > 0)
+			{
+				// set the properties value
+				prop.setProperty("count", Integer.toString(gamePaths.size()));
+				int c = 0;
+				for (int i = 0; i < gamePaths.size(); i++)
+				{
+					prop.setProperty("path" + c, gamePaths.get(i).main.toString());
+					c++; // lol
+				}
+			}
+			else
+			{
+				prop.setProperty("count", "0");
+			}
+			prop.store(output, null);
+		}
+		catch (IOException io)
+		{
+			io.printStackTrace();
+		}
+		finally
+		{
+			if (output != null)
+			{
+				try
+				{
+					output.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			
+		}
+	}
+	
+	// aaaand this should load everything from the properties file into the gamePaths list...
+	public static void loadPathsFromFile() {
+		Properties prop = new Properties();
+		InputStream input = null;
+
+		try {
+
+			input = new FileInputStream("paths.properties");
+
+			// load a properties file
+			prop.load(input);
+
+			// get the property value and print it out
+			int count = Integer.parseInt(prop.getProperty("count"));
+			
+			if (count > 0) {
+				int c = 0;
+				for (int i = 0; i < count; i++)
+				{
+					System.out.println(pathStatus(prop.getProperty("path" + c)));
+					c++; // lol
+				}
+			} else {
+				System.out.println("No paths to load");
+			}
+
+		} catch (IOException ex) {
+			//we should probably do something here...you're gonna get this the first time 
+			//you start the program every time, since there's no properties pile yet
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
+
+	
+

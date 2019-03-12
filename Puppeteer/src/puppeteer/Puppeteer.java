@@ -57,8 +57,6 @@ public class Puppeteer
 	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
 	// and the initial selected part for that matter
 	int selectedPart = 0;
-	// load the game paths from the cfg file
-	
 	
 	// define all the UI bits now so we can access them later
 	JComboBox comboSlot;
@@ -100,6 +98,8 @@ public class Puppeteer
 	 */
 	public static void main(String[] args)
 	{
+		// load the game paths from the cfg file
+		Configgles.loadPathsFromFile();
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
