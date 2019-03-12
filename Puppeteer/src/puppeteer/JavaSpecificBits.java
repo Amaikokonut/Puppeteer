@@ -294,6 +294,10 @@ public class JavaSpecificBits
 	
 	
 	
+	public static File getOurUserHomeDirectory()
+	{
+		return getUserHomeDirectory("creaturespuppeteer");
+	}
 	
 	/**
 	 * This is one common place applications are expected to store their saved preferences / configs / etc. :>
