@@ -82,6 +82,7 @@ extends JDialog
 				try
 				{
 					JOptionPane.showMessageDialog(null,Configgles.pathStatus(inputValue));
+					
 				}
 				catch (HeadlessException e1)
 				{
@@ -92,7 +93,9 @@ extends JDialog
 				{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} 
+				}
+				list.validate();
+				list.repaint();
 			}
 		});
 		btnEnterPath.setBounds(131, 162, 98, 26);

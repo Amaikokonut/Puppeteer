@@ -34,8 +34,8 @@ public class Configgles
 	public static void ListGamePaths()
 	{
 		int c = 0;
-		for (Path i : gamePaths)
-			readableGamePaths[c] = i.toString();
+		for (gamePathSet i : gamePaths)
+			readableGamePaths[c] = i.main.toString();
 		c++; //lol
 		{
 			
@@ -43,7 +43,7 @@ public class Configgles
 		}
 	}
 	
-	public static List<Path> gamePaths = new ArrayList<Path>();
+	public static List<gamePathSet> gamePaths = new ArrayList<gamePathSet>();
 	public static String[] readableGamePaths = {"none"};
 	
 	static String[] pathStatuses =
@@ -78,15 +78,17 @@ public class Configgles
 		if (x && y)
 		{
 			// now check if they are already in the list:
-			for (Path i : gamePaths)
+			for (gamePathSet i : gamePaths)
 			{
-				if (Files.isSameFile(path, i))
+				if (Files.isSameFile(path, i.main))
 				{
 					return pathStatuses[3];
 				}
 			}
 			// Wow, you did it! This is a valid path!
-			gamePaths.add(path);
+			
+			
+			gamePaths.add(new gamePathSet(path, bd.toPath(), img.toPath()));
 			ListGamePaths();
 			return pathStatuses[0];	
 		}
@@ -96,11 +98,5 @@ public class Configgles
 			return pathStatuses[2];
 			
 		}
-	}
-	
-	public static boolean pathIsValid(String path)
-	{
-		
-		return false;
 	}
 }
