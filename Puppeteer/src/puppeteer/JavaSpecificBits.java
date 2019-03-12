@@ -289,4 +289,29 @@ public class JavaSpecificBits
 		//		else //if (n < 0)
 		//			return index - (floorDivision(index, highBound)*highBound);
 	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * This is one common place applications are expected to store their saved preferences / configs / etc. :>
+	 * (In files under this folder)
+	 * @param appname uhh, make sure to pick something no one else in the whole world has ever used..  :>       (It's not a good system X'D)
+	 */
+	public static File getUserHomeDirectory(String appname)
+	{
+		String windowsFolder = System.getenv("APPDATA");
+		
+		if (windowsFolder == null)
+		{
+			return new File(windowsFolder, appname);
+		}
+		else
+		{
+			String homeFolder = System.getProperty("user.home");
+			return new File(homeFolder, "."+appname);
+		}
+	}
 }
