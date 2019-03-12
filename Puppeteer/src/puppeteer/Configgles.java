@@ -2,12 +2,15 @@ package puppeteer;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+import puppeteer.pathcaseinsensitivity.CaseInsensitiveDirectory;
 
 public class Configgles
 {
@@ -55,18 +58,18 @@ public class Configgles
 		try
 		{
 			path = Paths.get(sPath);
+			if (!Files.exists(path)) {
+				return pathStatuses[1];
+			}
 		}
 		catch (Exception e)
 		{
 			return pathStatuses[1];
 		}
-		// Then we check if body data and images folders exist
-		// this method is Very Bad and we need to replace it with one
-		// that allows for different cases
-		Path bd = Paths.get(path.toString() + "\\Body Data\\");
-		Path img = Paths.get(path.toString() + "\\Images\\");
-		boolean x = Files.exists(bd);
-		boolean y = Files.exists(img);
+		File bd = new CaseInsensitiveDirectory(path.toFile()).findPathCaseInsensitivelyOrNullIfNonexistant("body data");
+		File img = new CaseInsensitiveDirectory(path.toFile()).findPathCaseInsensitivelyOrNullIfNonexistant("images");
+		boolean x = bd == null ? false : true;
+		boolean y = img == null ? false : true;
 		System.out.println(bd);
 		System.out.println(img);
 		System.out.println(x);
