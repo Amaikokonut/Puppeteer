@@ -14,37 +14,30 @@ import puppeteer.pathcaseinsensitivity.CaseInsensitiveDirectory;
 
 public class Configgles
 {
-	// case sensitivity drives me up the wall, possibly forever.
-	public boolean exists(File dir, String filename)
-	{
-		String[] files = dir.list();
-		for (String file : files)
-			if (file.equals(filename))
-				return true;
-		return false;
-	}
 	
-	public static String[] readGamePaths()
+	public static List<gamePathSet> gamePaths = new ArrayList<gamePathSet>();
+	public static String[] readableGamePaths =
 	{
-		String[] x =
-		{};
-		return x;
-	}
+			"none"
+	};
 	
 	public static void ListGamePaths()
 	{
-		int c = 0;
-		for (gamePathSet i : gamePaths)
-			readableGamePaths[c] = i.main.toString();
-		c++; //lol
+		if (gamePaths.size() > 0)
 		{
-			
-
+			readableGamePaths = new String[gamePaths.size()];
+			int c = 0;
+			for (int i = 0; i < gamePaths.size(); i++)
+			{
+				readableGamePaths[c] = gamePaths.get(i).main.toString();
+				c++; // lol
+			}
+		}
+		else
+		{
+			readableGamePaths[0] = "none";
 		}
 	}
-	
-	public static List<gamePathSet> gamePaths = new ArrayList<gamePathSet>();
-	public static String[] readableGamePaths = {"none"};
 	
 	static String[] pathStatuses =
 	{
@@ -54,11 +47,13 @@ public class Configgles
 	public static String pathStatus(String sPath) throws IOException
 	{
 		Path path;
+		System.out.println(sPath);
 		// first we check for validity
 		try
 		{
 			path = Paths.get(sPath);
-			if (!Files.exists(path)) {
+			if (!Files.exists(path) || sPath.isEmpty())
+			{
 				return pathStatuses[1];
 			}
 		}
@@ -87,10 +82,9 @@ public class Configgles
 			}
 			// Wow, you did it! This is a valid path!
 			
-			
 			gamePaths.add(new gamePathSet(path, bd.toPath(), img.toPath()));
 			ListGamePaths();
-			return pathStatuses[0];	
+			return pathStatuses[0];
 		}
 		else
 		{

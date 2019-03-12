@@ -14,10 +14,13 @@ import java.awt.HeadlessException;
 import javax.swing.JTextPane;
 import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 public class gamePathsWindow
 extends JDialog
-{
+{	
 	public gamePathsWindow()
 	{
 		setAlwaysOnTop(true);
@@ -43,18 +46,12 @@ extends JDialog
 		btnAddNewGame.setBounds(12, 162, 107, 26);
 		getContentPane().add(btnAddNewGame);
 		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			String[] values = Configgles.readableGamePaths;
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		list.setBounds(12, 67, 439, 85);
-		getContentPane().add(list);
+		JList list = new JList(Configgles.readableGamePaths);
+		
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+				list.setBounds(12, 67, 439, 85);
+		//		getContentPane().add(list);
 		
 		JLabel lblAddYourCreatures = new JLabel("Add your Creatures game paths here. These must be root game directories,\r\n");
 		lblAddYourCreatures.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -94,12 +91,27 @@ extends JDialog
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				list.validate();
-				list.repaint();
+				//this seems to be the way to refresh the list and it's driving me insane
+				//that I can't figure out a more simple way
+				list.setModel(new AbstractListModel() {
+					String[] values = Configgles.readableGamePaths;
+					public int getSize() {
+						return values.length;
+					}
+					public Object getElementAt(int index) {
+						return values[index];
+					}
+				});
+				
 			}
 		});
 		btnEnterPath.setBounds(131, 162, 98, 26);
 		getContentPane().add(btnEnterPath);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 69, 439, 81);
+		scrollPane.setViewportView(list);
+		getContentPane().add(scrollPane);
 		
 	}
 }
