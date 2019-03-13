@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,7 @@ import javax.swing.JScrollPane;
 
 public class gamePathsWindow
 extends JDialog
-{	
+{
 	public gamePathsWindow()
 	{
 		setAlwaysOnTop(true);
@@ -29,9 +30,17 @@ extends JDialog
 		setTitle("Configure Game Paths");
 		getContentPane().setLayout(null);
 		
+		JList list = new JList(Configgles.readableGamePaths);
+		
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		list.setBounds(12, 67, 439, 85);
+		
 		JButton btnClose = new JButton("Close");
-		btnClose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnClose.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				dispose();
 			}
 		});
@@ -39,19 +48,61 @@ extends JDialog
 		getContentPane().add(btnClose);
 		
 		JButton btnAddNewGame = new JButton("Browse Path");
-		btnAddNewGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnAddNewGame.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				int result;
+				
+				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(new java.io.File("."));
+				chooser.setDialogTitle("Find Game Path");
+				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				// disable the "All files" option.
+				chooser.setAcceptAllFileFilterUsed(false);
+				//
+				if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION)
+				{
+					System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+					try
+					{
+						JOptionPane.showMessageDialog(null, Configgles.pathStatus(chooser.getSelectedFile().toString()));
+					}
+					catch (HeadlessException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					catch (IOException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+				else
+				{
+					// you hit the cancel button oh noes
+				}
+				//refresh the display
+				//this is copypasted, again, because I'm too tired to figure out
+				//how to make this repeatable or fix all the warnings
+				list.setModel(new AbstractListModel() {
+					String[] values = Configgles.readableGamePaths;
+					public int getSize() {
+						return values.length;
+					}
+					public Object getElementAt(int index) {
+						return values[index];
+					}
+				});
 			}
+			
 		});
 		btnAddNewGame.setBounds(12, 162, 107, 26);
 		getContentPane().add(btnAddNewGame);
 		
-		JList list = new JList(Configgles.readableGamePaths);
-		
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-				list.setBounds(12, 67, 439, 85);
-		//		getContentPane().add(list);
+
 		
 		JLabel lblAddYourCreatures = new JLabel("Add your Creatures game paths here. These must be root game directories,\r\n");
 		lblAddYourCreatures.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -69,20 +120,28 @@ extends JDialog
 		getContentPane().add(lblNewLabel_1);
 		
 		JButton btnRemovePath = new JButton("Remove Path");
-		btnRemovePath.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnRemovePath.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				int indexToRemove = list.getSelectedIndex();
-				if (indexToRemove > -1) {
+				if (indexToRemove > -1)
+				{
 					Configgles.removePath(indexToRemove);
-					//refresh the display
-					//this is copypasted, again, because I'm too tired to figure out
-					//how to make this repeatable or fix all the warnings
-					list.setModel(new AbstractListModel() {
+					// refresh the display
+					// this is copypasted, again, because I'm too tired to figure out
+					// how to make this repeatable or fix all the warnings
+					list.setModel(new AbstractListModel()
+					{
 						String[] values = Configgles.readableGamePaths;
-						public int getSize() {
+						
+						public int getSize()
+						{
 							return values.length;
 						}
-						public Object getElementAt(int index) {
+						
+						public Object getElementAt(int index)
+						{
 							return values[index];
 						}
 					});
@@ -93,12 +152,14 @@ extends JDialog
 		getContentPane().add(btnRemovePath);
 		
 		JButton btnEnterPath = new JButton("Enter Path");
-		btnEnterPath.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnEnterPath.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				String inputValue = JOptionPane.showInputDialog("Paste your game path here");
 				try
 				{
-					JOptionPane.showMessageDialog(null,Configgles.pathStatus(inputValue));
+					JOptionPane.showMessageDialog(null, Configgles.pathStatus(inputValue));
 					
 				}
 				catch (HeadlessException e1)
@@ -111,15 +172,20 @@ extends JDialog
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				//this seems to be the way to refresh the list and it's driving me insane
-				//that I can't figure out the formatting to just make this an object itself
-				//but I am tired and brainfoggy
-				list.setModel(new AbstractListModel() {
+				// this seems to be the way to refresh the list and it's driving me insane
+				// that I can't figure out the formatting to just make this an object itself
+				// but I am tired and brainfoggy
+				list.setModel(new AbstractListModel()
+				{
 					String[] values = Configgles.readableGamePaths;
-					public int getSize() {
+					
+					public int getSize()
+					{
 						return values.length;
 					}
-					public Object getElementAt(int index) {
+					
+					public Object getElementAt(int index)
+					{
 						return values[index];
 					}
 				});
