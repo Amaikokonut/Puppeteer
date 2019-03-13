@@ -111,7 +111,7 @@ public class Configgles
 		try
 		{
 			
-			output = new FileOutputStream("paths.properties");
+			output = new FileOutputStream(JavaSpecificBits.getUserHomeDirectory("puppeteerPaths.properties"));
 			
 			if (gamePaths.size() > 0)
 			{
@@ -158,7 +158,7 @@ public class Configgles
 
 		try {
 
-			input = new FileInputStream("paths.properties");
+			input = new FileInputStream(JavaSpecificBits.getUserHomeDirectory("puppeteerPaths.properties"));
 
 			// load a properties file
 			prop.load(input);
