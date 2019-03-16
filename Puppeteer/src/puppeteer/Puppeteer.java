@@ -35,6 +35,7 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.JButton;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -498,6 +499,20 @@ public class Puppeteer
 		}));
 		
 		JButton btnGo = new JButton("Go!");
+		btnGo.addActionListener(new ActionListener() {
+			//this is a very temporary testing-only action
+			public void actionPerformed(ActionEvent e) {
+				try
+				{
+					testTester.main();
+				}
+				catch (IOException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		panelExperimental.add(btnGo);
 		
 		JButton btnPrintDebugInfo = new JButton("Print Debug Info");

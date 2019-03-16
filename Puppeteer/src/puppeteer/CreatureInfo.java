@@ -21,5 +21,21 @@ public class CreatureInfo {
 	public static int GetSpcs(int mf, int spcs) {
 		return 4 * mf + spcs;
 	}
+	
+	public static String interpretedFilename (String filename) {
+		int part = filename.charAt(0) - 'a';
+		int gspcs = Integer.parseInt(String.valueOf(filename.charAt(1)));
+		int stage = Integer.parseInt(String.valueOf(filename.charAt(2)));
+		char slot = filename.charAt(3);
+//		System.out.println(part);
+//		System.out.println(gspcs);
+//		System.out.println(stage);
+//		System.out.println(slot);
+		return bodyParts[part] + " | " + speciesList[gspcs] + " | " + lifeStages[stage] + " | Slot: " + slot ;
+	}
+	
+	public static String interpretedParams (int part, int gspcs, int stage, char slot) {
+		return bodyParts[part] + " | " + speciesList[gspcs] + " | " + lifeStages[stage] + " | Slot: " + slot ;
+	}
 
 }
