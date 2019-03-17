@@ -16,27 +16,76 @@ public class FileInfo
 	boolean attIsAdapted;
 	boolean attIsSlotAdapted;
 	int frame;
-	int attX;
-	int attY;
-	int attAnchorX;
-	int attAnchorY;
+	int attFromX;
+	int attFromY;
+	int attToX;
+	int attToY;
+	//these are only used in the Body part:
+	int attToHeadX;
+	int attToHeadY;
+	int attToLeftArmX;
+	int attToLeftArmY;
+	int attToRightArmX;
+	int attToRightArmY;
+	int attToLeftLegX;
+	int attToLeftLegY;
+	int attToRightLegX;
+	int attToRightLegY;
+	int attToTailX;
+	int attToTailY;
 	
 	public FileInfo (PosedCreature creature, int part) throws MultipleFilesDifferingOnlyByCaseDetectedWhenTheyShouldntException, IOException {
 		//super-first, because this is pretty easy, you can construct the sprite pose number.
 		this.frame = getFrame (part, creature.part[part].pose, creature.part[part].dirn, creature.expression);
 		//now you have to construct the filename you are looking for:
-		String pendingSpriteName = buildFilename(part, creature.part[part].gspcs, creature.age,  creature.part[part].slot);
+		String pendingName = buildFilename(part, creature.part[part].gspcs, creature.age,  creature.part[part].slot);
 		//then look for it in all the directories
-		
-		//then if you can't find it, you have to look for the next closest life stage
-		
-		//failing that, the next closest slot
-		
-		//I guess failing that the next closest species but geez
-		
+		this.sprite = getClosestFile(part, creature.part[part].gspcs, creature.age, creature.part[part].slot, true);
+		//check to see if the sprite has been adapted 
+		this.spriteIsAdapted = !pendingName.equals(this.sprite.getName().substring(0,4).toLowerCase());
 		//then do the same for atts
+		this.att = getClosestFile(part, creature.part[part].gspcs, creature.age, creature.part[part].slot, false);
+		this.attIsSlotAdapted = !pendingName.equals(this.att.getName().substring(0,4).toLowerCase());
 		
 		//then actually parse the atts for the details of that part.
+		String[] attRows = JavaSpecificBits.splitlines(JavaSpecificBits.readAllTextUTF8(this.att));
+		
+		//head (part 0) and body (part 1) are special cases:
+		if (part == 0) {
+			//first pair is where the sprite attaches to the body
+			this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[this.frame/creature.expression]);
+			this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[1])[this.frame/creature.expression]);
+			//second pair is where the sprite attaches to something else (another part
+			this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[2])[this.frame/creature.expression]);
+			this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[3])[this.frame/creature.expression]);
+		} else if (part == 1) {
+			//first pair is where the head attaches
+			this.attToHeadX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[this.frame]);
+			this.attToHeadY = Integer.valueOf(ATTParser.splitATTRow(attRows[1])[this.frame]);
+			//second pair -- left leg
+			this.attToLeftLegX = Integer.valueOf(ATTParser.splitATTRow(attRows[2])[this.frame]);
+			this.attToLeftLegY = Integer.valueOf(ATTParser.splitATTRow(attRows[3])[this.frame]);
+			//third pair -- right leg
+			this.attToRightLegX = Integer.valueOf(ATTParser.splitATTRow(attRows[4])[this.frame]);
+			this.attToRightLegY = Integer.valueOf(ATTParser.splitATTRow(attRows[5])[this.frame]);
+			//fourth pair -- left arm
+			this.attToLeftArmX = Integer.valueOf(ATTParser.splitATTRow(attRows[6])[this.frame]);
+			this.attToLeftArmY = Integer.valueOf(ATTParser.splitATTRow(attRows[7])[this.frame]);
+			//fifth pair -- right arm
+			this.attToRightArmX = Integer.valueOf(ATTParser.splitATTRow(attRows[8])[this.frame]);
+			this.attToRightArmY = Integer.valueOf(ATTParser.splitATTRow(attRows[9])[this.frame]);
+			//sixth pair -- tail
+			this.attToTailX = Integer.valueOf(ATTParser.splitATTRow(attRows[10])[this.frame]);
+			this.attToTailY = Integer.valueOf(ATTParser.splitATTRow(attRows[11])[this.frame]);
+		} else {
+		//first pair is where the sprite attaches to the body
+		this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[this.frame]);
+		this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[1])[this.frame]);
+		//second pair is where the sprite attaches to something else (another part
+		this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[2])[this.frame]);
+		this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[3])[this.frame]);
+		}
+		
 	}
 	
 
