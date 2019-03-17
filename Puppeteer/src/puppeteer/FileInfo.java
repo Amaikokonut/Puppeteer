@@ -14,7 +14,6 @@ public class FileInfo
 	boolean spriteIsAdapted; //sprite filename differs from the one requested 
 	File att; //case-corrected true att file
 	boolean attIsAdapted;
-	boolean attIsSlotAdapted;
 	int frame;
 	int attFromX;
 	int attFromY;
@@ -45,7 +44,7 @@ public class FileInfo
 		this.spriteIsAdapted = !pendingName.equals(this.sprite.getName().substring(0,4).toLowerCase());
 		//then do the same for atts
 		this.att = getClosestFile(part, gspcs, age, slot, false);
-		this.attIsSlotAdapted = !pendingName.equals(this.att.getName().substring(0,4).toLowerCase());
+		this.attIsAdapted = !pendingName.equals(this.att.getName().substring(0,4).toLowerCase());
 		
 		//then actually parse the atts for the details of that part.
 		String[] attRows = JavaSpecificBits.splitlines(JavaSpecificBits.readAllTextUTF8(this.att));
@@ -110,9 +109,9 @@ public class FileInfo
 	
 //find image file, returns the real filename or null if not found. If isSprite is false, it assumes bodydata
 	public static File findFile (String extName, Boolean isSprite) throws IOException {
-		//System.out.println(extName);
 		File returnFile = null;
 		File targfile;
+		//System.out.println(extName);
 		for (int i = 0; i < Configgles.gamePaths.size(); i++)
 		{
 			if (isSprite) {

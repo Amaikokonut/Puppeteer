@@ -29,6 +29,8 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i] = new PosedPart(this, i, spcs, mf, slot, pose, dirn, 0, 0);
 		}
+		
+		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void DbgOuts() {

@@ -28,9 +28,11 @@ import javax.swing.JDesktopPane;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Panel;
 import javax.swing.JCheckBox;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.JButton;
@@ -41,6 +43,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ButtonGroup;
 import javax.swing.event.ChangeListener;
+import tests.ShowImage;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -76,6 +79,9 @@ public class Puppeteer
 	JComboBox comboPartDirn = new JComboBox(CreatureInfo.dirn);
 	JSpinner spinXoffset = new JSpinner();
 	JSpinner spinYoffset = new JSpinner();
+	static JTextArea txtrAttInfo = new JTextArea();
+	
+
 	
 	// a method to properly update body part UI bits
 	public void updatePartsUI()
@@ -90,6 +96,11 @@ public class Puppeteer
 		spinPartPose.setValue(creature.part[selectedPart].pose);
 		spinXoffset.setValue(creature.part[selectedPart].x);
 		spinYoffset.setValue(creature.part[selectedPart].y);
+	}
+	
+	public static void updateAttInfo(String text) {
+		txtrAttInfo.setText(text);
+		txtrAttInfo.validate();
 	}
 	
 	private final ButtonGroup buttonGroupMF = new ButtonGroup();
@@ -299,20 +310,20 @@ public class Puppeteer
 		});
 		pnlEyes.add(chckbxEyesClosed);
 		
-		JPanel panelCreatureDisplay = new JPanel();
-		panelCreatureDisplay.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		frmPuppeteer.getContentPane().add(panelCreatureDisplay);
+//		JPanel panelCreatureDisplay = new JPanel();
+		Panel displayCreature = new ShowImage("backnorn.JPG");
+		//displayCreature.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		frmPuppeteer.getContentPane().add(displayCreature);
 		
-		JLabel labelDisplayPlaceholder = new JLabel("Norn Goes Here");
-		panelCreatureDisplay.add(labelDisplayPlaceholder);
+		//JLabel labelDisplayPlaceholder = new JLabel("Norn Goes Here");
+		//panelCreatureDisplay.add(labelDisplayPlaceholder);
 		
 		JPanel panelATT = new JPanel();
 		frmPuppeteer.getContentPane().add(panelATT);
 		panelATT.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JTextArea txtrAttInfo = new JTextArea();
 		txtrAttInfo.setBackground(Color.WHITE);
-		txtrAttInfo.setText("ATT Info");
+		txtrAttInfo.setMaximumSize(new Dimension(30, 30));
 		panelATT.add(txtrAttInfo);
 		
 		JPanel panelParts = new JPanel();
@@ -548,6 +559,7 @@ public class Puppeteer
 				
 			}
 		});
+		
 		mnFile.add(mntmSetGameDirectories);
 		
 	}
