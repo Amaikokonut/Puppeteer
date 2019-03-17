@@ -53,37 +53,37 @@ public class FileInfo
 		//head (part 0) and body (part 1) are special cases:
 		if (part == 0) {
 			//first pair is where the sprite attaches to the body
-			this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[pose * 4 + (3 - dirn)]);
-			this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[1])[pose * 4 + (3 - dirn)]);
+			this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[pose * 4 + (3 - dirn)])[0]);
+			this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[pose * 4 + (3 - dirn)])[1]);
 			//second pair is where the sprite attaches to something else (another part
-			this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[2])[pose * 4 + (3 - dirn)]);
-			this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[3])[pose * 4 + (3 - dirn)]);
+			this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[pose * 4 + (3 - dirn)])[2]);
+			this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[pose * 4 + (3 - dirn)])[3]);
 		} else if (part == 1) {
 			//first pair is where the head attaches
-			this.attToHeadX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[this.frame]);
-			this.attToHeadY = Integer.valueOf(ATTParser.splitATTRow(attRows[1])[this.frame]);
+			this.attToHeadX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[0]);
+			this.attToHeadY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[1]);
 			//second pair -- left leg
-			this.attToLeftLegX = Integer.valueOf(ATTParser.splitATTRow(attRows[2])[this.frame]);
-			this.attToLeftLegY = Integer.valueOf(ATTParser.splitATTRow(attRows[3])[this.frame]);
+			this.attToLeftLegX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[2]);
+			this.attToLeftLegY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[3]);
 			//third pair -- right leg
-			this.attToRightLegX = Integer.valueOf(ATTParser.splitATTRow(attRows[4])[this.frame]);
-			this.attToRightLegY = Integer.valueOf(ATTParser.splitATTRow(attRows[5])[this.frame]);
+			this.attToRightLegX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[4]);
+			this.attToRightLegY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[5]);
 			//fourth pair -- left arm
-			this.attToLeftArmX = Integer.valueOf(ATTParser.splitATTRow(attRows[6])[this.frame]);
-			this.attToLeftArmY = Integer.valueOf(ATTParser.splitATTRow(attRows[7])[this.frame]);
+			this.attToLeftArmX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[6]);
+			this.attToLeftArmY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[7]);
 			//fifth pair -- right arm
-			this.attToRightArmX = Integer.valueOf(ATTParser.splitATTRow(attRows[8])[this.frame]);
-			this.attToRightArmY = Integer.valueOf(ATTParser.splitATTRow(attRows[9])[this.frame]);
+			this.attToRightArmX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[8]);
+			this.attToRightArmY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[9]);
 			//sixth pair -- tail
-			this.attToTailX = Integer.valueOf(ATTParser.splitATTRow(attRows[10])[this.frame]);
-			this.attToTailY = Integer.valueOf(ATTParser.splitATTRow(attRows[11])[this.frame]);
+			this.attToTailX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[10]);
+			this.attToTailY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[11]);
 		} else {
 		//first pair is where the sprite attaches to the body
-		this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[this.frame]);
-		this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[1])[this.frame]);
+		this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[0]);
+		this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[1]);
 		//second pair is where the sprite attaches to something else (another part or object/floor)
-		this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[2])[this.frame]);
-		this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[3])[this.frame]);
+		this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[2]);
+		this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[3]);
 		}
 		
 	}
@@ -92,7 +92,7 @@ public class FileInfo
 //this gets the sprite file frame for the part/pose/direction/expression in question.
 //expression only really matters if the part in question is the head (part 0)
 	public int getFrame (int part, int pose, int dirn, int expression, int eyes) {
-		int frame = pose * 4 + (3 - dirn);
+		int frame = 1 + pose * 4 + (3 - dirn);
 		//if we're dealing with the head part, we need to account for facial expression and eyes
 		if (part == 0) {
 			frame *= eyes == 1 ? 2 : 1; 
