@@ -11,7 +11,7 @@ public class testGenerator
     public static void main(String[] args) throws IOException {
     	BufferedWriter out = new BufferedWriter(new FileWriter("limbtests.txt"));
     	String text = "";
-    	int thisManyTests = 100;
+    	int thisManyTests = 1000;
     	
     	while (thisManyTests > 0) {
     		thisManyTests--;

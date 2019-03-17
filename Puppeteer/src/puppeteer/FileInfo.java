@@ -86,20 +86,14 @@ public static File getClosestFile (int part, int gspcs, int stage, char slot, Bo
 	char currentSlot = slot;
 	while (currentSlot > 'a') {
 		currentSlot--;
-		//build a new filename with the new stage
-		String name = buildFilename(part, gspcs, stage, currentSlot) + ((isSprite) ? ".c16" : ".att");
-		//and check if it exists
-		returnFile = findFile(name, isSprite);
+		returnFile = getClosestLifestageFile(part, gspcs, stage, currentSlot, isSprite);
 		if (returnFile != null) return returnFile;
 	}
 	//still here? oi. Let's look forwards.
 	currentSlot = slot;
 	while (currentSlot < 'z') {
 		currentSlot++;
-		//build a new filename with the new stage
-		String name = buildFilename(part, gspcs, stage, currentSlot) + ((isSprite) ? ".c16" : ".att");
-		//and check if it exists
-		returnFile = findFile(name, isSprite);
+		returnFile = getClosestLifestageFile(part, gspcs, stage, currentSlot, isSprite);
 		if (returnFile != null) return returnFile;
 	}
 	//at this point we're actually gonna stop testing since we're only guessing at how the engine does this
@@ -111,7 +105,7 @@ public static File getClosestFile (int part, int gspcs, int stage, char slot, Bo
 	returnFile = getClosestLifestageFile(part, (gspcs > 3) ? 4 : 0, stage, 'd', isSprite);
 	if (returnFile != null) return returnFile;
 	
-	//if you get null, something's probably wronf
+	//if you get null, something's probably wrong
 	return null;
 }
 
@@ -121,7 +115,12 @@ public static File getClosestLifestageFile (int part, int gspcs, int stage, char
 	//see if the file exists as-is first
 	File returnFile = findFile(name, isSprite);
 	if (returnFile != null) return returnFile;
-	//if you're still here, that file was not found. Boo.
+	//if you're still here, that file was not found. 
+	//if you're a female, check for a male file (how unfair))
+	if (gspcs > 3) {
+		returnFile = getMaleFiles(part, gspcs, stage, slot, isSprite);
+		if (returnFile != null) return returnFile;
+	}
 	//So what we're gonna do first is go *down* in life stages and look there first
 	int currentStage = stage;
 	while (currentStage > 0) {
@@ -130,6 +129,11 @@ public static File getClosestLifestageFile (int part, int gspcs, int stage, char
 		name = buildFilename(part, gspcs, currentStage, slot) + ((isSprite) ? ".c16" : ".att");
 		//and check if it exists
 		returnFile = findFile(name, isSprite);
+		if (returnFile != null) return returnFile;
+	}
+	//if you're a female, check for a male file (how unfair))
+	if (gspcs > 3) {
+		returnFile = getMaleFiles(part, gspcs, currentStage, slot, isSprite);
 		if (returnFile != null) return returnFile;
 	}
 	//if you're still here, no younger lifestages were found.
@@ -143,8 +147,23 @@ public static File getClosestLifestageFile (int part, int gspcs, int stage, char
 		returnFile = findFile(name, isSprite);
 		if (returnFile != null) return returnFile;
 	}
+	//if you're a female, check for a male file (how unfair))
+	if (gspcs > 3) {
+		returnFile = getMaleFiles(part, gspcs, currentStage, slot, isSprite);
+		if (returnFile != null) return returnFile;
+	}
 	//if you're still here, that didn't work either, sorry.
 	//guess there's nothing in that slot
+	return null;
+}
+
+//apparently this is something we have to do
+public static File getMaleFiles (int part, int gspcs, int stage, char slot, Boolean isSprite) throws IOException {
+	//build a male filename
+	String name = buildFilename(part, (gspcs - 4), stage, slot) + ((isSprite) ? ".c16" : ".att");
+	//and check if it exists
+	File returnFile = findFile(name, isSprite);
+	if (returnFile != null) return returnFile;
 	return null;
 }
 
