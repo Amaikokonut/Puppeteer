@@ -47,6 +47,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
+import javax.swing.JTextArea;
 
 // Does me editing work? :D —PP
 public class Puppeteer
@@ -307,9 +308,12 @@ public class Puppeteer
 		
 		JPanel panelATT = new JPanel();
 		frmPuppeteer.getContentPane().add(panelATT);
+		panelATT.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblATT = new JLabel("ATT Info Goes Here");
-		panelATT.add(lblATT);
+		JTextArea txtrAttInfo = new JTextArea();
+		txtrAttInfo.setBackground(Color.WHITE);
+		txtrAttInfo.setText("ATT Info");
+		panelATT.add(txtrAttInfo);
 		
 		JPanel panelParts = new JPanel();
 		frmPuppeteer.getContentPane().add(panelParts);
@@ -388,7 +392,7 @@ public class Puppeteer
 				creature.part[selectedPart].UpdatePose((Integer) spinPartPose.getValue());
 			}
 		});
-		spinPartPose.setModel(new SpinnerNumberModel(0, 0, 32, 1));
+		spinPartPose.setModel(new SpinnerNumberModel(0, 0, 3, 1));
 		pnlPartPose.add(spinPartPose);
 		
 		JPanel pnlPartDirn = new JPanel();

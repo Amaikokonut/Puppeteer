@@ -34,17 +34,17 @@ public class FileInfo
 	int attToTailX;
 	int attToTailY;
 	
-	public FileInfo (PosedCreature creature, int part) throws MultipleFilesDifferingOnlyByCaseDetectedWhenTheyShouldntException, IOException {
+	public FileInfo (int part, int pose, int dirn, int expression, int gspcs, int age, char slot, int eyes) throws MultipleFilesDifferingOnlyByCaseDetectedWhenTheyShouldntException, IOException {
 		//super-first, because this is pretty easy, you can construct the sprite pose number.
-		this.frame = getFrame (part, creature.part[part].pose, creature.part[part].dirn, creature.expression);
+		this.frame = getFrame (part, pose, dirn, expression, eyes);
 		//now you have to construct the filename you are looking for:
-		String pendingName = buildFilename(part, creature.part[part].gspcs, creature.age,  creature.part[part].slot);
+		String pendingName = buildFilename(part, gspcs, age, slot);
 		//then look for it in all the directories
-		this.sprite = getClosestFile(part, creature.part[part].gspcs, creature.age, creature.part[part].slot, true);
+		this.sprite = getClosestFile(part, gspcs, age, slot, true);
 		//check to see if the sprite has been adapted 
 		this.spriteIsAdapted = !pendingName.equals(this.sprite.getName().substring(0,4).toLowerCase());
 		//then do the same for atts
-		this.att = getClosestFile(part, creature.part[part].gspcs, creature.age, creature.part[part].slot, false);
+		this.att = getClosestFile(part, gspcs, age, slot, false);
 		this.attIsSlotAdapted = !pendingName.equals(this.att.getName().substring(0,4).toLowerCase());
 		
 		//then actually parse the atts for the details of that part.
@@ -53,11 +53,11 @@ public class FileInfo
 		//head (part 0) and body (part 1) are special cases:
 		if (part == 0) {
 			//first pair is where the sprite attaches to the body
-			this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[this.frame/creature.expression]);
-			this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[1])[this.frame/creature.expression]);
+			this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[pose * 4 + (3 - dirn)]);
+			this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[1])[pose * 4 + (3 - dirn)]);
 			//second pair is where the sprite attaches to something else (another part
-			this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[2])[this.frame/creature.expression]);
-			this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[3])[this.frame/creature.expression]);
+			this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[2])[pose * 4 + (3 - dirn)]);
+			this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[3])[pose * 4 + (3 - dirn)]);
 		} else if (part == 1) {
 			//first pair is where the head attaches
 			this.attToHeadX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[this.frame]);
@@ -81,7 +81,7 @@ public class FileInfo
 		//first pair is where the sprite attaches to the body
 		this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[0])[this.frame]);
 		this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[1])[this.frame]);
-		//second pair is where the sprite attaches to something else (another part
+		//second pair is where the sprite attaches to something else (another part or object/floor)
 		this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[2])[this.frame]);
 		this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[3])[this.frame]);
 		}
@@ -91,10 +91,13 @@ public class FileInfo
 
 //this gets the sprite file frame for the part/pose/direction/expression in question.
 //expression only really matters if the part in question is the head (part 0)
-	public int getFrame (int part, int pose, int dirn, int expression) {
+	public int getFrame (int part, int pose, int dirn, int expression, int eyes) {
 		int frame = pose * 4 + (3 - dirn);
-		//if we're dealing with the head part, we need to account for facial expression
-		if (part == 0) {frame *=expression;}
+		//if we're dealing with the head part, we need to account for facial expression and eyes
+		if (part == 0) {
+			frame *= eyes == 1 ? 2 : 1; 
+			frame *=expression;
+			}
 		return frame;
 	}
 	

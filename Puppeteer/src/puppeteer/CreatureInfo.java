@@ -14,7 +14,7 @@ public class CreatureInfo {
 	};
 	public static String[] lifeStages = {"0: Baby", "1: Child", "2: Adolescent", "3: Youth", "4: Adult", "5: Old", "6: Senile"};
 	//look up all the expressions and fix this:
-	public static String[] expressions = {"0: Happy", "1: Child", "2: Adolescent", "3: Youth", "4: Adult", "5: Old", "6: Senile"};
+	public static String[] expressions = {"0: None", "1: Happy", "2: Sad", "3: Angry", "4: Scared", "5: Tired"};
 	
 	//assuming 0 is male, 1 is female, return the gendered-species number that the breed slot parser understands
 	//(equal to the index of String[] speciesList)

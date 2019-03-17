@@ -22,12 +22,12 @@ public class PosedCreature {
 		this.age = age;
 		this.pose = pose;
 		this.dirn = dirn;
-		this.expression = expression;
+		this.expression = expression + 1;
 		this.eyes = eyes;
 		
 //now you gotta create all the body parts in their default states 
 		for(int i = 0; i < 14; i++) {
-			part[i] = new PosedPart(spcs, mf, slot, pose, dirn, 0, 0);
+			part[i] = new PosedPart(this, i, spcs, mf, slot, pose, dirn, 0, 0);
 		}
 	}
 	
@@ -52,6 +52,8 @@ public class PosedCreature {
 			System.out.println("Direction: " + CreatureInfo.dirn[this.part[i].dirn]);
 			System.out.println("X-offset: " + this.part[i].x);
 			System.out.println("Y-offset: " + this.part[i].y);
+			System.out.println("Sprite Filename: " + this.part[i].fileInfo.sprite.getName());
+			System.out.println("Att Filename: " + this.part[i].fileInfo.att.getName());
 			System.out.println("");
 			
 		}
