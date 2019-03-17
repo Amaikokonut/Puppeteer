@@ -1,0 +1,54 @@
+*I'm too tired to try to write this neatly
+*or dryly so whatever
+FILE iOPE 1 "limbtests.txt"
+FILE oOPE 1 "limbtestresults.txt" 0
+loop
+	doif inok = 1
+		sets va00 innl
+		dbg: outs va00
+*find the first space
+		setv va01 sins va00 1 " "
+		setv va10 stoi subs va00 1 va01
+		addv va01 1
+*find the second space
+		setv va02 sins va00 va01 " "
+		setv va99 va02
+		subv va99 va01
+		setv va11 stoi subs va00 va01 va99
+		addv va02 1
+*find the third space
+		setv va03 sins va00 va02 " "
+		setv va99 va03
+		subv va99 va02
+		setv va12 stoi subs va00 va02 va99
+		addv va03 1
+*find the fourth space
+		setv va04 sins va00 va03 " "
+		setv va99 va03
+		subv va99 va02
+		setv va13 stoi subs va00 va03 va99
+		addv va04 1
+		setv va99 strl va00
+		subv va99 va04
+		setv va14 stoi subs va00 va04 -1
+
+*sigh the engine is so inconsistent
+* or at least LIMB is
+		addv va11 1
+		addv va12 1
+
+
+		dbg: outv va10
+		dbg: outv va11
+		dbg: outv va12
+		dbg: outv va13
+		dbg: outv va14
+		sets va50 limb va10 va11 va12 va13 va14
+		adds va50 "\n"
+		outs va50
+
+	endi
+untl inok = 0
+
+file iclo
+file oclo
