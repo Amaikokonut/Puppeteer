@@ -32,7 +32,7 @@ extends Component
 	
 	public void setSpritesAndRepaint(Iterable<DisplayedSprite> sprites)
 	{
-		setSpritesAndRepaint(sprites);
+		setSpritesWithoutRepainting(sprites);
 		repaint();
 	}
 	
