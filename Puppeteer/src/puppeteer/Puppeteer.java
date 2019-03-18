@@ -32,7 +32,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import tests.ShowImage;
 
-// Does me editing work? :D —PP
 public class Puppeteer
 {
 	
