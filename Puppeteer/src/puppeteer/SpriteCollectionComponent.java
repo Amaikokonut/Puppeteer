@@ -66,21 +66,21 @@ extends Component
 	
 	public static class DisplayedSprite
 	{
-		protected int x, y;
 		protected BufferedImage image;
+		protected int x, y;
 		
 		public DisplayedSprite()
 		{
 			super();
 		}
 		
-		public DisplayedSprite(int x, int y, BufferedImage image)
+		public DisplayedSprite(BufferedImage image, int x, int y)
 		{
+			this.image = image;
 			this.x = x;
 			this.y = y;
-			this.image = image;
 		}
-		
+
 		public int getX()
 		{
 			return x;
