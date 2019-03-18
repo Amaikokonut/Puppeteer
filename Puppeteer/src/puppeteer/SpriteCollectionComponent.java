@@ -15,6 +15,11 @@ extends Component
 	{
 	}
 	
+	public SpriteCollectionComponent(Iterable<DisplayedSprite> sprites)
+	{
+		this.sprites = sprites;
+	}
+
 	public Iterable<DisplayedSprite> getSprites()
 	{
 		return sprites;
@@ -63,6 +68,18 @@ extends Component
 	{
 		protected int x, y;
 		protected BufferedImage image;
+		
+		public DisplayedSprite()
+		{
+			super();
+		}
+		
+		public DisplayedSprite(int x, int y, BufferedImage image)
+		{
+			this.x = x;
+			this.y = y;
+			this.image = image;
+		}
 		
 		public int getX()
 		{
