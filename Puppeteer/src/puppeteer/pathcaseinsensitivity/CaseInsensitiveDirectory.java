@@ -4,16 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  *  *sigh* Windows, the great enabler XD
  */
 public class CaseInsensitiveDirectory
 {
-	protected final /*@Nonnull*/ File dirCaseSENSITIVE;
-	protected final /*@Nonnull*/ Map<String, String> lowercaseContentsToActualCase;
+	protected final @Nonnull File dirCaseSENSITIVE;
+	protected final @Nonnull Map<String, String> lowercaseContentsToActualCase;
 	
-	public CaseInsensitiveDirectory(/*@Nonnull*/ File dirCaseSENSITIVE) throws IOException, MultipleFilesDifferingOnlyByCaseDetectedWhenTheyShouldntException
+	public CaseInsensitiveDirectory(@Nonnull File dirCaseSENSITIVE) throws IOException, MultipleFilesDifferingOnlyByCaseDetectedWhenTheyShouldntException
 	{
 		this.dirCaseSENSITIVE = dirCaseSENSITIVE;
 		lowercaseContentsToActualCase = new HashMap<>();
@@ -38,8 +40,8 @@ public class CaseInsensitiveDirectory
 	}
 	
 	
-	//@Nullable
-	public File findPathCaseInsensitivelyOrNullIfNonexistant(/*@Nonnull*/ String subdirNameCaseInsensitive)
+	@Nullable
+	public File findPathCaseInsensitivelyOrNullIfNonexistant(@Nonnull String subdirNameCaseInsensitive)
 	{
 		String childNameInCorrectCase = lowercaseContentsToActualCase.get(subdirNameCaseInsensitive.toLowerCase());
 		
