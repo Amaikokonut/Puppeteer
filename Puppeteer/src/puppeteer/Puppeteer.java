@@ -324,7 +324,6 @@ public class Puppeteer
 		frmPuppeteer.getContentPane().add(panelATT);
 		panelATT.setLayout(null);
 		txtrAttInfo.setLineWrap(true);
-		txtrAttInfo.setWrapStyleWord(true);
 		
 		txtrAttInfo.setBackground(Color.WHITE);
 		//txtrAttInfo.setMaximumSize(new Dimension(30, 30));

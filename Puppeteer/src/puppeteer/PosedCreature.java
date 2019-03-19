@@ -69,6 +69,7 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateSpcs(spcs);
 		}
+		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateMF(int mf) {
@@ -79,6 +80,7 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateMF(mf);
 		}
+		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateSlot(char slot) {
@@ -88,11 +90,13 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateSlot(slot);
 		}
+		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateAge(int age) {
 		this.age = age;
 		//parts don't have individual ages so you don't have to worry about that 
+		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdatePose(int pose) {
@@ -102,6 +106,7 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdatePose(pose);
 		}
+		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateDirn(int dirn) {
@@ -111,17 +116,20 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateDirn(dirn);
 		}
+		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateEyes(int eyes) {
 		this.eyes = eyes;
 		//parts don't have individual.... eyes.. what, of course not
 		//why would you think that
+		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateExpression(int expression) {
 		this.expression = expression;
 		//parts don't have individual.... expressions.. what, of course not
 		//why would you think that
+		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 }

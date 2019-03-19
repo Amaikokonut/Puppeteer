@@ -10,6 +10,7 @@ public class FileInfo
 {
 	//Passed a creature object and a part-- creates an object that contains:
 	
+	String pendingName;
 	File sprite; //case-corrected true sprite file
 	boolean spriteIsAdapted; //sprite filename differs from the one requested 
 	File att; //case-corrected true att file
@@ -37,14 +38,14 @@ public class FileInfo
 		//super-first, because this is pretty easy, you can construct the sprite pose number.
 		this.frame = getFrame (part, pose, dirn, expression, eyes);
 		//now you have to construct the filename you are looking for:
-		String pendingName = buildFilename(part, gspcs, age, slot);
+		this.pendingName = buildFilename(part, gspcs, age, slot);
 		//then look for it in all the directories
 		this.sprite = getClosestFile(part, gspcs, age, slot, true);
 		//check to see if the sprite has been adapted 
-		this.spriteIsAdapted = !pendingName.equals(this.sprite.getName().substring(0,4).toLowerCase());
+		this.spriteIsAdapted = !this.pendingName.equals(this.sprite.getName().substring(0,4).toLowerCase());
 		//then do the same for atts
 		this.att = getClosestFile(part, gspcs, age, slot, false);
-		this.attIsAdapted = !pendingName.equals(this.att.getName().substring(0,4).toLowerCase());
+		this.attIsAdapted = !this.pendingName.equals(this.att.getName().substring(0,4).toLowerCase());
 		
 		//then actually parse the atts for the details of that part.
 		String[] attRows = JavaSpecificBits.splitlines(JavaSpecificBits.readAllTextUTF8(this.att));
