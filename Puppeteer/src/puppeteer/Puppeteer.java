@@ -9,7 +9,12 @@ import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -30,7 +35,10 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import puppeteer.SpriteCollectionComponent.DisplayedSprite;
 import tests.ShowImage;
+import java.awt.BorderLayout;
+import javax.swing.JScrollPane;
 
 public class Puppeteer
 {
@@ -59,6 +67,12 @@ public class Puppeteer
 	JSpinner spinXoffset = new JSpinner();
 	JSpinner spinYoffset = new JSpinner();
 	static JTextArea txtrAttInfo = new JTextArea();
+	//Default image for now~
+	List<DisplayedSprite> sprites = new ArrayList<>();
+	SpriteCollectionComponent displayCreature = new SpriteCollectionComponent(sprites);
+
+	
+	
 	
 
 	
@@ -290,20 +304,39 @@ public class Puppeteer
 		pnlEyes.add(chckbxEyesClosed);
 		
 //		JPanel panelCreatureDisplay = new JPanel();
-		Panel displayCreature = new ShowImage("backnorn.JPG");
-		//displayCreature.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		frmPuppeteer.getContentPane().add(displayCreature);
+		BufferedImage default404Sprite = null;
 		
-		//JLabel labelDisplayPlaceholder = new JLabel("Norn Goes Here");
-		//panelCreatureDisplay.add(labelDisplayPlaceholder);
+		try
+		{
+			default404Sprite = ImageIO.read(new File("norn.png"));
+		}
+		catch (IOException e2)
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		DisplayedSprite defaultSprite = new DisplayedSprite(default404Sprite, 0, 0);
+		sprites.add(defaultSprite);
 		
 		JPanel panelATT = new JPanel();
 		frmPuppeteer.getContentPane().add(panelATT);
-		panelATT.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panelATT.setLayout(null);
+		txtrAttInfo.setLineWrap(true);
+		txtrAttInfo.setWrapStyleWord(true);
 		
 		txtrAttInfo.setBackground(Color.WHITE);
-		txtrAttInfo.setMaximumSize(new Dimension(30, 30));
-		panelATT.add(txtrAttInfo);
+		//txtrAttInfo.setMaximumSize(new Dimension(30, 30));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 261, 269);
+		panelATT.add(scrollPane);
+		scrollPane.setViewportView(txtrAttInfo);
+		//txtrAttInfo.setBounds(0, 0, 261, 269);
+		
+
+		//scrollPane.add(txtrAttInfo);
 		
 		JPanel panelParts = new JPanel();
 		frmPuppeteer.getContentPane().add(panelParts);
