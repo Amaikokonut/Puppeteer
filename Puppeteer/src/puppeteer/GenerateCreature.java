@@ -1,12 +1,27 @@
 package puppeteer;
 
+import java.io.IOException;
+import puppeteer.SpriteCollectionComponent.DisplayedSprite;
+import rebound.jagent.lib.FormatMismatchException;
+import rebound.jagent.lib.c16.FromC16Converter;
 
 public class GenerateCreature
 {
 	public static void DrawCreatureFromScratch(PosedCreature it) {
 		//Output your ATT info to the window
 		Puppeteer.updateAttInfo(FileInfoToReadableString (it));
-		
+		FromC16Converter sprite = new FromC16Converter();
+		try
+		{
+			sprite.read(it.part[0].fileInfo.sprite);
+		}
+		catch (IOException | FormatMismatchException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DisplayedSprite head = new DisplayedSprite(sprite.getFrames()[it.part[0].fileInfo.frame], 100, 0);
+		Puppeteer.updateSprite(head); 
 	} 
 
 	//this is long and bad and wet but I'm tired

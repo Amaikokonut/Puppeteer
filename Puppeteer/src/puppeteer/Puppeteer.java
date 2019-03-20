@@ -44,7 +44,6 @@ public class Puppeteer
 {
 	
 	private JFrame frmPuppeteer;
-	
 	// generate the initial default creature:
 	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
 	// and the initial selected part for that matter
@@ -68,7 +67,7 @@ public class Puppeteer
 	JSpinner spinYoffset = new JSpinner();
 	static JTextArea txtrAttInfo = new JTextArea();
 	//Default image for now~
-	List<DisplayedSprite> sprites = new ArrayList<>();
+	static List<DisplayedSprite> sprites = new ArrayList<>();
 	SpriteCollectionComponent displayCreature = new SpriteCollectionComponent(sprites);
 
 	
@@ -94,6 +93,11 @@ public class Puppeteer
 	public static void updateAttInfo(String text) {
 		txtrAttInfo.setText(text);
 		txtrAttInfo.validate();
+	}
+	
+	public static void updateSprite(DisplayedSprite sprite) {
+		sprites.clear();
+		sprites.add(sprite);
 	}
 	
 	private final ButtonGroup buttonGroupMF = new ButtonGroup();
@@ -572,6 +576,6 @@ public class Puppeteer
 		});
 		
 		mnFile.add(mntmSetGameDirectories);
-		
+		GenerateCreature.DrawCreatureFromScratch(creature);
 	}
 }
