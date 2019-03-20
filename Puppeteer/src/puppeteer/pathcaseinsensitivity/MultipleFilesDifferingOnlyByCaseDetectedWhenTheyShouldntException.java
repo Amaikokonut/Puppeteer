@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import javax.annotation.Nonnull;
+import rebound.annotations.semantic.temporal.ImmutableValue;
 
 /**
  * :}
@@ -16,7 +18,7 @@ extends IOException
 	
 	protected final Set<File> filesThatConflictWithEachOther;
 	
-	public MultipleFilesDifferingOnlyByCaseDetectedWhenTheyShouldntException(/*@ImmutableValue @Nonnull*/ Set<File> filesThatConflictWithEachOther)
+	public MultipleFilesDifferingOnlyByCaseDetectedWhenTheyShouldntException(@ImmutableValue @Nonnull Set<File> filesThatConflictWithEachOther)
 	{
 		super(makemsg(filesThatConflictWithEachOther));
 		this.filesThatConflictWithEachOther = filesThatConflictWithEachOther;
