@@ -68,7 +68,7 @@ public class Puppeteer
 	static JTextArea txtrAttInfo = new JTextArea();
 	//Default image for now~
 	static List<DisplayedSprite> sprites = new ArrayList<>();
-	SpriteCollectionComponent displayCreature = new SpriteCollectionComponent(sprites);
+	static SpriteCollectionComponent displayCreature = new SpriteCollectionComponent(sprites);
 
 	
 	
@@ -98,6 +98,7 @@ public class Puppeteer
 	public static void updateSprite(DisplayedSprite sprite) {
 		sprites.clear();
 		sprites.add(sprite);
+		displayCreature.setSpritesAndRepaint(sprites);
 	}
 	
 	private final ButtonGroup buttonGroupMF = new ButtonGroup();
@@ -222,6 +223,12 @@ public class Puppeteer
 		pnlAge.add(lblAge);
 		
 		JComboBox comboAge = new JComboBox(CreatureInfo.lifeStages);
+		comboAge.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				creature.UpdateAge(comboAge.getSelectedIndex());
+				updatePartsUI();
+			}
+		});
 		pnlAge.add(comboAge);
 		
 		JPanel pnlMainPose = new JPanel();

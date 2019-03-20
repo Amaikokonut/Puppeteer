@@ -95,7 +95,9 @@ public class PosedCreature {
 	
 	public void UpdateAge(int age) {
 		this.age = age;
-		//parts don't have individual ages so you don't have to worry about that 
+		for(int i = 0; i < 14; i++) {
+			part[i].UpdateFileInfo();
+		}
 		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
@@ -123,6 +125,7 @@ public class PosedCreature {
 		this.eyes = eyes;
 		//parts don't have individual.... eyes.. what, of course not
 		//why would you think that
+			part[0].UpdateFileInfo();
 		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
@@ -130,6 +133,7 @@ public class PosedCreature {
 		this.expression = expression;
 		//parts don't have individual.... expressions.. what, of course not
 		//why would you think that
+		part[0].UpdateFileInfo();
 		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 }

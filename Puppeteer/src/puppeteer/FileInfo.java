@@ -53,11 +53,11 @@ public class FileInfo
 		//head (part 0) and body (part 1) are special cases:
 		if (part == 0) {
 			//first pair is where the sprite attaches to the body
-			this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[pose * 4 + (3 - dirn)])[0]);
-			this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[pose * 4 + (3 - dirn)])[1]);
+			this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[0]);
+			this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[1]);
 			//second pair is where the sprite attaches to something else (another part
-			this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[pose * 4 + (3 - dirn)])[2]);
-			this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[pose * 4 + (3 - dirn)])[3]);
+			this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[2]);
+			this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[3]);
 		} else if (part == 1) {
 			//first pair is where the head attaches
 			this.attToHeadX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[0]);
@@ -92,12 +92,13 @@ public class FileInfo
 //this gets the sprite file frame for the part/pose/direction/expression in question.
 //expression only really matters if the part in question is the head (part 0)
 	public int getFrame (int part, int pose, int dirn, int expression, int eyes) {
-		int frame = 1 + pose * 4 + (3 - dirn);
+		//this is wrong, fix this
+		int frame = 4 * (3 - dirn) + pose;
 		//if we're dealing with the head part, we need to account for facial expression and eyes
 		if (part == 0) {
-			frame *= eyes == 1 ? 2 : 1; 
-			frame *=expression;
-			}
+			frame += expression * 32 ;
+			frame += eyes == 1 ? 16 : 0; 
+		}
 		return frame;
 	}
 	

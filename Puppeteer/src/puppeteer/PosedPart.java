@@ -38,6 +38,7 @@ public class PosedPart {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//GenerateCreature.DrawCreatureFromScratch(this.origin);
 		
 	}
 	
