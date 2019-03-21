@@ -32,11 +32,9 @@ public class Configgles
 		if (gamePaths.size() > 0)
 		{
 			readableGamePaths = new String[gamePaths.size()];
-			int c = 0;
 			for (int i = 0; i < gamePaths.size(); i++)
 			{
-				readableGamePaths[c] = gamePaths.get(i).main.toString();
-				c++; // lol
+				readableGamePaths[i] = gamePaths.get(i).main.toString();
 			}
 		}
 		else
@@ -111,17 +109,15 @@ public class Configgles
 		try
 		{
 			
-			output = new FileOutputStream(JavaSpecificBits.getUserHomeDirectory("puppeteerPaths.properties"));
+			output = new FileOutputStream(JavaSpecificBits.getOurUserHomeDirectory());
 			
 			if (gamePaths.size() > 0)
 			{
 				// set the properties value
 				prop.setProperty("count", Integer.toString(gamePaths.size()));
-				int c = 0;
 				for (int i = 0; i < gamePaths.size(); i++)
 				{
-					prop.setProperty("path" + c, gamePaths.get(i).main.toString());
-					c++; // lol
+					prop.setProperty("path" + i, gamePaths.get(i).main.toString());
 				}
 			}
 			else
@@ -158,7 +154,7 @@ public class Configgles
 
 		try {
 
-			input = new FileInputStream(JavaSpecificBits.getUserHomeDirectory("puppeteerPaths.properties"));
+			input = new FileInputStream(JavaSpecificBits.getOurUserHomeDirectory());
 
 			// load a properties file
 			prop.load(input);
@@ -167,11 +163,9 @@ public class Configgles
 			int count = Integer.parseInt(prop.getProperty("count"));
 			
 			if (count > 0) {
-				int c = 0;
 				for (int i = 0; i < count; i++)
 				{
-					System.out.println(pathStatus(prop.getProperty("path" + c)));
-					c++; // lol
+					System.out.println(pathStatus(prop.getProperty("path" + i)));
 				}
 			} else {
 				System.out.println("No paths to load");
@@ -180,7 +174,7 @@ public class Configgles
 		} catch (IOException ex) {
 			//we should probably do something here...you're always gonna get this the first time 
 			//you start the program, since there's no properties file yet
-			ex.printStackTrace();
+			System.out.println("No Properties File Yet");
 		} finally {
 			if (input != null) {
 				try {

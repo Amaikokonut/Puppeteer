@@ -45,7 +45,7 @@ public class Puppeteer
 	
 	private JFrame frmPuppeteer;
 	// generate the initial default creature:
-	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
+	static PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
 	// and the initial selected part for that matter
 	int selectedPart = 0;
 	
@@ -66,20 +66,15 @@ public class Puppeteer
 	JSpinner spinXoffset = new JSpinner();
 	JSpinner spinYoffset = new JSpinner();
 	static JTextArea txtrAttInfo = new JTextArea();
-	//Default image for now~
+	// Default image for now~
 	static List<DisplayedSprite> sprites = new ArrayList<>();
 	static SpriteCollectionComponent displayCreature = new SpriteCollectionComponent(sprites);
-
-	
-	
-	
-
 	
 	// a method to properly update body part UI bits
 	public void updatePartsUI()
 	{
 		comboPartSpecies.setSelectedIndex(creature.part[selectedPart].spcs);
-		//convert char to index
+		// convert char to index
 		char y = 'a';
 		char z = creature.part[selectedPart].slot;
 		
@@ -90,13 +85,21 @@ public class Puppeteer
 		spinYoffset.setValue(creature.part[selectedPart].y);
 	}
 	
-	public static void updateAttInfo(String text) {
+	public static void updateAttInfo(String text)
+	{
 		txtrAttInfo.setText(text);
 		txtrAttInfo.validate();
 	}
 	
-	public static void updateSprite(List<DisplayedSprite> layeredSprites) {
+	public static void updateSprite(List<DisplayedSprite> layeredSprites)
+	{
 		displayCreature.setSpritesAndRepaint(layeredSprites);
+	}
+	
+	public static void GenerateCreature()
+	{
+		GenerateCreature.DrawCreatureFromScratch(new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0));
+		
 	}
 	
 	private final ButtonGroup buttonGroupMF = new ButtonGroup();
@@ -221,8 +224,10 @@ public class Puppeteer
 		pnlAge.add(lblAge);
 		
 		JComboBox comboAge = new JComboBox(CreatureInfo.lifeStages);
-		comboAge.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		comboAge.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				creature.UpdateAge(comboAge.getSelectedIndex());
 				updatePartsUI();
 			}
@@ -313,7 +318,7 @@ public class Puppeteer
 		});
 		pnlEyes.add(chckbxEyesClosed);
 		
-//		JPanel panelCreatureDisplay = new JPanel();
+		// JPanel panelCreatureDisplay = new JPanel();
 		frmPuppeteer.getContentPane().add(displayCreature);
 		BufferedImage default404Sprite = null;
 		
@@ -336,16 +341,15 @@ public class Puppeteer
 		txtrAttInfo.setLineWrap(true);
 		
 		txtrAttInfo.setBackground(Color.WHITE);
-		//txtrAttInfo.setMaximumSize(new Dimension(30, 30));
+		// txtrAttInfo.setMaximumSize(new Dimension(30, 30));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 0, 261, 269);
 		panelATT.add(scrollPane);
 		scrollPane.setViewportView(txtrAttInfo);
-		//txtrAttInfo.setBounds(0, 0, 261, 269);
+		// txtrAttInfo.setBounds(0, 0, 261, 269);
 		
-
-		//scrollPane.add(txtrAttInfo);
+		// scrollPane.add(txtrAttInfo);
 		
 		JPanel panelParts = new JPanel();
 		frmPuppeteer.getContentPane().add(panelParts);
@@ -535,9 +539,11 @@ public class Puppeteer
 		}));
 		
 		JButton btnGo = new JButton("Go!");
-		btnGo.addActionListener(new ActionListener() {
-			//this is a very temporary testing-only action
-			public void actionPerformed(ActionEvent e) {
+		btnGo.addActionListener(new ActionListener()
+		{
+			// this is a very temporary testing-only action
+			public void actionPerformed(ActionEvent e)
+			{
 				try
 				{
 					testTester.main();
@@ -571,8 +577,10 @@ public class Puppeteer
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmSetGameDirectories = new JMenuItem("Set Game Paths");
-		mntmSetGameDirectories.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		mntmSetGameDirectories.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				gamePathsWindow gamePathsDialog = new gamePathsWindow();
 				gamePathsDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				gamePathsDialog.setLocationRelativeTo(frmPuppeteer);
@@ -582,6 +590,15 @@ public class Puppeteer
 		});
 		
 		mnFile.add(mntmSetGameDirectories);
-		GenerateCreature.DrawCreatureFromScratch(creature);
+		
+		if (Configgles.gamePaths.size() == 0)
+		{
+			mntmSetGameDirectories.doClick();
+			
+		}
+		else
+		{
+			GenerateCreature.DrawCreatureFromScratch(creature);
+		}
 	}
 }

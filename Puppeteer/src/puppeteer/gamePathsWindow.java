@@ -18,13 +18,14 @@ import javax.swing.AbstractListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import java.awt.Dialog.ModalityType;
 
 public class gamePathsWindow
 extends JDialog
 {
 	public gamePathsWindow()
 	{
-		setAlwaysOnTop(true);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setBounds(100, 100, 469, 225);
 		setTitle("Configure Game Paths");
@@ -41,6 +42,10 @@ extends JDialog
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				if (Configgles.gamePaths.size() == 0) {
+					JOptionPane.showMessageDialog(null, "At least one Creatures 3 or Docking Station game path is required to use this tool.");
+				} else { 
+					Puppeteer.GenerateCreature(); }
 				dispose();
 			}
 		});
@@ -147,6 +152,7 @@ extends JDialog
 					});
 				}
 			}
+			
 		});
 		btnRemovePath.setBounds(241, 162, 109, 26);
 		getContentPane().add(btnRemovePath);

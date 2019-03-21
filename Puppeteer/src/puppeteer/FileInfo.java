@@ -35,6 +35,9 @@ public class FileInfo
 	int attToTailY;
 	
 	public FileInfo (int part, int pose, int dirn, int expression, int gspcs, int age, char slot, int eyes) throws MultipleFilesDifferingOnlyByCaseDetectedWhenTheyShouldntException, IOException {
+		//DON'T DO THIS if there are no files!! Problems will totally happen
+		if (Configgles.gamePaths.size() > 0)
+		{
 		//super-first, because this is pretty easy, you can construct the sprite pose number.
 		this.frame = getFrame (part, pose, dirn, expression, eyes);
 		//now you have to construct the filename you are looking for:
@@ -84,6 +87,7 @@ public class FileInfo
 		//second pair is where the sprite attaches to something else (another part or object/floor)
 		this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[2]);
 		this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[3]);
+		}
 		}
 		
 	}
