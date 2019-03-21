@@ -48,7 +48,11 @@ extends Component
 		for (DisplayedSprite sprite : this.sprites)
 		{
 			BufferedImage i = sprite.getImage();
-			g.drawImage(i, sprite.getX(), sprite.getY(), i.getWidth(), i.getHeight(), this.getBackground(), null);
+			
+			// this next line
+			// was previously g.drawImage(i, sprite.getX(), sprite.getY(), i.getWidth(), i.getHeight(), this.getBackground(), null)
+			// removing this.getBackground() stopped gray boxes from interfering 
+			g.drawImage(i, sprite.getX(), sprite.getY(), i.getWidth(), i.getHeight(), null);
 		}
 	}
 	
