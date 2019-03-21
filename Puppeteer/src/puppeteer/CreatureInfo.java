@@ -6,7 +6,7 @@ public class CreatureInfo {
 	public static String[] availableSlots = {"A", "B", "C", "D", "E", "F", "G", "H", "I", 
 	"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", 
 	"X" ,"Y", "Z"};
-	public static String[] dirn = {"Back", "Front", "Right", "Left"};
+	public static String[] dirn = {"Back", "Front", "Left", "Right"};
 	public static String[] speciesList = {"0: Male Norn", "1: Male Grendel", "2: Male Ettin", "3: Male Geat", "4: Female Norn", 
 	"5: Female Grendel", "6: Female Ettin", "7: Female Geat"};
 	public static String[] bodyParts = {"A: Head", "B: Body", "C: Left thigh", "D: Left shin", "E: Left foot", "F: Right thigh", "G: Right shin",
