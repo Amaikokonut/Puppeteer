@@ -186,11 +186,12 @@ public static File getClosestLifestageFile (int part, int gspcs, int stage, char
 		//and check if it exists
 		returnFile = findFile(name, isSprite);
 		if (returnFile != null) return returnFile;
-	}
+	
 	//if you're a female, check for a male file (how unfair))
 	if (gspcs > 3) {
 		returnFile = getMaleFiles(part, gspcs, currentStage, slot, isSprite);
 		if (returnFile != null) return returnFile;
+	}
 	}
 	//if you're still here, no younger lifestages were found.
 	//So now we're look for older stages and see if they exist
