@@ -10,6 +10,8 @@ public class GenerateCreature
 	public static void DrawCreatureFromScratch(PosedCreature it) {
 		//Output your ATT info to the window
 		Puppeteer.updateAttInfo(FileInfoToReadableString (it));
+		
+		//really bad code for testing purposes-- make it nice next
 		FromC16Converter sprite = new FromC16Converter();
 		try
 		{
@@ -20,8 +22,25 @@ public class GenerateCreature
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		DisplayedSprite head = new DisplayedSprite(sprite.getFrames()[it.part[0].fileInfo.frame], 100, 0);
-		Puppeteer.updateSprite(head); 
+		FromC16Converter sprite2 = new FromC16Converter();
+		try
+		{
+			sprite2.read(it.part[1].fileInfo.sprite);
+		}
+		catch (IOException | FormatMismatchException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int baseX = 100;
+		int baseY = 0;
+		DisplayedSprite head = new DisplayedSprite(sprite.getFrames()[it.part[0].fileInfo.frame], baseX, baseY);
+		DisplayedSprite body = new DisplayedSprite(sprite2.getFrames()[it.part[1].fileInfo.frame], 
+		baseX + it.part[0].fileInfo.attFromX - it.part[1].fileInfo.attToHeadX, baseY + it.part[0].fileInfo.attFromY - it.part[1].fileInfo.attToHeadY);
+		Puppeteer.sprites.clear();
+		Puppeteer.sprites.add(body);
+		Puppeteer.sprites.add(head);
+		Puppeteer.updateSprite();
 	} 
 
 	//this is long and bad and wet but I'm tired
@@ -129,4 +148,8 @@ public class GenerateCreature
 		return result;
 	}
 	
+//this is stuff that actually has to do with sprites
+	public static void updateOneSprite() {
+		
+	}
 }

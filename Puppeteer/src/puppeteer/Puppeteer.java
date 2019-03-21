@@ -95,9 +95,7 @@ public class Puppeteer
 		txtrAttInfo.validate();
 	}
 	
-	public static void updateSprite(DisplayedSprite sprite) {
-		sprites.clear();
-		sprites.add(sprite);
+	public static void updateSprite() {
 		displayCreature.setSpritesAndRepaint(sprites);
 	}
 	
