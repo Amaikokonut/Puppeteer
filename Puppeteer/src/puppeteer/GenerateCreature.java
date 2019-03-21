@@ -68,6 +68,38 @@ public class GenerateCreature
 		int RFootY = RShinY + it.part[6].fileInfo.attToY - it.part[7].fileInfo.attFromY;
 		DisplayedSprite rFoot = new DisplayedSprite(RFootConv.getFrames()[it.part[1].fileInfo.frame], RFootX, RFootY);
 		
+		//left arm
+		int LHumerusX = bodyX + it.part[1].fileInfo.attToLeftArmX - it.part[8].fileInfo.attFromX;
+		int LHumerusY = bodyY + it.part[1].fileInfo.attToLeftArmY - it.part[8].fileInfo.attFromY;
+		DisplayedSprite lHumerus = new DisplayedSprite(LHumerusConv.getFrames()[it.part[1].fileInfo.frame], LHumerusX, LHumerusY);
+		
+		//left hand
+		int LRadiusX = LHumerusX + it.part[8].fileInfo.attToX - it.part[9].fileInfo.attFromX;
+		int LRadiusY = LHumerusY + it.part[8].fileInfo.attToY - it.part[9].fileInfo.attFromY;
+		DisplayedSprite lRadius = new DisplayedSprite(LRadiusConv.getFrames()[it.part[1].fileInfo.frame], LRadiusX, LRadiusY);
+		
+		
+		//right arm
+		int RHumerusX = bodyX + it.part[1].fileInfo.attToRightArmX - it.part[10].fileInfo.attFromX;
+		int RHumerusY = bodyY + it.part[1].fileInfo.attToRightArmY - it.part[10].fileInfo.attFromY;
+		DisplayedSprite rHumerus = new DisplayedSprite(RHumerusConv.getFrames()[it.part[1].fileInfo.frame], RHumerusX, RHumerusY);
+		
+		//right hand
+		int RRadiusX = RHumerusX + it.part[10].fileInfo.attToX - it.part[11].fileInfo.attFromX;
+		int RRadiusY = RHumerusY + it.part[10].fileInfo.attToY - it.part[11].fileInfo.attFromY;
+		DisplayedSprite rRadius = new DisplayedSprite(RRadiusConv.getFrames()[it.part[1].fileInfo.frame], RRadiusX, RRadiusY);
+		
+		//tail root
+		int TailRootX = bodyX + it.part[1].fileInfo.attToTailX - it.part[12].fileInfo.attFromX;
+		int TailRootY = bodyY + it.part[1].fileInfo.attToTailY - it.part[10].fileInfo.attFromY;
+		DisplayedSprite tailRoot = new DisplayedSprite(TailRootConv.getFrames()[it.part[1].fileInfo.frame], TailRootX, TailRootY);
+		
+		//tail tip
+		int TailTipX = TailRootX + it.part[12].fileInfo.attToX - it.part[13].fileInfo.attFromX;
+		int TailTipY = TailRootY + it.part[12].fileInfo.attToY - it.part[13].fileInfo.attFromY;
+		DisplayedSprite tailTip = new DisplayedSprite(TailTipConv.getFrames()[it.part[1].fileInfo.frame], TailTipX, TailTipY);
+		
+		
 		Puppeteer.sprites.clear();
 		
 		//order render depends on things
@@ -83,37 +115,79 @@ public class GenerateCreature
 			Puppeteer.sprites.add(rShin);
 			Puppeteer.sprites.add(rFoot);
 			
+			Puppeteer.sprites.add(lHumerus);
+			Puppeteer.sprites.add(lRadius);
+			Puppeteer.sprites.add(rHumerus);
+			Puppeteer.sprites.add(rRadius);
+			
+			Puppeteer.sprites.add(tailRoot);
+			Puppeteer.sprites.add(tailTip);
+			
+			
 		} else if (it.dirn == 1) {
+			
+			Puppeteer.sprites.add(tailTip);
+			Puppeteer.sprites.add(tailRoot);
+				
 			Puppeteer.sprites.add(rThigh);
 			Puppeteer.sprites.add(rShin);
 			Puppeteer.sprites.add(rFoot);
-			Puppeteer.sprites.add(lFoot);
+			
 			Puppeteer.sprites.add(lShin);
 			Puppeteer.sprites.add(lFoot);
 			Puppeteer.sprites.add(lThigh);
+			
+			Puppeteer.sprites.add(lHumerus);
+			Puppeteer.sprites.add(rHumerus);
+			
 			Puppeteer.sprites.add(body);
 			Puppeteer.sprites.add(head);
+			
+			Puppeteer.sprites.add(lRadius);
+			Puppeteer.sprites.add(rRadius);
 		
 		} else if (it.dirn == 2) {
+			Puppeteer.sprites.add(rHumerus);
+			Puppeteer.sprites.add(rRadius);
+			
 			Puppeteer.sprites.add(rFoot);
 			Puppeteer.sprites.add(rShin);
 			Puppeteer.sprites.add(rThigh);
+			
+			Puppeteer.sprites.add(tailRoot);
+			Puppeteer.sprites.add(tailTip);
+			
 			Puppeteer.sprites.add(body);
 			Puppeteer.sprites.add(head);
+			
 			Puppeteer.sprites.add(lThigh);
 			Puppeteer.sprites.add(lShin);
 			Puppeteer.sprites.add(lFoot);
+			
+			Puppeteer.sprites.add(lHumerus);
+			Puppeteer.sprites.add(lRadius);
 			
 			
 		} else if (it.dirn == 3) {
+			Puppeteer.sprites.add(lHumerus);
+			Puppeteer.sprites.add(lRadius);
 			Puppeteer.sprites.add(lFoot);
+			
 			Puppeteer.sprites.add(lShin);
 			Puppeteer.sprites.add(lThigh);
+			
+			Puppeteer.sprites.add(tailRoot);
+			Puppeteer.sprites.add(tailTip);
+			
 			Puppeteer.sprites.add(body);
 			Puppeteer.sprites.add(head);
+			
 			Puppeteer.sprites.add(rThigh);
 			Puppeteer.sprites.add(rShin);
 			Puppeteer.sprites.add(rFoot);
+			
+			Puppeteer.sprites.add(rHumerus);
+			Puppeteer.sprites.add(rRadius);
 			
 		}
 		Puppeteer.updateSprite();
