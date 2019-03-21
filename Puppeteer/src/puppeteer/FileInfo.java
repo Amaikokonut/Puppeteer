@@ -112,16 +112,15 @@ public class FileInfo
 //find image file, returns the real filename or null if not found. If isSprite is false, it assumes bodydata
 	public static File findFile (String extName, Boolean isSprite) throws IOException {
 		File returnFile = null;
-		File targfile;
 		//System.out.println(extName);
 		for (int i = 0; i < Configgles.gamePaths.size(); i++)
 		{
 			if (isSprite) {
-			targfile = Configgles.gamePaths.get(i).images.toFile(); 
+
+			returnFile = Configgles.gamePaths.get(i).imagesCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
 			} else {
-			targfile = Configgles.gamePaths.get(i).bodyData.toFile();
+				returnFile = Configgles.gamePaths.get(i).bodyDataCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
 			}
-			returnFile = new CaseInsensitiveDirectory(targfile).findPathCaseInsensitivelyOrNullIfNonexistant(extName);
 			//break out of the loop once you found a file
 			if (returnFile != null) {break;}
 		}
