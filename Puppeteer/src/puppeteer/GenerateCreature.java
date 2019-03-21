@@ -319,7 +319,7 @@ public class GenerateCreature
 		
 		try
 		{
-			default404Sprite = ImageIO.read(new File("norn.png"));
+			default404Sprite = ImageIO.read((Puppeteer.class.getResource("norn.png")));
 		}
 		catch (IOException e2)
 		{

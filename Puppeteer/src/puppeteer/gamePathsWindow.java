@@ -37,7 +37,7 @@ extends JDialog
 		
 		list.setBounds(12, 67, 439, 85);
 		
-		JButton btnClose = new JButton("Close");
+		JButton btnClose = new JButton("Done");
 		btnClose.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
