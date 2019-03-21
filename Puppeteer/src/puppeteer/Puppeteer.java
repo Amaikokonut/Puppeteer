@@ -95,8 +95,8 @@ public class Puppeteer
 		txtrAttInfo.validate();
 	}
 	
-	public static void updateSprite() {
-		displayCreature.setSpritesAndRepaint(sprites);
+	public static void updateSprite(List<DisplayedSprite> layeredSprites) {
+		displayCreature.setSpritesAndRepaint(layeredSprites);
 	}
 	
 	private final ButtonGroup buttonGroupMF = new ButtonGroup();
@@ -283,6 +283,7 @@ public class Puppeteer
 		pnlExpression.add(lblExpression);
 		
 		JComboBox comboExpression = new JComboBox(CreatureInfo.expressions);
+		comboExpression.setSelectedIndex(1);
 		comboExpression.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)

@@ -1,17 +1,20 @@
 package puppeteer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import puppeteer.SpriteCollectionComponent.DisplayedSprite;
 import rebound.jagent.lib.FormatMismatchException;
 import rebound.jagent.lib.c16.FromC16Converter;
 
 public class GenerateCreature
 {
-	public static void DrawCreatureFromScratch(PosedCreature it) {
-		//Output your ATT info to the window
-		Puppeteer.updateAttInfo(FileInfoToReadableString (it));
+	public static void DrawCreatureFromScratch(PosedCreature it)
+	{
+		// Output your ATT info to the window
+		Puppeteer.updateAttInfo(FileInfoToReadableString(it));
 		
-		//really bad code for testing purposes-- make it nice next		
+		// really bad code for testing purposes-- make it nice next
 		FromC16Converter headConv = makeOneSprite(it, 0);
 		FromC16Converter bodyConv = makeOneSprite(it, 1);
 		FromC16Converter LThighConv = makeOneSprite(it, 2);
@@ -27,183 +30,108 @@ public class GenerateCreature
 		FromC16Converter TailRootConv = makeOneSprite(it, 12);
 		FromC16Converter TailTipConv = makeOneSprite(it, 13);
 		
-		
-		//head
+		// head
 		int headX = 100;
 		int headY = 0;
 		DisplayedSprite head = new DisplayedSprite(headConv.getFrames()[it.part[0].fileInfo.frame], headX, headY);
 		
-		//body
+		// body
 		int bodyX = headX + it.part[0].fileInfo.attFromX - it.part[1].fileInfo.attToHeadX;
 		int bodyY = headY + it.part[0].fileInfo.attFromY - it.part[1].fileInfo.attToHeadY;
 		DisplayedSprite body = new DisplayedSprite(bodyConv.getFrames()[it.part[1].fileInfo.frame], bodyX, bodyY);
 		
-		//left thigh
+		// left thigh
 		int LThighX = bodyX + it.part[1].fileInfo.attToLeftLegX - it.part[2].fileInfo.attFromX;
 		int LThighY = bodyY + it.part[1].fileInfo.attToLeftLegY - it.part[2].fileInfo.attFromY;
 		DisplayedSprite lThigh = new DisplayedSprite(LThighConv.getFrames()[it.part[1].fileInfo.frame], LThighX, LThighY);
 		
-		//left shin
+		// left shin
 		int LShinX = LThighX + it.part[2].fileInfo.attToX - it.part[3].fileInfo.attFromX;
 		int LShinY = LThighY + it.part[2].fileInfo.attToY - it.part[3].fileInfo.attFromY;
 		DisplayedSprite lShin = new DisplayedSprite(LShinConv.getFrames()[it.part[1].fileInfo.frame], LShinX, LShinY);
 		
-		//left foot
+		// left foot
 		int LFootX = LShinX + it.part[3].fileInfo.attToX - it.part[4].fileInfo.attFromX;
 		int LFootY = LShinY + it.part[3].fileInfo.attToY - it.part[4].fileInfo.attFromY;
 		DisplayedSprite lFoot = new DisplayedSprite(LFootConv.getFrames()[it.part[1].fileInfo.frame], LFootX, LFootY);
 		
-		//right thigh
+		// right thigh
 		int RThighX = bodyX + it.part[1].fileInfo.attToRightLegX - it.part[5].fileInfo.attFromX;
 		int RThighY = bodyY + it.part[1].fileInfo.attToRightLegY - it.part[5].fileInfo.attFromY;
 		DisplayedSprite rThigh = new DisplayedSprite(RThighConv.getFrames()[it.part[1].fileInfo.frame], RThighX, RThighY);
 		
-		//right shin
+		// right shin
 		int RShinX = RThighX + it.part[5].fileInfo.attToX - it.part[6].fileInfo.attFromX;
 		int RShinY = RThighY + it.part[5].fileInfo.attToY - it.part[6].fileInfo.attFromY;
 		DisplayedSprite rShin = new DisplayedSprite(RShinConv.getFrames()[it.part[1].fileInfo.frame], RShinX, RShinY);
 		
-		//right foot
+		// right foot
 		int RFootX = RShinX + it.part[6].fileInfo.attToX - it.part[7].fileInfo.attFromX;
 		int RFootY = RShinY + it.part[6].fileInfo.attToY - it.part[7].fileInfo.attFromY;
 		DisplayedSprite rFoot = new DisplayedSprite(RFootConv.getFrames()[it.part[1].fileInfo.frame], RFootX, RFootY);
 		
-		//left arm
+		// left arm
 		int LHumerusX = bodyX + it.part[1].fileInfo.attToLeftArmX - it.part[8].fileInfo.attFromX;
 		int LHumerusY = bodyY + it.part[1].fileInfo.attToLeftArmY - it.part[8].fileInfo.attFromY;
 		DisplayedSprite lHumerus = new DisplayedSprite(LHumerusConv.getFrames()[it.part[1].fileInfo.frame], LHumerusX, LHumerusY);
 		
-		//left hand
+		// left hand
 		int LRadiusX = LHumerusX + it.part[8].fileInfo.attToX - it.part[9].fileInfo.attFromX;
 		int LRadiusY = LHumerusY + it.part[8].fileInfo.attToY - it.part[9].fileInfo.attFromY;
 		DisplayedSprite lRadius = new DisplayedSprite(LRadiusConv.getFrames()[it.part[1].fileInfo.frame], LRadiusX, LRadiusY);
 		
-		
-		//right arm
+		// right arm
 		int RHumerusX = bodyX + it.part[1].fileInfo.attToRightArmX - it.part[10].fileInfo.attFromX;
 		int RHumerusY = bodyY + it.part[1].fileInfo.attToRightArmY - it.part[10].fileInfo.attFromY;
 		DisplayedSprite rHumerus = new DisplayedSprite(RHumerusConv.getFrames()[it.part[1].fileInfo.frame], RHumerusX, RHumerusY);
 		
-		//right hand
+		// right hand
 		int RRadiusX = RHumerusX + it.part[10].fileInfo.attToX - it.part[11].fileInfo.attFromX;
 		int RRadiusY = RHumerusY + it.part[10].fileInfo.attToY - it.part[11].fileInfo.attFromY;
 		DisplayedSprite rRadius = new DisplayedSprite(RRadiusConv.getFrames()[it.part[1].fileInfo.frame], RRadiusX, RRadiusY);
 		
-		//tail root
+		// tail root
 		int TailRootX = bodyX + it.part[1].fileInfo.attToTailX - it.part[12].fileInfo.attFromX;
-		int TailRootY = bodyY + it.part[1].fileInfo.attToTailY - it.part[10].fileInfo.attFromY;
+		int TailRootY = bodyY + it.part[1].fileInfo.attToTailY - it.part[12].fileInfo.attFromY;
 		DisplayedSprite tailRoot = new DisplayedSprite(TailRootConv.getFrames()[it.part[1].fileInfo.frame], TailRootX, TailRootY);
 		
-		//tail tip
+		// tail tip
 		int TailTipX = TailRootX + it.part[12].fileInfo.attToX - it.part[13].fileInfo.attFromX;
 		int TailTipY = TailRootY + it.part[12].fileInfo.attToY - it.part[13].fileInfo.attFromY;
 		DisplayedSprite tailTip = new DisplayedSprite(TailTipConv.getFrames()[it.part[1].fileInfo.frame], TailTipX, TailTipY);
 		
-		
 		Puppeteer.sprites.clear();
-		
-		//order render depends on things
-		if (it.dirn == 0) {
-			Puppeteer.sprites.add(lThigh);
-			Puppeteer.sprites.add(rThigh);
-			
-			Puppeteer.sprites.add(body);
-			Puppeteer.sprites.add(head);
-			
-			Puppeteer.sprites.add(lShin);
-			Puppeteer.sprites.add(lFoot);
-			Puppeteer.sprites.add(rShin);
-			Puppeteer.sprites.add(rFoot);
-			
-			Puppeteer.sprites.add(lHumerus);
-			Puppeteer.sprites.add(lRadius);
-			Puppeteer.sprites.add(rHumerus);
-			Puppeteer.sprites.add(rRadius);
-			
-			Puppeteer.sprites.add(tailRoot);
-			Puppeteer.sprites.add(tailTip);
-			
-			
-		} else if (it.dirn == 1) {
-			
-			Puppeteer.sprites.add(tailTip);
-			Puppeteer.sprites.add(tailRoot);
-				
-			Puppeteer.sprites.add(rThigh);
-			Puppeteer.sprites.add(rShin);
-			Puppeteer.sprites.add(rFoot);
-			
-			Puppeteer.sprites.add(lShin);
-			Puppeteer.sprites.add(lFoot);
-			Puppeteer.sprites.add(lThigh);
-			
-			Puppeteer.sprites.add(lHumerus);
-			Puppeteer.sprites.add(rHumerus);
-			
-			Puppeteer.sprites.add(body);
-			Puppeteer.sprites.add(head);
-			
-			Puppeteer.sprites.add(lRadius);
-			Puppeteer.sprites.add(rRadius);
-		
-		} else if (it.dirn == 2) {
-			Puppeteer.sprites.add(rHumerus);
-			Puppeteer.sprites.add(rRadius);
-			
-			Puppeteer.sprites.add(rFoot);
-			Puppeteer.sprites.add(rShin);
-			Puppeteer.sprites.add(rThigh);
-			
-			Puppeteer.sprites.add(tailRoot);
-			Puppeteer.sprites.add(tailTip);
-			
-			Puppeteer.sprites.add(body);
-			Puppeteer.sprites.add(head);
-			
-			Puppeteer.sprites.add(lThigh);
-			Puppeteer.sprites.add(lShin);
-			Puppeteer.sprites.add(lFoot);
-			
-			Puppeteer.sprites.add(lHumerus);
-			Puppeteer.sprites.add(lRadius);
-			
-			
-		} else if (it.dirn == 3) {
-			Puppeteer.sprites.add(lHumerus);
-			Puppeteer.sprites.add(lRadius);
-			Puppeteer.sprites.add(lFoot);
-			
-			Puppeteer.sprites.add(lShin);
-			Puppeteer.sprites.add(lThigh);
-			
-			Puppeteer.sprites.add(tailRoot);
-			Puppeteer.sprites.add(tailTip);
-			
-			Puppeteer.sprites.add(body);
-			Puppeteer.sprites.add(head);
-			
-			Puppeteer.sprites.add(rThigh);
-			Puppeteer.sprites.add(rShin);
-			Puppeteer.sprites.add(rFoot);
-			
-			Puppeteer.sprites.add(rHumerus);
-			Puppeteer.sprites.add(rRadius);
-			
-		}
-		Puppeteer.updateSprite();
-	} 
+		// order according to body part so you can easily change this later!!
 
-	//this is long and bad and wet but I'm tired
-	public static String FileInfoToReadableString(PosedCreature it) {
-		//PosedCreature it = Puppeteer.creature;
+			
+			Puppeteer.sprites.add(head); // 0
+			Puppeteer.sprites.add(body); // 1
+			Puppeteer.sprites.add(lThigh); // 2
+			Puppeteer.sprites.add(lShin); // 3
+			Puppeteer.sprites.add(lFoot); // 4
+			Puppeteer.sprites.add(rThigh); // 5
+			Puppeteer.sprites.add(rShin); // 6
+			Puppeteer.sprites.add(rFoot); // 7
+			Puppeteer.sprites.add(lHumerus); // 8
+			Puppeteer.sprites.add(lRadius); // 9
+			Puppeteer.sprites.add(rHumerus); // 10
+			Puppeteer.sprites.add(rRadius); // 11
+			Puppeteer.sprites.add(tailRoot); // 12
+			Puppeteer.sprites.add(tailTip); // 13
+			
+		Puppeteer.updateSprite(layerSpritesByDirn(it.dirn, Puppeteer.sprites));
+	}
+	
+	// this is long and bad and wet but I'm tired
+	public static String FileInfoToReadableString(PosedCreature it)
+	{
+		// PosedCreature it = Puppeteer.creature;
 		String text = "Sprite and ATT Info: \n";
 		int x = 0;
-		text += "**" + CreatureInfo.bodyParts[x] + "**: " +  it.part[x].fileInfo.sprite.getName() 
-		+ isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
+		text += "**" + CreatureInfo.bodyParts[x] + "**: " + it.part[x].fileInfo.sprite.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
 		text += " frame " + it.part[x].fileInfo.frame;
 		text += "\n";
-		text += "Body Data: " +  it.part[x].fileInfo.att.getName() 
-		+ isItDifferent(it.part[0].fileInfo.pendingName, it.part[x].fileInfo.att.getName());
+		text += "Body Data: " + it.part[x].fileInfo.att.getName() + isItDifferent(it.part[0].fileInfo.pendingName, it.part[x].fileInfo.att.getName());
 		text += "\n";
 		text += "Connects to body at " + it.part[x].fileInfo.attFromX + ", " + it.part[x].fileInfo.attFromY;
 		text += "\n";
@@ -211,12 +139,10 @@ public class GenerateCreature
 		text += "\n\n";
 		
 		x++;
-		text += "**" + CreatureInfo.bodyParts[x] + "**: " +  it.part[x].fileInfo.sprite.getName() 
-		+ isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
+		text += "**" + CreatureInfo.bodyParts[x] + "**: " + it.part[x].fileInfo.sprite.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
 		text += " frame " + it.part[x].fileInfo.frame;
 		text += "\n";
-		text += "Body Data: " +  it.part[x].fileInfo.att.getName() 
-		+ isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.att.getName());
+		text += "Body Data: " + it.part[x].fileInfo.att.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.att.getName());
 		text += "\n";
 		text += "Connects to head at " + it.part[x].fileInfo.attToHeadX + ", " + it.part[x].fileInfo.attToHeadY;
 		text += "\n";
@@ -232,30 +158,34 @@ public class GenerateCreature
 		text += "\n\n";
 		
 		x++;
-		String[] connectsFrom = {"body","nothing","body", "left thigh", "left shin", "body", "right thigh", "right shin", 
-				"body", "left humerus", "body", "right humerus", "body", "tail root"}; 
-		String[] connectsTo = {"mouth","everything","left shin", "left foot", "ground", "right shin", "right foot", "ground", "left radius", "held item", "right radius", "held item", "tail tip", "air" }; 
+		String[] connectsFrom =
+		{
+				"body", "nothing", "body", "left thigh", "left shin", "body", "right thigh", "right shin", "body", "left humerus", "body", "right humerus", "body", "tail root"
+		};
+		String[] connectsTo =
+		{
+				"mouth", "everything", "left shin", "left foot", "ground", "right shin", "right foot", "ground", "left radius", "held item", "right radius", "held item", "tail tip", "air"
+		};
 		
-		for (x = 2; x < 14; x++) {
-		
-		text += "**" + CreatureInfo.bodyParts[x] + "**: " +  it.part[x].fileInfo.sprite.getName() 
-		+ isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
-		text += " frame " + it.part[x].fileInfo.frame;
-		text += "\n";
-		text += "Body Data: " +  it.part[x].fileInfo.att.getName() 
-		+ isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.att.getName());
-		text += "\n";
-		text += "Connects to "+ connectsFrom[x] + " at " + it.part[x].fileInfo.attFromX + ", " + it.part[x].fileInfo.attFromY;
-		text += "\n";
-		text += "Connects to "+ connectsTo[x] + " at " + it.part[x].fileInfo.attToX + ", " + it.part[x].fileInfo.attToY;
-		text += "\n\n";
+		for (x = 2; x < 14; x++)
+		{
+			
+			text += "**" + CreatureInfo.bodyParts[x] + "**: " + it.part[x].fileInfo.sprite.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
+			text += " frame " + it.part[x].fileInfo.frame;
+			text += "\n";
+			text += "Body Data: " + it.part[x].fileInfo.att.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.att.getName());
+			text += "\n";
+			text += "Connects to " + connectsFrom[x] + " at " + it.part[x].fileInfo.attFromX + ", " + it.part[x].fileInfo.attFromY;
+			text += "\n";
+			text += "Connects to " + connectsTo[x] + " at " + it.part[x].fileInfo.attToX + ", " + it.part[x].fileInfo.attToY;
+			text += "\n\n";
 		}
 		return text;
-	} 
+	}
 	
-	
-//compares two filenames to tell you why they are different 	
-	public static String whyIsItDifferent(String pendingName, String finalName) {
+	// compares two filenames to tell you why they are different
+	public static String whyIsItDifferent(String pendingName, String finalName)
+	{
 		String reasons = "(";
 		int pGspcs = Integer.parseInt(String.valueOf(pendingName.charAt(1)));
 		int pStage = Integer.parseInt(String.valueOf(pendingName.charAt(2)));
@@ -265,21 +195,30 @@ public class GenerateCreature
 		int fStage = Integer.parseInt(String.valueOf(finalName.charAt(2)));
 		int fSlot = finalName.charAt(3);
 		
-		if (pGspcs != fGspcs); {
-			if (pGspcs - fGspcs == 4) {
+		if (pGspcs != fGspcs)
+			;
+		{
+			if (pGspcs - fGspcs == 4)
+			{
 				reasons += "G";
-			} else if (pGspcs - fGspcs > 4) {
+			}
+			else if (pGspcs - fGspcs > 4)
+			{
 				reasons += "GSp";
-			} else if (pGspcs - fGspcs < 4) {	
+			}
+			else if (pGspcs - fGspcs < 4)
+			{
 				reasons += "Sp";
 			}
 		}
 		
-		if (pStage != fStage) {
+		if (pStage != fStage)
+		{
 			reasons += "Ls";
 		}
 		
-		if (pSlot != fSlot) {
+		if (pSlot != fSlot)
+		{
 			reasons += "Sl";
 		}
 		
@@ -287,23 +226,27 @@ public class GenerateCreature
 		
 		return reasons;
 	}
-
-//returns a blank string if the filenames match, "*" and why it's different if they don't
-	public static String isItDifferent(String pendingName, String name) {
+	
+	// returns a blank string if the filenames match, "*" and why it's different if they don't
+	public static String isItDifferent(String pendingName, String name)
+	{
 		String result = "";
-		String finalName = name.substring(0,4).toLowerCase();
-		if (!pendingName.equals(finalName)) {
-			result += "* " +  whyIsItDifferent(pendingName, finalName);
+		String finalName = name.substring(0, 4).toLowerCase();
+		if (!pendingName.equals(finalName))
+		{
+			result += "* " + whyIsItDifferent(pendingName, finalName);
 		}
 		return result;
 	}
 	
-//this is stuff that actually has to do with sprites
-	public static void updateOneSprite() {
+	// this is stuff that actually has to do with sprites
+	public static void updateOneSprite()
+	{
 		
 	}
 	
-	public static FromC16Converter makeOneSprite(PosedCreature it, int part) {
+	public static FromC16Converter makeOneSprite(PosedCreature it, int part)
+	{
 		FromC16Converter sprite = new FromC16Converter();
 		try
 		{
@@ -317,5 +260,51 @@ public class GenerateCreature
 		return sprite;
 	}
 	
-	
+	// this orders your sprites so they layer/draw in the right order
+	// this assumes they are already ordered according to body part index!
+	public static List<DisplayedSprite> layerSpritesByDirn(int dirn, List<DisplayedSprite> unlayeredSprites)
+	{
+		List<DisplayedSprite> layeredSprites = new ArrayList<>();
+		// here is how to order them-- remember lower layer part sprites are drawn first
+		int[] order;
+		int[] orderBack =
+		{
+				2, 5, 1, 0, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13
+		};
+		int[] orderFront =
+		{
+				13, 12, 5, 6, 7, 2, 3, 4, 8, 10, 1, 0, 9, 11
+		};
+		int[] orderLeft =
+		{
+				10, 11, 7, 6, 5, 12, 13, 1, 0, 2, 3, 4, 8, 9
+		};
+		int[] orderRight =
+		{
+				8, 9, 4, 3, 2, 12, 13, 1, 0, 5, 6, 7, 10, 11
+		};
+		
+		if (dirn == 0)
+		{
+			order = orderBack;
+		}
+		else if (dirn == 1)
+		{
+			order = orderFront;
+		}
+		else if (dirn == 2)
+		{
+			order = orderLeft;
+		}
+		else
+		{
+			order = orderRight;
+		}
+		
+		for (int i : order ) {
+		layeredSprites.add(Puppeteer.sprites.get(i));
+		}
+		return layeredSprites;
+		
+	}
 }
