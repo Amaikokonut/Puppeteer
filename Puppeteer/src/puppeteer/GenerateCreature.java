@@ -1,8 +1,11 @@
 package puppeteer;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 import puppeteer.SpriteCollectionComponent.DisplayedSprite;
 import rebound.jagent.lib.FormatMismatchException;
 import rebound.jagent.lib.c16.FromC16Converter;
@@ -12,8 +15,8 @@ public class GenerateCreature
 	public static void DrawCreatureFromScratch(PosedCreature it)
 	{
 		// DON'T DO THIS if there are no files!! Problems will totally happen
-		if (Configgles.gamePaths.size() > 0)
-		{
+		if (Configgles.gamePaths.size() == 0)
+		{ return; }
 			// Output your ATT info to the window
 			Puppeteer.updateAttInfo(FileInfoToReadableString(it));
 			
@@ -121,8 +124,7 @@ public class GenerateCreature
 			Puppeteer.sprites.add(tailRoot); // 12
 			Puppeteer.sprites.add(tailTip); // 13
 			
-			Puppeteer.updateSprite(layerSpritesByDirn(it.dirn, Puppeteer.sprites));
-		}
+			Puppeteer.updateSprite(layerSpritesByDirn(it.dirn, Puppeteer.sprites));		
 	}
 	
 	// this is long and bad and wet but I'm tired
@@ -311,4 +313,24 @@ public class GenerateCreature
 		return layeredSprites;
 		
 	}
+	public static void drawErrorSprite() {
+		//if there aren't any directories, make that default sprite
+		BufferedImage default404Sprite = null;
+		
+		try
+		{
+			default404Sprite = ImageIO.read(new File("norn.png"));
+		}
+		catch (IOException e2)
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		DisplayedSprite defaultSprite = new DisplayedSprite(default404Sprite, 0, 0);
+		List<DisplayedSprite> defaultSprites = new ArrayList<>();
+		defaultSprites.add(defaultSprite);
+		Puppeteer.updateSprite(defaultSprites);
+	}
 }
+

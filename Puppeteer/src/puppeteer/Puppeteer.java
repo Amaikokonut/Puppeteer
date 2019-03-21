@@ -45,7 +45,7 @@ public class Puppeteer
 	
 	private JFrame frmPuppeteer;
 	// generate the initial default creature:
-	static PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
+	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
 	// and the initial selected part for that matter
 	int selectedPart = 0;
 	
@@ -96,7 +96,7 @@ public class Puppeteer
 		displayCreature.setSpritesAndRepaint(layeredSprites);
 	}
 	
-	public static void GenerateCreature()
+	public static void GenerateNewCreature()
 	{
 		GenerateCreature.DrawCreatureFromScratch(new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0));
 		

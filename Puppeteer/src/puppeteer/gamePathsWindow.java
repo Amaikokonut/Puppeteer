@@ -44,8 +44,9 @@ extends JDialog
 			{
 				if (Configgles.gamePaths.size() == 0) {
 					JOptionPane.showMessageDialog(null, "At least one Creatures 3 or Docking Station game path is required to use this tool.");
+					GenerateCreature.drawErrorSprite();
 				} else { 
-					Puppeteer.GenerateCreature(); }
+					Puppeteer.GenerateNewCreature(); }
 				dispose();
 			}
 		});
