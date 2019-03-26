@@ -270,6 +270,7 @@ public class Puppeteer
 		pnlMainDirn.add(lblDirection);
 		
 		JComboBox comboMainDirn = new JComboBox(CreatureInfo.dirn);
+		comboMainDirn.setSelectedIndex(1);
 		comboMainDirn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -278,7 +279,7 @@ public class Puppeteer
 				updatePartsUI();
 			}
 		});
-		comboMainDirn.setSelectedIndex(1);
+		
 		pnlMainDirn.add(comboMainDirn);
 		
 		JPanel pnlExpression = new JPanel();
@@ -367,9 +368,10 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				if(comboPartSelector.hasFocus()) {
 				selectedPart = comboPartSelector.getSelectedIndex();
 				updatePartsUI();
-				
+				}
 			}
 		});
 		panelParts.add(comboPartSelector);
@@ -384,7 +386,9 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				if (comboPartSpecies.hasFocus()) {
 				creature.part[selectedPart].UpdateSpcs(comboPartSpecies.getSelectedIndex());
+				}
 			}
 		});
 		panelPartSpcsSlot.add(comboPartSpecies);
@@ -397,9 +401,11 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				if (comboPartSlot.hasFocus()) {
 				char x = 'a';
 				x += comboPartSlot.getSelectedIndex();
 				creature.part[selectedPart].UpdateSlot(x);
+				}
 			}
 		});
 		panelPartSpcsSlot.add(comboPartSlot);
@@ -425,7 +431,9 @@ public class Puppeteer
 				{
 					// do something here maybe
 				}
-				creature.part[selectedPart].UpdatePose((Integer) spinPartPose.getValue());
+				if (spinPartPose.hasFocus()) {
+					creature.part[selectedPart].UpdatePose((Integer) spinPartPose.getValue());
+				}
 			}
 		});
 		spinPartPose.setModel(new SpinnerNumberModel(0, 0, 3, 1));
@@ -442,7 +450,10 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				creature.part[selectedPart].UpdateDirn(comboPartDirn.getSelectedIndex());
+				if (comboPartDirn.hasFocus())
+				{
+					creature.part[selectedPart].UpdateDirn(comboPartDirn.getSelectedIndex());
+				}
 			}
 		});
 		pnlPartDirn.add(comboPartDirn);
@@ -465,8 +476,9 @@ public class Puppeteer
 				{
 					// do something here maybe
 				}
+				if (spinXoffset.hasFocus()) {
 				creature.part[selectedPart].UpdateX((Integer) spinXoffset.getValue());
-				
+				}
 			}
 		});
 		spinXoffset.setModel(new SpinnerNumberModel(0, -255, 255, 1));
@@ -490,7 +502,9 @@ public class Puppeteer
 				{
 					// do something here maybe
 				}
+				if (spinYoffset.hasFocus()) {
 				creature.part[selectedPart].UpdateY((Integer) spinYoffset.getValue());
+				}
 			}
 		});
 		spinYoffset.setModel(new SpinnerNumberModel(0, -255, 255, 1));

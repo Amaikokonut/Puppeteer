@@ -2,7 +2,8 @@ package puppeteer;
 
 import java.io.IOException;
 
-public class PosedPart {
+public class PosedPart
+{
 	int part;
 	int spcs;
 	int mf;
@@ -15,82 +16,89 @@ public class PosedPart {
 	PosedCreature origin;
 	FileInfo fileInfo;
 	
-	
-	public PosedPart(PosedCreature origin, int part, int spcs, int mf, char slot, int pose, int dirn, int x, int y) {
+	public PosedPart(PosedCreature origin, int part, int spcs, int mf, char slot, int pose, int dirn, int x, int y)
+	{
 		this.origin = origin;
 		this.part = part;
 		this.spcs = spcs;
 		this.mf = mf;
-//important to know that gspcs is the combo of mf and spcs, a 0-7 index traced to CreatureInfo.speciesList 
-		this.gspcs = CreatureInfo.GetSpcs (mf, spcs);
+		// important to know that gspcs is the combo of mf and spcs, a 0-7 index traced to CreatureInfo.speciesList
+		this.gspcs = CreatureInfo.GetSpcs(mf, spcs);
 		this.slot = slot;
 		this.pose = pose;
 		this.dirn = dirn;
 		this.x = x;
 		this.y = y;
-//get the info for your file
-		try
-		{
+		// get the info for your file
 			this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//GenerateCreature.DrawCreatureFromScratch(this.origin);
+
+		// GenerateCreature.DrawCreatureFromScratch(this.origin);
 		
 	}
 	
-	public void UpdateFileInfo() {
-		try
+	public void updateFile()
+	{
+		//obviously don't update fileInfo if there's no files
+		if (Configgles.gamePaths.size() > 0)
 		{
-			this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+				this.fileInfo.updateFile(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
+				GenerateCreature.UpdateAndDisplayPart(this.part, this.origin);
+		}		
 	}
 	
-	public void UpdateSpcs(int spcs) {
+	public void updateFrame()
+	{
+		//obviously don't update fileInfo if there's no files
+		if (Configgles.gamePaths.size() > 0)
+		{
+				this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
+				GenerateCreature.UpdateAndDisplayPart(this.part, this.origin);
+		}		
+	}
+	
+	public void UpdateSpcs(int spcs)
+	{
 		this.spcs = spcs;
-		//important to know that gspcs is the combo of mf and spcs, a 0-7 index traced to CreatureInfo.speciesList 
-		this.gspcs = CreatureInfo.GetSpcs (mf, spcs);
-		UpdateFileInfo();
+		// important to know that gspcs is the combo of mf and spcs, a 0-7 index traced to CreatureInfo.speciesList
+		this.gspcs = CreatureInfo.GetSpcs(mf, spcs);
+		updateFile();
 	}
 	
-	public void UpdateMF(int mf) {
+	public void UpdateMF(int mf)
+	{
 		this.mf = mf;
-		this.gspcs = CreatureInfo.GetSpcs (mf, spcs);
-		UpdateFileInfo();
+		this.gspcs = CreatureInfo.GetSpcs(mf, spcs);
+		updateFile();
 	}
 	
-	public void UpdateSlot(char slot) {
+	public void UpdateSlot(char slot)
+	{
 		this.slot = slot;
-		UpdateFileInfo();
+		updateFile();
 	}
 	
-	public void UpdatePose(int pose) {
+	public void UpdatePose(int pose)
+	{
 		this.pose = pose;
-		UpdateFileInfo();
+		updateFrame();
 	}
 	
-	public void UpdateDirn(int dirn) {
+	public void UpdateDirn(int dirn)
+	{
 		this.dirn = dirn;
-		UpdateFileInfo();
+		updateFrame();
 	}
 	
-	public void UpdateX(int x) {
+	public void UpdateX(int x)
+	{
 		this.x = x;
-		UpdateFileInfo();
+		updateFrame();
 	}
 	
-	public void UpdateY(int y) {
+	public void UpdateY(int y)
+	{
 		this.y = y;
-		UpdateFileInfo();
+		updateFrame();
 	}
 	
 }

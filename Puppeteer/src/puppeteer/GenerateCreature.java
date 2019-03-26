@@ -136,7 +136,9 @@ public class GenerateCreature
 		for (int i = 0; i < 14; i++) {
 			Puppeteer.sprites.add(null);
 			}
-		updatePart(1, it, 50, 50, Puppeteer.sprites);
+		//you only need to generate part 1 (body) and the rest will follow
+		//since they are all attached to the body!
+		generatePart(1, it, 50, 50, Puppeteer.sprites);
 		Puppeteer.updateSprite(layerSpritesByDirn(it.dirn, Puppeteer.sprites));
 	}
 	
@@ -349,8 +351,11 @@ public class GenerateCreature
 	}
 	
 	// update an existing part (and make sure all your kids are updated)
-	public static void updatePart(int part, PosedCreature it, int toX, int toY, List<DisplayedSprite> sprites)
+	public static void generatePart(int part, PosedCreature it, int toX, int toY, List<DisplayedSprite> sprites)
 	{
+		// update yourself to remember where your attachment to your parent is
+		it.part[part].fileInfo.parentToX = toX;
+		it.part[part].fileInfo.parentToX = toY;
 		// make your converter:
 		FromC16Converter partConv = makeOneSprite(it, part);
 		// everything that's not the body:
@@ -375,7 +380,7 @@ public class GenerateCreature
 				
 				int kidPart = part + 1;
 				
-				updatePart(kidPart, it, myToX, myToY,sprites);
+				generatePart(kidPart, it, myToX, myToY,sprites);
 			}
 			
 		//the body part is its own beast, mostly because it has so many kids:
@@ -387,29 +392,36 @@ public class GenerateCreature
 			//part 0, the head:
 			int kidX = toX + it.part[part].fileInfo.attToHeadX;
 			int kidY = toY + it.part[part].fileInfo.attToHeadY;
-			updatePart(0, it, kidX, kidY,sprites);
+			generatePart(0, it, kidX, kidY,sprites);
 			// 2, left leg
 			kidX = toX + it.part[part].fileInfo.attToLeftLegX;
 			kidY = toY + it.part[part].fileInfo.attToLeftLegY;
-			updatePart(2, it, kidX, kidY,sprites);
+			generatePart(2, it, kidX, kidY,sprites);
 			// 5, right leg
 			kidX = toX + it.part[part].fileInfo.attToRightLegX;
 			kidY = toY + it.part[part].fileInfo.attToRightLegY;
-			updatePart(5, it, kidX, kidY,sprites);
+			generatePart(5, it, kidX, kidY,sprites);
 			// 8, left arm
 			kidX = toX + it.part[part].fileInfo.attToLeftArmX;
 			kidY = toY + it.part[part].fileInfo.attToLeftArmY;
-			updatePart(8, it, kidX, kidY,sprites);
+			generatePart(8, it, kidX, kidY,sprites);
 			// 10, right arm
 			kidX = toX + it.part[part].fileInfo.attToRightArmX;
 			kidY = toY + it.part[part].fileInfo.attToRightArmY;
-			updatePart(10, it, kidX, kidY,sprites);
+			generatePart(10, it, kidX, kidY,sprites);
 			// 12, tail
 			kidX = toX + it.part[part].fileInfo.attToTailX;
 			kidY = toY + it.part[part].fileInfo.attToTailY;
-			updatePart(12, it, kidX, kidY,sprites);
+			generatePart(12, it, kidX, kidY,sprites);
 					
 		}
 		
 	}
+// probably called by something when a user changes literally One Body Part
+	public static void UpdateAndDisplayPart(int part, PosedCreature it) {
+		generatePart(part, it, it.part[part].fileInfo.parentToX, it.part[part].fileInfo.parentToY, Puppeteer.sprites);
+		Puppeteer.updateSprite(layerSpritesByDirn(it.dirn, Puppeteer.sprites));
+	}
+	
+	
 }
