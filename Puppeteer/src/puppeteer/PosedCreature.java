@@ -125,15 +125,15 @@ public class PosedCreature {
 		this.eyes = eyes;
 		//parts don't have individual.... eyes.. what, of course not
 		//why would you think that
-			part[0].updateFrame();
-		GenerateCreature.DrawCreatureFromScratch(this);
+			part[0].updateFace();
+		GenerateCreature.UpdateAndDisplayPart(0,this);
 	}
 	
 	public void UpdateExpression(int expression) {
 		this.expression = expression;
 		//parts don't have individual.... expressions.. what, of course not
 		//why would you think that
-		part[0].updateFrame();
-		GenerateCreature.DrawCreatureFromScratch(this);
+		part[0].updateFace();
+		GenerateCreature.UpdateAndDisplayPart(0,this);
 	}
 }

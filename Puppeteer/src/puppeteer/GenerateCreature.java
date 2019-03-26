@@ -355,16 +355,16 @@ public class GenerateCreature
 	{
 		// update yourself to remember where your attachment to your parent is
 		it.part[part].fileInfo.parentToX = toX;
-		it.part[part].fileInfo.parentToX = toY;
+		it.part[part].fileInfo.parentToY = toY;
 		// make your converter:
 		FromC16Converter partConv = makeOneSprite(it, part);
 		// everything that's not the body:
 		if (part != 1)
 		{
 			// your toX/Y should be the point at which you need to attach your FromX/Y to (basically your parent's position +
-			// their toX/Y)
-			int myX = toX - it.part[part].fileInfo.attFromX;
-			int myY = toY - it.part[part].fileInfo.attFromY;
+			// their toX/Y) + your offset, if any.
+			int myX = toX - it.part[part].fileInfo.attFromX + it.part[part].x;
+			int myY = toY - it.part[part].fileInfo.attFromY + it.part[part].y;
 			DisplayedSprite sprite = new DisplayedSprite(partConv.getFrames()[it.part[part].fileInfo.frame], myX, myY);
 			sprites.set(part, sprite);
 			
@@ -419,6 +419,7 @@ public class GenerateCreature
 	}
 // probably called by something when a user changes literally One Body Part
 	public static void UpdateAndDisplayPart(int part, PosedCreature it) {
+		//System.out.println("Drawing part " + part + " relative to " + it.part[part].fileInfo.parentToX + "," + it.part[part].fileInfo.parentToY);
 		generatePart(part, it, it.part[part].fileInfo.parentToX, it.part[part].fileInfo.parentToY, Puppeteer.sprites);
 		Puppeteer.updateSprite(layerSpritesByDirn(it.dirn, Puppeteer.sprites));
 	}

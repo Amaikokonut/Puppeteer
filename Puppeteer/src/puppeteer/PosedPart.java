@@ -32,7 +32,7 @@ public class PosedPart
 		// get the info for your file
 			this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
 
-		// GenerateCreature.DrawCreatureFromScratch(this.origin);
+		//System.out.println("Part " + part + " was created");
 		
 	}
 	
@@ -42,7 +42,6 @@ public class PosedPart
 		if (Configgles.gamePaths.size() > 0)
 		{
 				this.fileInfo.updateFile(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
-				GenerateCreature.UpdateAndDisplayPart(this.part, this.origin);
 		}		
 	}
 	
@@ -52,7 +51,15 @@ public class PosedPart
 		if (Configgles.gamePaths.size() > 0)
 		{
 				this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
-				GenerateCreature.UpdateAndDisplayPart(this.part, this.origin);
+		}		
+	}
+	
+	public void updateFace()
+	{
+		//obviously don't update fileInfo if there's no files
+		if (Configgles.gamePaths.size() > 0)
+		{
+				this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
 		}		
 	}
 	

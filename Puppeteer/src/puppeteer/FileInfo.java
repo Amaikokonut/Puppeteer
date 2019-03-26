@@ -63,6 +63,14 @@ public class FileInfo
 		updateFrame(part, pose, dirn, expression, eyes);
 	}
 	
+	//call this if you only need to update the face for eyes/expression change 
+	//(no att updates)
+	public void updateFace(int part, int pose, int dirn, int expression, int eyes)
+	{
+		this.frame = getFrame(part, pose, dirn, expression, eyes);
+	}
+	
+	
 	// call this if you only need to update the frame of an established file
 	// (dirn, pose, expression, or eye changes)
 	// this will skip all the file-finding stuff
