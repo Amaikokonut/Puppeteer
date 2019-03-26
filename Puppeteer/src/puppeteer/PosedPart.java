@@ -52,6 +52,7 @@ public class PosedPart {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public void UpdateSpcs(int spcs) {

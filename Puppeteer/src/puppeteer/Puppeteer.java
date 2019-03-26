@@ -67,7 +67,7 @@ public class Puppeteer
 	JSpinner spinYoffset = new JSpinner();
 	static JTextArea txtrAttInfo = new JTextArea();
 	// Default image for now~
-	static List<DisplayedSprite> sprites = new ArrayList<>();
+	static List<DisplayedSprite> sprites = new ArrayList<>(14);
 	static SpriteCollectionComponent displayCreature = new SpriteCollectionComponent(sprites);
 	
 	// a method to properly update body part UI bits
