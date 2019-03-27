@@ -23,15 +23,15 @@ public class trimBlankPixels
     //TRIM X
     int xInclusiveLowBound = initialWidth;
     int xInclusiveHighBound = 0;
-    for(int i = 0; i < initialHeight; i++) {
-        for(int j = initialWidth - 1; j >= 0; j--) {
-            if(img.getRGB(j, i) != transparent &&
-                    j < xInclusiveLowBound) {
-                xInclusiveLowBound = j;
+    for(int y = 0; y < initialHeight; y++) {
+        for(int x = initialWidth - 1; x >= 0; x--) {
+            if(img.getRGB(x, y) != transparent &&
+                    x < xInclusiveLowBound) {
+                xInclusiveLowBound = x;
             }
-            if(img.getRGB(j, i) != transparent &&
-                    j > xInclusiveHighBound) {
-                xInclusiveHighBound = j;
+            if(img.getRGB(x, y) != transparent &&
+                    x > xInclusiveHighBound) {
+                xInclusiveHighBound = x;
                 break;
             }
         }
@@ -40,15 +40,15 @@ public class trimBlankPixels
     //TRIM Y
     int yInclusiveLowBound = initialHeight;
     int yInclusiveHighBound = 0;
-    for(int i = 0; i < initialWidth; i++) {
-        for(int j = initialHeight - 1; j >= 0; j--) {
-            if(img.getRGB(i, j) != transparent &&
-                    j < yInclusiveLowBound) {
-                yInclusiveLowBound = j;
+    for(int x = 0; x < initialWidth; x++) {
+        for(int y = initialHeight - 1; y >= 0; y--) {
+            if(img.getRGB(x, y) != transparent &&
+                    y < yInclusiveLowBound) {
+                yInclusiveLowBound = y;
             }
-            if(img.getRGB(i, j) != transparent &&
-                    j > yInclusiveHighBound) {
-                yInclusiveHighBound = j;
+            if(img.getRGB(x, y) != transparent &&
+                    y > yInclusiveHighBound) {
+                yInclusiveHighBound = y;
                 break;
             }
         }
