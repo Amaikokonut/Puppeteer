@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
@@ -21,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -39,6 +41,7 @@ import puppeteer.SpriteCollectionComponent.DisplayedSprite;
 import tests.ShowImage;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
+import puppeteer.trimBlankPixels;
 
 public class Puppeteer
 {
@@ -261,7 +264,7 @@ public class Puppeteer
 			}
 		});
 		pnlMainPose.add(spinMainPose);
-		spinMainPose.setModel(new SpinnerNumberModel(0, 0, 32, 1));
+		spinMainPose.setModel(new SpinnerNumberModel(0, 0, 3, 1));
 		
 		JPanel pnlMainDirn = new JPanel();
 		panelMain.add(pnlMainDirn);
@@ -368,9 +371,10 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if(comboPartSelector.hasFocus()) {
-				selectedPart = comboPartSelector.getSelectedIndex();
-				updatePartsUI();
+				if (comboPartSelector.hasFocus())
+				{
+					selectedPart = comboPartSelector.getSelectedIndex();
+					updatePartsUI();
 				}
 			}
 		});
@@ -386,9 +390,10 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (comboPartSpecies.hasFocus()) {
-				creature.part[selectedPart].UpdateSpcs(comboPartSpecies.getSelectedIndex());
-				GenerateCreature.UpdateAndDisplayPart(selectedPart,creature);
+				if (comboPartSpecies.hasFocus())
+				{
+					creature.part[selectedPart].UpdateSpcs(comboPartSpecies.getSelectedIndex());
+					GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
 				}
 			}
 		});
@@ -402,11 +407,12 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (comboPartSlot.hasFocus()) {
-				char x = 'a';
-				x += comboPartSlot.getSelectedIndex();
-				creature.part[selectedPart].UpdateSlot(x);
-				GenerateCreature.UpdateAndDisplayPart(selectedPart,creature);
+				if (comboPartSlot.hasFocus())
+				{
+					char x = 'a';
+					x += comboPartSlot.getSelectedIndex();
+					creature.part[selectedPart].UpdateSlot(x);
+					GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
 				}
 			}
 		});
@@ -433,10 +439,10 @@ public class Puppeteer
 				{
 					// do something here maybe
 				}
-				//if (spinPartPose.hasFocus()) {
-					creature.part[selectedPart].UpdatePose((Integer) spinPartPose.getValue());
-					GenerateCreature.UpdateAndDisplayPart(selectedPart,creature);
-				//}
+				// if (spinPartPose.hasFocus()) {
+				creature.part[selectedPart].UpdatePose((Integer) spinPartPose.getValue());
+				GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
+				// }
 			}
 		});
 		spinPartPose.setModel(new SpinnerNumberModel(0, 0, 3, 1));
@@ -456,7 +462,7 @@ public class Puppeteer
 				if (comboPartDirn.hasFocus())
 				{
 					creature.part[selectedPart].UpdateDirn(comboPartDirn.getSelectedIndex());
-					GenerateCreature.UpdateAndDisplayPart(selectedPart,creature);
+					GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
 				}
 			}
 		});
@@ -480,10 +486,10 @@ public class Puppeteer
 				{
 					// do something here maybe
 				}
-
+				
 				creature.part[selectedPart].UpdateX((Integer) spinXoffset.getValue());
-				GenerateCreature.UpdateAndDisplayPart(selectedPart,creature);
-
+				GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
+				
 			}
 		});
 		spinXoffset.setModel(new SpinnerNumberModel(0, -255, 255, 1));
@@ -507,14 +513,21 @@ public class Puppeteer
 				{
 					// do something here maybe
 				}
-
+				
 				creature.part[selectedPart].UpdateY((Integer) spinYoffset.getValue());
-				GenerateCreature.UpdateAndDisplayPart(selectedPart,creature);
+				GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
 				
 			}
 		});
 		spinYoffset.setModel(new SpinnerNumberModel(0, -255, 255, 1));
 		pnlPartOffsets.add(spinYoffset);
+		
+		JLabel lblGeneticPoseCombos = new JLabel("Genetic Pose Combos");
+		lblGeneticPoseCombos.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panelParts.add(lblGeneticPoseCombos);
+		
+		JComboBox comboBox = new JComboBox();
+		panelParts.add(comboBox);
 		
 		JPanel panelExperimental = new JPanel();
 		frmPuppeteer.getContentPane().add(panelExperimental);
@@ -610,6 +623,57 @@ public class Puppeteer
 		});
 		
 		mnFile.add(mntmSetGameDirectories);
+		
+		JMenuItem mntmSaveImage = new JMenuItem("Save image");
+		mntmSaveImage.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				// pull up the save dialog box
+				JFileChooser jfc = new JFileChooser();
+				int retVal = jfc.showSaveDialog(null);
+				if (retVal == JFileChooser.APPROVE_OPTION)
+				{
+					
+					displayCreature.setBackground(new Color(0, 0, 0, 0));
+					BufferedImage img = new BufferedImage(displayCreature.getWidth(), displayCreature.getHeight(), BufferedImage.TYPE_INT_ARGB);
+					Graphics g = img.createGraphics();
+					displayCreature.paint(g);
+					g.dispose();
+					BufferedImage imgCropped = trimBlankPixels.TrimImage(img);
+					
+					File file = jfc.getSelectedFile();
+					//we have to force a png extension, sigh
+					String ext = "";
+					if(file.getName().contains("."))
+					{
+					    String parts[] = file.getName().split("\\.");
+					    ext = parts[parts.length - 1];
+					}
+					
+					if (ext.equalsIgnoreCase("png"))
+					{
+						// filename is OK as-is
+						
+					}
+					else
+					{
+						file = new File(file.toString() + ".png"); // append .xml if "foo.jpg.xml" is OK
+					}
+					
+					try
+					{
+						ImageIO.write(imgCropped, "png", file);
+					}
+					catch (IOException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		mnFile.add(mntmSaveImage);
 		
 		if (Configgles.gamePaths.size() == 0)
 		{
