@@ -14,56 +14,74 @@ public class trimBlankPixels
 
 {
     public static BufferedImage TrimImage(BufferedImage img) {
-    int imgHeight = img.getHeight();
-    int imgWidth  = img.getWidth();
-    int transparent = (0 & 0xff) << 24 | (0 & 0xff) << 16 | (0 & 0xff) << 8 | (0 & 0xff);
+	final int initialWidth  = img.getWidth();
+    final int initialHeight = img.getHeight();
+    
+    //int transparent = getARGB32(0, 0, 0, 0);
+    final int transparent = 0;  //this works for any arrangement of channels XD
 
-    //TRIM WIDTH
-    int widthStart  = imgWidth;
-    int widthEnd = 0;
-    for(int i = 0; i < imgHeight; i++) {
-        for(int j = imgWidth - 1; j >= 0; j--) {
+    //TRIM X
+    int xInclusiveLowBound = initialWidth;
+    int xInclusiveHighBound = 0;
+    for(int i = 0; i < initialHeight; i++) {
+        for(int j = initialWidth - 1; j >= 0; j--) {
             if(img.getRGB(j, i) != transparent &&
-                    j < widthStart) {
-                widthStart = j;
+                    j < xInclusiveLowBound) {
+                xInclusiveLowBound = j;
             }
             if(img.getRGB(j, i) != transparent &&
-                    j > widthEnd) {
-                widthEnd = j;
+                    j > xInclusiveHighBound) {
+                xInclusiveHighBound = j;
                 break;
             }
         }
     }
-    //TRIM HEIGHT
-    int heightStart = imgHeight;
-    int heightEnd = 0;
-    for(int i = 0; i < imgWidth; i++) {
-        for(int j = imgHeight - 1; j >= 0; j--) {
+    
+    //TRIM Y
+    int yInclusiveLowBound = initialHeight;
+    int yInclusiveHighBound = 0;
+    for(int i = 0; i < initialWidth; i++) {
+        for(int j = initialHeight - 1; j >= 0; j--) {
             if(img.getRGB(i, j) != transparent &&
-                    j < heightStart) {
-                heightStart = j;
+                    j < yInclusiveLowBound) {
+                yInclusiveLowBound = j;
             }
             if(img.getRGB(i, j) != transparent &&
-                    j > heightEnd) {
-                heightEnd = j;
+                    j > yInclusiveHighBound) {
+                yInclusiveHighBound = j;
                 break;
             }
         }
     }
 
     //adjustments might be needed
-    if (widthStart > 0)
-    	widthStart--;
-    if (heightStart > 0)
-    	heightStart--;
+    if (xInclusiveLowBound > 0)
+    	xInclusiveLowBound--;
+    if (yInclusiveLowBound > 0)
+    	yInclusiveLowBound--;
     
-    int finalWidth = widthEnd - widthStart;
-    int finalHeight = heightEnd - heightStart;
     
-    finalWidth++;
-    finalHeight++;
+    // For anything; string/array/list indexes/sizes, x's/widths, y's/heights, matrix elements—anything :D
+    //	ExclusiveHighBound = InclusiveHighBound + 1
+    //	Interval Size = ExclusiveHighBound - InclusiveLowBound
+    //	Interval Size = (InclusiveHighBound + 1) - InclusiveLowBound
+    //	Interval Size = InclusiveHighBound + 1 - InclusiveLowBound
+    //	Interval Size = InclusiveHighBound - InclusiveLowBound + 1
+    //		^w^
     
-    return img.getSubimage(widthStart, heightStart, finalWidth, finalHeight);
+    final int finalWidth = xInclusiveHighBound - xInclusiveLowBound + 1;
+    final int finalHeight = yInclusiveHighBound - yInclusiveLowBound + 1;
+    
+    return img.getSubimage(xInclusiveLowBound, yInclusiveLowBound, finalWidth, finalHeight);
 }
+    
+    
+    
+    
+    
+    public static int getARGB32(int alpha, int red, int green, int blue)
+    {
+    	return (alpha & 0xff) << 24 | (red & 0xff) << 16 | (green & 0xff) << 8 | (blue & 0xff);
+    }
 }
 
