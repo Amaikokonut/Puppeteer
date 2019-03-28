@@ -139,7 +139,7 @@ public class FileInfo
 	
 	// this gets the sprite file frame for the part/pose/direction/expression in question.
 	// expression only really matters if the part in question is the head (part 0)
-	public static int getFrame(int part, int pose, int dirn, int expression, int eyes)
+	public int getFrame(int part, int pose, int dirn, int expression, int eyes)
 	{
 		// this is wrong, fix this
 		int frame = 4 * (3 - dirn) + pose;
