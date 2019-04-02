@@ -526,8 +526,15 @@ public class Puppeteer
 		lblGeneticPoseCombos.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panelParts.add(lblGeneticPoseCombos);
 		
-		JComboBox comboBox = new JComboBox();
-		panelParts.add(comboBox);
+		JComboBox comboBoxGeneticPose = new JComboBox(CreaturePoseLibrary.poseList.toArray());
+		comboBoxGeneticPose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreaturePoseLibrary.setCreaturePose(comboBoxGeneticPose.getSelectedIndex(),creature);
+				GenerateCreature.DrawCreatureFromScratch(creature);
+				updatePartsUI();
+			}
+		});
+		panelParts.add(comboBoxGeneticPose);
 		
 		JPanel panelExperimental = new JPanel();
 		frmPuppeteer.getContentPane().add(panelExperimental);

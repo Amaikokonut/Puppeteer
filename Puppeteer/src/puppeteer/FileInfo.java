@@ -141,7 +141,6 @@ public class FileInfo
 	// expression only really matters if the part in question is the head (part 0)
 	public int getFrame(int part, int pose, int dirn, int expression, int eyes)
 	{
-		// this is wrong, fix this
 		int frame = 4 * (3 - dirn) + pose;
 		// if we're dealing with the head part, we need to account for facial expression and eyes
 		if (part == 0)
