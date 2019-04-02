@@ -1,4 +1,10 @@
 # Puppeteer
-Creature Pose Viewer for Creatures Docking Station
+Creature Pose Viewer (and maybe eventually more) for Creatures Docking Station. Occasionally works sometimes.
 
-....None of this really works yet D:
+Depends on:
+* https://github.com/PuppyPi/jagent-core
+
+Which in turn depends on:
+* https://github.com/PuppyPi/rebound-core
+* https://github.com/PuppyPi/dependency-annotations
+* https://github.com/PuppyPi/javax-annotation
