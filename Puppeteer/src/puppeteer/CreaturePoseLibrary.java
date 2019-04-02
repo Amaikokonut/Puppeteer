@@ -264,13 +264,10 @@ public class CreaturePoseLibrary
 		String[] poseString = poseStrings.get(pose).split("");
 		for (int i = 0; i < 16; i++)
 		{
-			System.out.println(poseString[i]);
 			// we're going to ignore any direction/pose that's not a specific one
 			if (!poseString[i].equals("X") && !poseString[i].equals("!") && !poseString[i].equals("?"))
 			{
 				// okay, it's a number
-				System.out.println(i);
-				System.out.println("Passes");
 				int x = Integer.parseInt(poseString[i]);	
 				//if this is the first character of the string, we're dealing with the direction:
 				if (i == 0) {

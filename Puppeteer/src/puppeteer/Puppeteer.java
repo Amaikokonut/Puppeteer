@@ -544,9 +544,11 @@ public class Puppeteer
 		panelExperimental.add(lblExperimentalControls);
 		
 		JButton btnRandomizeParts = new JButton("Randomize Parts");
+		btnRandomizeParts.setEnabled(false);
 		panelExperimental.add(btnRandomizeParts);
 		
 		JButton btnRandomizePose = new JButton("Randomize Pose");
+		btnRandomizePose.setEnabled(false);
 		panelExperimental.add(btnRandomizePose);
 		
 		JLabel lblTestHybrids = new JLabel("Test Hybrid Creatures:");
@@ -559,6 +561,7 @@ public class Puppeteer
 		pnlBreedTestMom.add(lblBreed);
 		
 		JComboBox comboBreedTestMom = new JComboBox();
+		comboBreedTestMom.setEnabled(false);
 		pnlBreedTestMom.add(comboBreedTestMom);
 		comboBreedTestMom.setModel(new DefaultComboBoxModel(new String[]
 		{
@@ -572,6 +575,7 @@ public class Puppeteer
 		pnlBreedTestDad.add(lblWith);
 		
 		JComboBox comboBreedTestDad = new JComboBox();
+		comboBreedTestDad.setEnabled(false);
 		pnlBreedTestDad.add(comboBreedTestDad);
 		comboBreedTestDad.setModel(new DefaultComboBoxModel(new String[]
 		{
@@ -579,6 +583,7 @@ public class Puppeteer
 		}));
 		
 		JButton btnGo = new JButton("Go!");
+		btnGo.setEnabled(false);
 		btnGo.addActionListener(new ActionListener()
 		{
 			// this is a very temporary testing-only action
@@ -598,6 +603,7 @@ public class Puppeteer
 		panelExperimental.add(btnGo);
 		
 		JButton btnPrintDebugInfo = new JButton("Print Debug Info");
+		btnPrintDebugInfo.setEnabled(false);
 		btnPrintDebugInfo.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
