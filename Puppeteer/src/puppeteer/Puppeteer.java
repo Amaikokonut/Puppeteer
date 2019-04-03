@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
@@ -687,6 +688,24 @@ public class Puppeteer
 			}
 		});
 		mnFile.add(mntmSaveImage);
+		
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//replace with something more externalized eventually
+				JOptionPane.showMessageDialog(null, "Puppeteer \n\n"
+				+ "Developed (in large part) by Amaikokonut (amaikokonut@songua.com)\n\n"
+				+ "with many, many contributions (including the Jagent libraries, the name, a \n"
+				+ "smattering of useful functions, a bunch of impromptu crash course Java lessons,\n"
+				+ "and an endless amount of moral support) by RProgrammer (aka PuppyPi)\n\n"
+				+ "Test/Demo version 1.0, compiled April 2, 2019");
+				
+			}
+		});
+		mnHelp.add(mntmAbout);
 		
 		if (Configgles.gamePaths.size() == 0)
 		{
