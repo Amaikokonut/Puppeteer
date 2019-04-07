@@ -152,7 +152,7 @@ public class FileInfo
 	}
 	
 	// build filename
-	public static String buildFilename(int part, int gspcs, int stage, char slot)
+	public String buildFilename(int part, int gspcs, int stage, char slot)
 	{
 		char x = 'a';
 		x += part;
@@ -160,7 +160,7 @@ public class FileInfo
 	}
 	
 	// find image file, returns the real filename or null if not found. If isSprite is false, it assumes bodydata
-	public static File findFile(String extName, Boolean isSprite)
+	public File findFile(String extName, Boolean isSprite)
 	{
 		File returnFile = null;
 		// System.out.println(extName);
@@ -186,7 +186,7 @@ public class FileInfo
 	
 	// this big return file or nearest file method
 	// If isSprite is false, it assumes bodydata
-	public static File getClosestFile(int part, int gspcs, int stage, char slot, Boolean isSprite)
+	public File getClosestFile(int part, int gspcs, int stage, char slot, Boolean isSprite)
 	{
 		// start out by checking for the closest life stages:
 		File returnFile = getClosestLifestageFile(part, gspcs, stage, slot, isSprite);
@@ -226,7 +226,7 @@ public class FileInfo
 		return null;
 	}
 	
-	public static File getClosestLifestageFile(int part, int gspcs, int stage, char slot, Boolean isSprite)
+	public File getClosestLifestageFile(int part, int gspcs, int stage, char slot, Boolean isSprite)
 	{
 		// build the filename
 		String name = buildFilename(part, gspcs, stage, slot) + ((isSprite) ? ".c16" : ".att");
@@ -288,7 +288,7 @@ public class FileInfo
 	}
 	
 	// apparently this is something we have to do
-	public static File getMaleFiles(int part, int gspcs, int stage, char slot, Boolean isSprite)
+	public File getMaleFiles(int part, int gspcs, int stage, char slot, Boolean isSprite)
 	{
 		// build a male filename
 		String name = buildFilename(part, (gspcs - 4), stage, slot) + ((isSprite) ? ".c16" : ".att");

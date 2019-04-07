@@ -152,7 +152,7 @@ public class CreatureGenerator
 	}
 	
 	// this is stuff that actually has to do with sprites
-	public static void updateOneSprite()
+	public void updateOneSprite()
 	{
 		
 	}
