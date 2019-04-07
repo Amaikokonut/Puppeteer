@@ -12,7 +12,7 @@ import rebound.jagent.lib.c16.FromC16Converter;
 
 public class CreatureGenerator
 {
-	public List<DisplayedSprite> DrawCreatureFromScratch(PosedCreature it)
+	public List<DisplayedSprite> getUnlayeredSpritesFromCreature(PosedCreature it)
 	{
 		//Send back the error sprite if there's nothing to draw fomr
 		if (Configgles.gamePaths.size() == 0)
@@ -24,14 +24,14 @@ public class CreatureGenerator
 		//Puppeteer.updateAttInfo(FileInfoToReadableString(it));
 		
 		//new way of doing this:
-		Puppeteer.sprites.clear();
+		List<DisplayedSprite> newSprites = new ArrayList<>(14);
 		for (int i = 0; i < 14; i++) {
-			Puppeteer.sprites.add(null);
+			newSprites.add(null);
 			}
 		//you only need to generate part 1 (body) and the rest will follow
 		//since they are all attached to the body!
-		generatePart(1, it, 50, 50, Puppeteer.sprites);
-		return layerSpritesByDirn(it.dirn, Puppeteer.sprites);
+		generatePart(1, it, 50, 50, newSprites);
+		return newSprites;
 	}
 	
 	// this is long and bad and wet but I'm tired
@@ -215,7 +215,7 @@ public class CreatureGenerator
 		
 		for (int i : order)
 		{
-			layeredSprites.add(Puppeteer.sprites.get(i));
+			layeredSprites.add(unlayeredSprites.get(i));
 		}
 		return layeredSprites;
 		
@@ -310,10 +310,10 @@ public class CreatureGenerator
 		
 	}
 // probably called by something when a user changes literally One Body Part
-	public List<DisplayedSprite> UpdateAndDisplayPart(int part, PosedCreature it) {
+	public List<DisplayedSprite> UpdateAndDisplayPart(int part, PosedCreature it, List<DisplayedSprite> unlayeredSprites) {
 		//System.out.println("Drawing part " + part + " relative to " + it.part[part].fileInfo.parentToX + "," + it.part[part].fileInfo.parentToY);
-		generatePart(part, it, it.part[part].fileInfo.parentToX, it.part[part].fileInfo.parentToY, Puppeteer.sprites);
-		return layerSpritesByDirn(it.dirn, Puppeteer.sprites);
+		generatePart(part, it, it.part[part].fileInfo.parentToX, it.part[part].fileInfo.parentToY, unlayeredSprites);
+		return unlayeredSprites;
 		
 	}
 	
