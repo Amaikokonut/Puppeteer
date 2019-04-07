@@ -42,11 +42,10 @@ extends JDialog
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (Configgles.gamePaths.size() == 0) {
+				if (Configgles.gamePaths.size() == 0)
+				{
 					JOptionPane.showMessageDialog(null, "At least one Creatures 3 or Docking Station game path is required to use this tool.");
-					GenerateCreature.drawErrorSprite();
-				} else { 
-					Puppeteer.GenerateNewCreature(); }
+				}
 				dispose();
 			}
 		});
@@ -90,15 +89,20 @@ extends JDialog
 				{
 					// you hit the cancel button oh noes
 				}
-				//refresh the display
-				//this is copypasted, again, because I'm too tired to figure out
-				//how to make this repeatable or fix all the warnings
-				list.setModel(new AbstractListModel() {
+				// refresh the display
+				// this is copypasted, again, because I'm too tired to figure out
+				// how to make this repeatable or fix all the warnings
+				list.setModel(new AbstractListModel()
+				{
 					String[] values = Configgles.readableGamePaths;
-					public int getSize() {
+					
+					public int getSize()
+					{
 						return values.length;
 					}
-					public Object getElementAt(int index) {
+					
+					public Object getElementAt(int index)
+					{
 						return values[index];
 					}
 				});
@@ -107,8 +111,6 @@ extends JDialog
 		});
 		btnAddNewGame.setBounds(12, 162, 107, 26);
 		getContentPane().add(btnAddNewGame);
-		
-
 		
 		JLabel lblAddYourCreatures = new JLabel("Add your Creatures game paths here. These must be root game directories,\r\n");
 		lblAddYourCreatures.setFont(new Font("Dialog", Font.PLAIN, 12));

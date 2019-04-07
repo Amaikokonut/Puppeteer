@@ -1,7 +1,6 @@
 package puppeteer;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +10,18 @@ import puppeteer.SpriteCollectionComponent.DisplayedSprite;
 import rebound.jagent.lib.FormatMismatchException;
 import rebound.jagent.lib.c16.FromC16Converter;
 
-public class GenerateCreature
+public class CreatureGenerator
 {
-	public static void DrawCreatureFromScratch(PosedCreature it)
+	public List<DisplayedSprite> DrawCreatureFromScratch(PosedCreature it)
 	{
-		// DON'T DO THIS if there are no files!! Problems will totally happen
+		//Send back the error sprite if there's nothing to draw fomr
 		if (Configgles.gamePaths.size() == 0)
 		{
-			return;
+			return getErrorSprite();
 		}
 		// Output your ATT info to the window
-		Puppeteer.updateAttInfo(FileInfoToReadableString(it));
+		//actually, don't do this because it's bad code flow or something-- we'll figure out a better way
+		//Puppeteer.updateAttInfo(FileInfoToReadableString(it));
 		
 		//new way of doing this:
 		Puppeteer.sprites.clear();
@@ -31,11 +31,11 @@ public class GenerateCreature
 		//you only need to generate part 1 (body) and the rest will follow
 		//since they are all attached to the body!
 		generatePart(1, it, 50, 50, Puppeteer.sprites);
-		Puppeteer.updateSprite(layerSpritesByDirn(it.dirn, Puppeteer.sprites));
+		return layerSpritesByDirn(it.dirn, Puppeteer.sprites);
 	}
 	
 	// this is long and bad and wet but I'm tired
-	public static String FileInfoToReadableString(PosedCreature it)
+	public String FileInfoToReadableString(PosedCreature it)
 	{
 		// PosedCreature it = Puppeteer.creature;
 		String text = "Sprite and ATT Info: \n";
@@ -96,7 +96,7 @@ public class GenerateCreature
 	}
 	
 	// compares two filenames to tell you why they are different
-	public static String whyIsItDifferent(String pendingName, String finalName)
+	public String whyIsItDifferent(String pendingName, String finalName)
 	{
 		String reasons = "(";
 		int pGspcs = Integer.parseInt(String.valueOf(pendingName.charAt(1)));
@@ -140,7 +140,7 @@ public class GenerateCreature
 	}
 	
 	// returns a blank string if the filenames match, "*" and why it's different if they don't
-	public static String isItDifferent(String pendingName, String name)
+	public String isItDifferent(String pendingName, String name)
 	{
 		String result = "";
 		String finalName = name.substring(0, 4).toLowerCase();
@@ -157,7 +157,7 @@ public class GenerateCreature
 		
 	}
 	
-	public static FromC16Converter makeOneSprite(PosedCreature it, int part)
+	public FromC16Converter makeOneSprite(PosedCreature it, int part)
 	{
 		FromC16Converter sprite = new FromC16Converter();
 		try
@@ -174,7 +174,7 @@ public class GenerateCreature
 	
 	// this orders your sprites so they layer/draw in the right order
 	// this assumes they are already ordered according to body part index!
-	public static List<DisplayedSprite> layerSpritesByDirn(int dirn, List<DisplayedSprite> unlayeredSprites)
+	public List<DisplayedSprite> layerSpritesByDirn(int dirn, List<DisplayedSprite> unlayeredSprites)
 	{
 		List<DisplayedSprite> layeredSprites = new ArrayList<>();
 		// here is how to order them-- remember lower layer part sprites are drawn first
@@ -221,7 +221,7 @@ public class GenerateCreature
 		
 	}
 	
-	public static void drawErrorSprite()
+	public List<DisplayedSprite> getErrorSprite()
 	{
 		// if there aren't any directories, make that default sprite
 		BufferedImage default404Sprite = null;
@@ -239,11 +239,11 @@ public class GenerateCreature
 		DisplayedSprite defaultSprite = new DisplayedSprite(default404Sprite, 0, 0);
 		List<DisplayedSprite> defaultSprites = new ArrayList<>();
 		defaultSprites.add(defaultSprite);
-		Puppeteer.updateSprite(defaultSprites);
+		return defaultSprites;
 	}
 	
 	// update an existing part (and make sure all your kids are updated)
-	public static void generatePart(int part, PosedCreature it, int toX, int toY, List<DisplayedSprite> sprites)
+	public void generatePart(int part, PosedCreature it, int toX, int toY, List<DisplayedSprite> sprites)
 	{
 		// update yourself to remember where your attachment to your parent is
 		it.part[part].fileInfo.parentToX = toX;
@@ -310,10 +310,11 @@ public class GenerateCreature
 		
 	}
 // probably called by something when a user changes literally One Body Part
-	public static void UpdateAndDisplayPart(int part, PosedCreature it) {
+	public List<DisplayedSprite> UpdateAndDisplayPart(int part, PosedCreature it) {
 		//System.out.println("Drawing part " + part + " relative to " + it.part[part].fileInfo.parentToX + "," + it.part[part].fileInfo.parentToY);
 		generatePart(part, it, it.part[part].fileInfo.parentToX, it.part[part].fileInfo.parentToY, Puppeteer.sprites);
-		Puppeteer.updateSprite(layerSpritesByDirn(it.dirn, Puppeteer.sprites));
+		return layerSpritesByDirn(it.dirn, Puppeteer.sprites);
+		
 	}
 	
 	

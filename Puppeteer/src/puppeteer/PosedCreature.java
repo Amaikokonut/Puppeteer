@@ -30,7 +30,6 @@ public class PosedCreature {
 			part[i] = new PosedPart(this, i, spcs, mf, slot, pose, dirn, 0, 0);
 		}
 		
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void DbgOuts() {
@@ -69,7 +68,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateSpcs(spcs);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateMF(int mf) {
@@ -80,7 +78,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateMF(mf);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateSlot(char slot) {
@@ -90,7 +87,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateSlot(slot);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateAge(int age) {
@@ -98,7 +94,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].updateFile();
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdatePose(int pose) {
@@ -108,7 +103,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdatePose(pose);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateDirn(int dirn) {
@@ -118,7 +112,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateDirn(dirn);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateEyes(int eyes) {
@@ -126,7 +119,6 @@ public class PosedCreature {
 		//parts don't have individual.... eyes.. what, of course not
 		//why would you think that
 			part[0].updateFace();
-		GenerateCreature.UpdateAndDisplayPart(0,this);
 	}
 	
 	public void UpdateExpression(int expression) {
@@ -134,6 +126,5 @@ public class PosedCreature {
 		//parts don't have individual.... expressions.. what, of course not
 		//why would you think that
 		part[0].updateFace();
-		GenerateCreature.UpdateAndDisplayPart(0,this);
 	}
 }
