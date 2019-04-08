@@ -49,6 +49,7 @@ public class Puppeteer
 	// generate the initial default creature:
 	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
 	CreatureGenerator theCreatureGenerator = new CreatureGenerator();
+	CreatureInfo creatureInfo = new CreatureInfo();
 	// and the initial selected part for that matter
 	int selectedPart = 0;
 	
@@ -61,11 +62,11 @@ public class Puppeteer
 	JComboBox<String> comboMainDirn;
 	JComboBox<String> comboExpression;
 	JCheckBox chckbxEyesClosed;
-	JComboBox comboPartSelector = new JComboBox(CreatureInfo.bodyParts);
-	JComboBox<String> comboPartSpecies = new JComboBox(CreatureInfo.availableSpecies);
-	JComboBox<String> comboPartSlot = new JComboBox(CreatureInfo.availableSlots);
+	JComboBox comboPartSelector = new JComboBox(creatureInfo.bodyParts);
+	JComboBox<String> comboPartSpecies = new JComboBox(creatureInfo.availableSpecies);
+	JComboBox<String> comboPartSlot = new JComboBox(creatureInfo.availableSlots);
 	JSpinner spinPartPose = new JSpinner();
-	JComboBox<String> comboPartDirn = new JComboBox(CreatureInfo.dirn);
+	JComboBox<String> comboPartDirn = new JComboBox(creatureInfo.dirn);
 	JSpinner spinXoffset = new JSpinner();
 	JSpinner spinYoffset = new JSpinner();
 	JTextArea txtrAttInfo = new JTextArea();
@@ -168,7 +169,7 @@ public class Puppeteer
 		JLabel lblSpecies = new JLabel("Species:");
 		pnlSpcsSlot.add(lblSpecies);
 		
-		JComboBox<String> comboSpcs = new JComboBox(CreatureInfo.availableSpecies);
+		JComboBox<String> comboSpcs = new JComboBox(creatureInfo.availableSpecies);
 		comboSpcs.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -182,7 +183,7 @@ public class Puppeteer
 		JLabel lblSlot = new JLabel("Slot:");
 		pnlSpcsSlot.add(lblSlot);
 		
-		JComboBox<String> comboSlot = new JComboBox(CreatureInfo.availableSlots);
+		JComboBox<String> comboSlot = new JComboBox(creatureInfo.availableSlots);
 		comboSlot.setSelectedIndex(3);
 		comboSlot.addActionListener(new ActionListener()
 		{
@@ -231,7 +232,7 @@ public class Puppeteer
 		JLabel lblAge = new JLabel("Age:");
 		pnlAge.add(lblAge);
 		
-		JComboBox<String> comboAge = new JComboBox(CreatureInfo.lifeStages);
+		JComboBox<String> comboAge = new JComboBox(creatureInfo.lifeStages);
 		comboAge.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -279,7 +280,7 @@ public class Puppeteer
 		JLabel lblDirection = new JLabel("Direction:");
 		pnlMainDirn.add(lblDirection);
 		
-		JComboBox<String> comboMainDirn = new JComboBox(CreatureInfo.dirn);
+		JComboBox<String> comboMainDirn = new JComboBox(creatureInfo.dirn);
 		comboMainDirn.setSelectedIndex(1);
 		comboMainDirn.addActionListener(new ActionListener()
 		{
@@ -299,7 +300,7 @@ public class Puppeteer
 		JLabel lblExpression = new JLabel("Expression:");
 		pnlExpression.add(lblExpression);
 		
-		JComboBox<String> comboExpression = new JComboBox(CreatureInfo.expressions);
+		JComboBox<String> comboExpression = new JComboBox(creatureInfo.expressions);
 		comboExpression.setSelectedIndex(1);
 		comboExpression.addActionListener(new ActionListener()
 		{

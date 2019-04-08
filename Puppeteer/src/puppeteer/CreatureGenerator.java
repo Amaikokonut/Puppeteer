@@ -37,10 +37,11 @@ public class CreatureGenerator
 	// this is long and bad and wet but I'm tired
 	public String FileInfoToReadableString(PosedCreature it)
 	{
+		CreatureInfo creatureInfo = new CreatureInfo();
 		// PosedCreature it = Puppeteer.creature;
 		String text = "Sprite and ATT Info: \n";
 		int x = 0;
-		text += "**" + CreatureInfo.bodyParts[x] + "**: " + it.part[x].fileInfo.sprite.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
+		text += "**" + creatureInfo.bodyParts[x] + "**: " + it.part[x].fileInfo.sprite.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
 		text += " frame " + it.part[x].fileInfo.frame;
 		text += "\n";
 		text += "Body Data: " + it.part[x].fileInfo.att.getName() + isItDifferent(it.part[0].fileInfo.pendingName, it.part[x].fileInfo.att.getName());
@@ -51,7 +52,7 @@ public class CreatureGenerator
 		text += "\n\n";
 		
 		x++;
-		text += "**" + CreatureInfo.bodyParts[x] + "**: " + it.part[x].fileInfo.sprite.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
+		text += "**" + creatureInfo.bodyParts[x] + "**: " + it.part[x].fileInfo.sprite.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
 		text += " frame " + it.part[x].fileInfo.frame;
 		text += "\n";
 		text += "Body Data: " + it.part[x].fileInfo.att.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.att.getName());
@@ -82,7 +83,7 @@ public class CreatureGenerator
 		for (x = 2; x < 14; x++)
 		{
 			
-			text += "**" + CreatureInfo.bodyParts[x] + "**: " + it.part[x].fileInfo.sprite.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
+			text += "**" + creatureInfo.bodyParts[x] + "**: " + it.part[x].fileInfo.sprite.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.sprite.getName());
 			text += " frame " + it.part[x].fileInfo.frame;
 			text += "\n";
 			text += "Body Data: " + it.part[x].fileInfo.att.getName() + isItDifferent(it.part[x].fileInfo.pendingName, it.part[x].fileInfo.att.getName());

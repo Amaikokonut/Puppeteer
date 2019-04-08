@@ -17,6 +17,7 @@ public class testTester
 		//dropped limbtestresults.txt back into your working directory
 		//otherwise you're gonna get SO MANY ERRORS
 		
+		CreatureInfo creatureInfo = new CreatureInfo();
 		File file = new File("limbtests.txt");
 		String tests = (JavaSpecificBits.readAllTextUTF8(file));
 		String[] testLines = JavaSpecificBits.splitlines(tests);
@@ -31,7 +32,7 @@ public class testTester
 			//these are not ATTs but I guess we're testing the ATT Parser Today
 			String[] elements = ATTParser.splitATTRow(x);
 			int part = Integer.valueOf(elements[0]);
-			int gspcs = CreatureInfo.GetSpcs(Integer.valueOf(elements[2]), Integer.valueOf(elements[1]));
+			int gspcs = creatureInfo.GetSpcs(Integer.valueOf(elements[2]), Integer.valueOf(elements[1]));
 			int stage = Integer.valueOf(elements[3]);
 			char slot = 'a';
 			slot += Integer.valueOf(elements[4]);
@@ -46,11 +47,11 @@ public class testTester
 				} else {
 					System.out.println("******failed test******");
 					System.out.println(x);
-					System.out.println("Wanted: " + CreatureInfo.interpretedParams(part, gspcs, stage, slot));
+					System.out.println("Wanted: " + creatureInfo.interpretedParams(part, gspcs, stage, slot));
 		//			System.out.println(FileInfo.buildFilename(part, gspcs, stage, slot));
-					System.out.println("You Got:" + CreatureInfo.interpretedFilename(result.getName()));
+					System.out.println("You Got:" + creatureInfo.interpretedFilename(result.getName()));
 					System.out.println((result.getName().substring(0,4)));
-					System.out.println("Game Got:" + CreatureInfo.interpretedFilename(enginetestLines[index]));
+					System.out.println("Game Got:" + creatureInfo.interpretedFilename(enginetestLines[index]));
 					System.out.println(enginetestLines[index]);
 				}
 				
