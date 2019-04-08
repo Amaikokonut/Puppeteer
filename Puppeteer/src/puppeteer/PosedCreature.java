@@ -12,9 +12,11 @@ public class PosedCreature {
 	int eyes;
 	PosedPart[] part = new PosedPart[14];
 	CreatureInfo creatureInfo = new CreatureInfo();
+	Configgles gamePaths;
 	
 //creating a new PosedCreature	
-	public PosedCreature(int spcs, int mf, char slot, int age, int pose, int dirn, int expression, int eyes) {
+	public PosedCreature(int spcs, int mf, char slot, int age, int pose, int dirn, int expression, int eyes, Configgles gamePaths) {
+		this.gamePaths = gamePaths;
 		this.spcs = spcs;
 		this.mf = mf;
 //important to know that gspcs is the combo of mf and spcs, a 0-7 index traced to CreatureInfo.speciesList 
@@ -29,7 +31,7 @@ public class PosedCreature {
 		
 //now you gotta create all the body parts in their default states 
 		for(int i = 0; i < 14; i++) {
-			part[i] = new PosedPart(this, i, spcs, mf, slot, pose, dirn, 0, 0);
+			part[i] = new PosedPart(this, i, spcs, mf, slot, pose, dirn, 0, 0, gamePaths);
 		}
 		
 	}

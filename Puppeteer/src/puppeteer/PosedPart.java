@@ -14,9 +14,11 @@ public class PosedPart
 	PosedCreature origin;
 	FileInfo fileInfo;
 	CreatureInfo creatureInfo = new CreatureInfo();
+	Configgles gamePaths;
 	
-	public PosedPart(PosedCreature origin, int part, int spcs, int mf, char slot, int pose, int dirn, int x, int y)
+	public PosedPart(PosedCreature origin, int part, int spcs, int mf, char slot, int pose, int dirn, int x, int y, Configgles gamePaths)
 	{
+		this.gamePaths = gamePaths;
 		this.origin = origin;
 		this.part = part;
 		this.spcs = spcs;
@@ -29,7 +31,7 @@ public class PosedPart
 		this.x = x;
 		this.y = y;
 		// get the info for your file
-			this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
+			this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes, gamePaths);
 
 		//System.out.println("Part " + part + " was created");
 		
@@ -38,7 +40,7 @@ public class PosedPart
 	public void updateFile()
 	{
 		//obviously don't update fileInfo if there's no files
-		if (Configgles.gamePaths.size() > 0)
+		if (gamePaths.gamePaths.size() > 0)
 		{
 				this.fileInfo.updateFile(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
 		}		
@@ -47,7 +49,7 @@ public class PosedPart
 	public void updateFrame()
 	{
 		//obviously don't update fileInfo if there's no files
-		if (Configgles.gamePaths.size() > 0)
+		if (gamePaths.gamePaths.size() > 0)
 		{
 				this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
 		}		
@@ -56,7 +58,7 @@ public class PosedPart
 	public void updateFace()
 	{
 		//obviously don't update fileInfo if there's no files
-		if (Configgles.gamePaths.size() > 0)
+		if (gamePaths.gamePaths.size() > 0)
 		{
 				this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
 		}		

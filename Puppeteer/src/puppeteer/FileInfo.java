@@ -39,11 +39,13 @@ public class FileInfo
 	int parentToY;
 	
 	ATTParser aTTParser = new ATTParser();
-	
-	public FileInfo(int part, int pose, int dirn, int expression, int gspcs, int age, char slot, int eyes)
+	Configgles gamePaths;
+
+	public FileInfo(int part, int pose, int dirn, int expression, int gspcs, int age, char slot, int eyes, Configgles gamePaths)
 	{
+		this.gamePaths = gamePaths;
 		// DON'T DO THIS if there are no files!! Problems will totally happen
-		if (Configgles.gamePaths.size() > 0)
+		if (gamePaths.gamePaths.size() > 0)
 		{
 			updateFile(part, pose, dirn, expression, gspcs, age, slot, eyes);
 		}
@@ -166,16 +168,16 @@ public class FileInfo
 	{
 		File returnFile = null;
 		// System.out.println(extName);
-		for (int i = 0; i < Configgles.gamePaths.size(); i++)
+		for (int i = 0; i < gamePaths.gamePaths.size(); i++)
 		{
 			if (isSprite)
 			{
 				
-				returnFile = Configgles.gamePaths.get(i).imagesCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
+				returnFile = gamePaths.gamePaths.get(i).imagesCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
 			}
 			else
 			{
-				returnFile = Configgles.gamePaths.get(i).bodyDataCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
+				returnFile = gamePaths.gamePaths.get(i).bodyDataCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
 			}
 			// break out of the loop once you found a file
 			if (returnFile != null)

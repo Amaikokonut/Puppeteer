@@ -46,13 +46,15 @@ public class Puppeteer
 {
 	
 	private JFrame frmPuppeteer;
-	// generate the initial default creature:
-	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
+
 	CreatureGenerator theCreatureGenerator = new CreatureGenerator();
 	CreatureInfo creatureInfo = new CreatureInfo();
+	Configgles gamePaths = new Configgles();
+	// generate the initial default creature:
+	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0, gamePaths);
+	
 	// and the initial selected part for that matter
 	int selectedPart = 0;
-	
 	// define all the UI bits now so we can access them later
 	JComboBox<String> comboSlot;
 	JRadioButton rdbtnM;
@@ -101,10 +103,10 @@ public class Puppeteer
 		displayCreature.setSpritesAndRepaint(theCreatureGenerator.layerSpritesByDirn(creature.dirn, unlayeredSprites));
 	}
 	
-	public void redrawDefaultCreature()
+	public void generateAndDrawDefaultCreature()
 	{
-		creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
-		updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+		creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0, gamePaths);
+		updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 		
 	}
 	
@@ -116,8 +118,7 @@ public class Puppeteer
 	 */
 	public static void main(String[] args)
 	{
-		// load the game paths from the cfg file
-		Configgles.loadPathsFromFile();
+
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
@@ -153,7 +154,8 @@ public class Puppeteer
 		frmPuppeteer.setBounds(100, 100, 800, 600);
 		frmPuppeteer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPuppeteer.getContentPane().setLayout(new GridLayout(2, 3, 0, 0));
-		
+		// load the game paths from the cfg file
+		gamePaths.loadPathsFromFile();
 		JPanel panelMain = new JPanel();
 		panelMain.setBorder(null);
 		frmPuppeteer.getContentPane().add(panelMain);
@@ -192,7 +194,7 @@ public class Puppeteer
 				char x = 'a';
 				x += comboSlot.getSelectedIndex();
 				creature.UpdateSlot(x);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -207,7 +209,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateMF(0);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 			}
 		});
 		buttonGroupMF.add(rdbtnM);
@@ -219,7 +221,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateMF(1);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 			}
 		});
 		rdbtnF.setSelected(true);
@@ -238,7 +240,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				creature.UpdateAge(comboAge.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -267,7 +269,7 @@ public class Puppeteer
 					// do something here maybe
 				}
 				creature.UpdatePose((Integer) spinMainPose.getValue());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -287,7 +289,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateDirn(comboMainDirn.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -307,7 +309,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateExpression(comboExpression.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 			}
 		});
 		pnlExpression.add(comboExpression);
@@ -328,7 +330,7 @@ public class Puppeteer
 				{
 					creature.UpdateEyes(0);
 				}
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 			}
 		});
 		pnlEyes.add(chckbxEyesClosed);
@@ -541,7 +543,7 @@ public class Puppeteer
 		comboBoxGeneticPose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CreaturePoseLibrary.setCreaturePose(comboBoxGeneticPose.getSelectedIndex(),creature);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -656,12 +658,12 @@ public class Puppeteer
 				{
 				  public void windowClosed(WindowEvent e)
 				  {
-					  redrawDefaultCreature();
+					  generateAndDrawDefaultCreature();
 				  }
 
 				  public void windowClosing(WindowEvent e)
 				  {
-					  redrawDefaultCreature();
+					  generateAndDrawDefaultCreature();
 				  }
 				});
 				
@@ -739,14 +741,14 @@ public class Puppeteer
 		});
 		mnHelp.add(mntmAbout);
 		
-		if (Configgles.gamePaths.size() == 0)
+		if (gamePaths.gamePaths.size() == 0)
 		{
 			mntmSetGameDirectories.doClick();
 			
 		}
 		else
 		{
-			updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature));
+			generateAndDrawDefaultCreature();
 		}
 	}
 }

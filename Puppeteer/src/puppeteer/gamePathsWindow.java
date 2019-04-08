@@ -25,13 +25,15 @@ extends JDialog
 {
 	public gamePathsWindow()
 	{
+		
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setBounds(100, 100, 469, 225);
 		setTitle("Configure Game Paths");
 		getContentPane().setLayout(null);
+		Configgles gamePaths = new Configgles();
 		
-		JList list = new JList(Configgles.readableGamePaths);
+		JList list = new JList(gamePaths.readableGamePaths);
 		
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
@@ -42,7 +44,7 @@ extends JDialog
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (Configgles.gamePaths.size() == 0)
+				if (gamePaths.gamePaths.size() == 0)
 				{
 					JOptionPane.showMessageDialog(null, "At least one Creatures 3 or Docking Station game path is required to use this tool.");
 				}
@@ -71,7 +73,7 @@ extends JDialog
 					System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
 					try
 					{
-						JOptionPane.showMessageDialog(null, Configgles.pathStatus(chooser.getSelectedFile().toString()));
+						JOptionPane.showMessageDialog(null, gamePaths.pathStatus(chooser.getSelectedFile().toString()));
 					}
 					catch (HeadlessException e1)
 					{
@@ -94,7 +96,7 @@ extends JDialog
 				// how to make this repeatable or fix all the warnings
 				list.setModel(new AbstractListModel()
 				{
-					String[] values = Configgles.readableGamePaths;
+					String[] values = gamePaths.readableGamePaths;
 					
 					public int getSize()
 					{
@@ -135,13 +137,13 @@ extends JDialog
 				int indexToRemove = list.getSelectedIndex();
 				if (indexToRemove > -1)
 				{
-					Configgles.removePath(indexToRemove);
+					gamePaths.removePath(indexToRemove);
 					// refresh the display
 					// this is copypasted, again, because I'm too tired to figure out
 					// how to make this repeatable or fix all the warnings
 					list.setModel(new AbstractListModel()
 					{
-						String[] values = Configgles.readableGamePaths;
+						String[] values = gamePaths.readableGamePaths;
 						
 						public int getSize()
 						{
@@ -168,7 +170,7 @@ extends JDialog
 				String inputValue = JOptionPane.showInputDialog("Paste your game path here");
 				try
 				{
-					JOptionPane.showMessageDialog(null, Configgles.pathStatus(inputValue));
+					JOptionPane.showMessageDialog(null, gamePaths.pathStatus(inputValue));
 					
 				}
 				catch (HeadlessException e1)
@@ -186,7 +188,7 @@ extends JDialog
 				// but I am tired and brainfoggy
 				list.setModel(new AbstractListModel()
 				{
-					String[] values = Configgles.readableGamePaths;
+					String[] values = gamePaths.readableGamePaths;
 					
 					public int getSize()
 					{

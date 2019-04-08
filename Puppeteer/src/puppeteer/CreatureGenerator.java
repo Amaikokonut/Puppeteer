@@ -12,10 +12,10 @@ import rebound.jagent.lib.c16.FromC16Converter;
 
 public class CreatureGenerator
 {
-	public List<DisplayedSprite> getUnlayeredSpritesFromCreature(PosedCreature it)
+	public List<DisplayedSprite> getUnlayeredSpritesFromCreature(PosedCreature it, Configgles gamePaths)
 	{
-		//Send back the error sprite if there's nothing to draw fomr
-		if (Configgles.gamePaths.size() == 0)
+		//Send back the error sprite if there's nothing to draw from
+		if (gamePaths.gamePaths.size() == 0)
 		{
 			return getErrorSprite();
 		}
