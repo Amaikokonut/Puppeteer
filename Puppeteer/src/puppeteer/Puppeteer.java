@@ -1,15 +1,15 @@
 package puppeteer;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -39,40 +39,42 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import puppeteer.SpriteCollectionComponent.DisplayedSprite;
-import tests.ShowImage;
-import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
-import puppeteer.trimBlankPixels;
+import puppeteer.PixelTrimmer;
 
 public class Puppeteer
 {
 	
 	private JFrame frmPuppeteer;
+
+	CreatureGenerator theCreatureGenerator = new CreatureGenerator();
+	CreatureInfo creatureInfo = new CreatureInfo();
+	Configgles gamePaths = new Configgles();
 	// generate the initial default creature:
-	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0);
+	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0, gamePaths);
+	
 	// and the initial selected part for that matter
 	int selectedPart = 0;
-	
 	// define all the UI bits now so we can access them later
-	JComboBox comboSlot;
+	JComboBox<String> comboSlot;
 	JRadioButton rdbtnM;
 	JRadioButton rdbtnF;
-	JComboBox comboAge;
+	JComboBox<String> comboAge;
 	JSpinner spinMainPose;
-	JComboBox comboMainDirn;
-	JComboBox comboExpression;
+	JComboBox<String> comboMainDirn;
+	JComboBox<String> comboExpression;
 	JCheckBox chckbxEyesClosed;
-	JComboBox comboPartSelector = new JComboBox(CreatureInfo.bodyParts);
-	JComboBox comboPartSpecies = new JComboBox(CreatureInfo.availableSpecies);
-	JComboBox comboPartSlot = new JComboBox(CreatureInfo.availableSlots);
+	JComboBox comboPartSelector = new JComboBox(creatureInfo.bodyParts);
+	JComboBox<String> comboPartSpecies = new JComboBox(creatureInfo.availableSpecies);
+	JComboBox<String> comboPartSlot = new JComboBox(creatureInfo.availableSlots);
 	JSpinner spinPartPose = new JSpinner();
-	JComboBox comboPartDirn = new JComboBox(CreatureInfo.dirn);
+	JComboBox<String> comboPartDirn = new JComboBox(creatureInfo.dirn);
 	JSpinner spinXoffset = new JSpinner();
 	JSpinner spinYoffset = new JSpinner();
-	static JTextArea txtrAttInfo = new JTextArea();
+	JTextArea txtrAttInfo = new JTextArea();
 	// Default image for now~
-	static List<DisplayedSprite> sprites = new ArrayList<>(14);
-	static SpriteCollectionComponent displayCreature = new SpriteCollectionComponent(sprites);
+	List<DisplayedSprite> sprites = new ArrayList<>(14);
+	SpriteCollectionComponent displayCreature = new SpriteCollectionComponent(sprites);
 	
 	// a method to properly update body part UI bits
 	public void updatePartsUI()
@@ -89,20 +91,22 @@ public class Puppeteer
 		spinYoffset.setValue(creature.part[selectedPart].y);
 	}
 	
-	public static void updateAttInfo(String text)
+	public void updateAttInfo(String text)
 	{
 		txtrAttInfo.setText(text);
 		txtrAttInfo.validate();
 	}
 	
-	public static void updateSprite(List<DisplayedSprite> layeredSprites)
+	public void updateSprite(List<DisplayedSprite> unlayeredSprites)
 	{
-		displayCreature.setSpritesAndRepaint(layeredSprites);
+		sprites = unlayeredSprites;
+		displayCreature.setSpritesAndRepaint(theCreatureGenerator.layerSpritesByDirn(creature.dirn, unlayeredSprites));
 	}
 	
-	public static void GenerateNewCreature()
+	public void generateAndDrawDefaultCreature()
 	{
-		GenerateCreature.DrawCreatureFromScratch(new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0));
+		creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0, gamePaths);
+		updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 		
 	}
 	
@@ -114,8 +118,7 @@ public class Puppeteer
 	 */
 	public static void main(String[] args)
 	{
-		// load the game paths from the cfg file
-		Configgles.loadPathsFromFile();
+
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
@@ -151,7 +154,8 @@ public class Puppeteer
 		frmPuppeteer.setBounds(100, 100, 800, 600);
 		frmPuppeteer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPuppeteer.getContentPane().setLayout(new GridLayout(2, 3, 0, 0));
-		
+		// load the game paths from the cfg file
+		gamePaths.loadPathsFromFile();
 		JPanel panelMain = new JPanel();
 		panelMain.setBorder(null);
 		frmPuppeteer.getContentPane().add(panelMain);
@@ -167,7 +171,7 @@ public class Puppeteer
 		JLabel lblSpecies = new JLabel("Species:");
 		pnlSpcsSlot.add(lblSpecies);
 		
-		JComboBox comboSpcs = new JComboBox(CreatureInfo.availableSpecies);
+		JComboBox<String> comboSpcs = new JComboBox(creatureInfo.availableSpecies);
 		comboSpcs.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -181,7 +185,7 @@ public class Puppeteer
 		JLabel lblSlot = new JLabel("Slot:");
 		pnlSpcsSlot.add(lblSlot);
 		
-		JComboBox comboSlot = new JComboBox(CreatureInfo.availableSlots);
+		JComboBox<String> comboSlot = new JComboBox(creatureInfo.availableSlots);
 		comboSlot.setSelectedIndex(3);
 		comboSlot.addActionListener(new ActionListener()
 		{
@@ -190,6 +194,7 @@ public class Puppeteer
 				char x = 'a';
 				x += comboSlot.getSelectedIndex();
 				creature.UpdateSlot(x);
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -204,6 +209,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateMF(0);
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 			}
 		});
 		buttonGroupMF.add(rdbtnM);
@@ -215,6 +221,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateMF(1);
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 			}
 		});
 		rdbtnF.setSelected(true);
@@ -227,12 +234,13 @@ public class Puppeteer
 		JLabel lblAge = new JLabel("Age:");
 		pnlAge.add(lblAge);
 		
-		JComboBox comboAge = new JComboBox(CreatureInfo.lifeStages);
+		JComboBox<String> comboAge = new JComboBox(creatureInfo.lifeStages);
 		comboAge.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				creature.UpdateAge(comboAge.getSelectedIndex());
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -261,6 +269,7 @@ public class Puppeteer
 					// do something here maybe
 				}
 				creature.UpdatePose((Integer) spinMainPose.getValue());
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -273,13 +282,14 @@ public class Puppeteer
 		JLabel lblDirection = new JLabel("Direction:");
 		pnlMainDirn.add(lblDirection);
 		
-		JComboBox comboMainDirn = new JComboBox(CreatureInfo.dirn);
+		JComboBox<String> comboMainDirn = new JComboBox(creatureInfo.dirn);
 		comboMainDirn.setSelectedIndex(1);
 		comboMainDirn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateDirn(comboMainDirn.getSelectedIndex());
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -292,13 +302,14 @@ public class Puppeteer
 		JLabel lblExpression = new JLabel("Expression:");
 		pnlExpression.add(lblExpression);
 		
-		JComboBox comboExpression = new JComboBox(CreatureInfo.expressions);
+		JComboBox<String> comboExpression = new JComboBox(creatureInfo.expressions);
 		comboExpression.setSelectedIndex(1);
 		comboExpression.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateExpression(comboExpression.getSelectedIndex());
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 			}
 		});
 		pnlExpression.add(comboExpression);
@@ -319,6 +330,7 @@ public class Puppeteer
 				{
 					creature.UpdateEyes(0);
 				}
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 			}
 		});
 		pnlEyes.add(chckbxEyesClosed);
@@ -394,7 +406,7 @@ public class Puppeteer
 				if (comboPartSpecies.hasFocus())
 				{
 					creature.part[selectedPart].UpdateSpcs(comboPartSpecies.getSelectedIndex());
-					GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
+					updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
 				}
 			}
 		});
@@ -413,7 +425,7 @@ public class Puppeteer
 					char x = 'a';
 					x += comboPartSlot.getSelectedIndex();
 					creature.part[selectedPart].UpdateSlot(x);
-					GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
+					updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
 				}
 			}
 		});
@@ -442,7 +454,7 @@ public class Puppeteer
 				}
 				// if (spinPartPose.hasFocus()) {
 				creature.part[selectedPart].UpdatePose((Integer) spinPartPose.getValue());
-				GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
+				updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
 				// }
 			}
 		});
@@ -463,7 +475,7 @@ public class Puppeteer
 				if (comboPartDirn.hasFocus())
 				{
 					creature.part[selectedPart].UpdateDirn(comboPartDirn.getSelectedIndex());
-					GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
+					updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
 				}
 			}
 		});
@@ -489,7 +501,7 @@ public class Puppeteer
 				}
 				
 				creature.part[selectedPart].UpdateX((Integer) spinXoffset.getValue());
-				GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
+				updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
 				
 			}
 		});
@@ -516,7 +528,7 @@ public class Puppeteer
 				}
 				
 				creature.part[selectedPart].UpdateY((Integer) spinYoffset.getValue());
-				GenerateCreature.UpdateAndDisplayPart(selectedPart, creature);
+				updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
 				
 			}
 		});
@@ -527,11 +539,13 @@ public class Puppeteer
 		lblGeneticPoseCombos.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panelParts.add(lblGeneticPoseCombos);
 		
-		JComboBox comboBoxGeneticPose = new JComboBox(CreaturePoseLibrary.poseList.toArray());
+		CreaturePoseLibrary defaultGeneticPoseLibrary = new CreaturePoseLibrary();
+		
+		JComboBox<String> comboBoxGeneticPose = new JComboBox(defaultGeneticPoseLibrary.poseList.toArray());
 		comboBoxGeneticPose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CreaturePoseLibrary.setCreaturePose(comboBoxGeneticPose.getSelectedIndex(),creature);
-				GenerateCreature.DrawCreatureFromScratch(creature);
+				defaultGeneticPoseLibrary.setCreaturePose(comboBoxGeneticPose.getSelectedIndex(),creature);
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});
@@ -561,10 +575,10 @@ public class Puppeteer
 		JLabel lblBreed = new JLabel("Breed:");
 		pnlBreedTestMom.add(lblBreed);
 		
-		JComboBox comboBreedTestMom = new JComboBox();
+		JComboBox<String> comboBreedTestMom = new JComboBox<String>();
 		comboBreedTestMom.setEnabled(false);
 		pnlBreedTestMom.add(comboBreedTestMom);
-		comboBreedTestMom.setModel(new DefaultComboBoxModel(new String[]
+		comboBreedTestMom.setModel(new DefaultComboBoxModel<String>(new String[]
 		{
 				"Displayed Creature", "Random Creatures", "Main Settings Creature"
 		}));
@@ -575,10 +589,10 @@ public class Puppeteer
 		JLabel lblWith = new JLabel("with:");
 		pnlBreedTestDad.add(lblWith);
 		
-		JComboBox comboBreedTestDad = new JComboBox();
+		JComboBox<String> comboBreedTestDad = new JComboBox<String>();
 		comboBreedTestDad.setEnabled(false);
 		pnlBreedTestDad.add(comboBreedTestDad);
-		comboBreedTestDad.setModel(new DefaultComboBoxModel(new String[]
+		comboBreedTestDad.setModel(new DefaultComboBoxModel<String>(new String[]
 		{
 				"Random Creature"
 		}));
@@ -617,6 +631,14 @@ public class Puppeteer
 		JPanel PanelATT2 = new JPanel();
 		frmPuppeteer.getContentPane().add(PanelATT2);
 		
+		JButton btnGetAttInfo = new JButton("Generate Pose Details");
+		btnGetAttInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateAttInfo(theCreatureGenerator.FileInfoToReadableString(creature));
+			}
+		});
+		PanelATT2.add(btnGetAttInfo);
+		
 		JMenuBar menuBar = new JMenuBar();
 		frmPuppeteer.setJMenuBar(menuBar);
 		
@@ -632,6 +654,20 @@ public class Puppeteer
 				gamePathsDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				gamePathsDialog.setLocationRelativeTo(frmPuppeteer);
 				gamePathsDialog.setVisible(true);
+				
+//the listener that regenerates the creature once the window is closed
+				gamePathsDialog.addWindowListener(new WindowAdapter() 
+				{
+				  public void windowClosed(WindowEvent e)
+				  {
+					  generateAndDrawDefaultCreature();
+				  }
+
+				  public void windowClosing(WindowEvent e)
+				  {
+					  generateAndDrawDefaultCreature();
+				  }
+				});
 				
 			}
 		});
@@ -654,7 +690,9 @@ public class Puppeteer
 					Graphics g = img.createGraphics();
 					displayCreature.paint(g);
 					g.dispose();
-					BufferedImage imgCropped = trimBlankPixels.TrimImage(img);
+					
+					PixelTrimmer pixelTrimmer = new PixelTrimmer();
+					BufferedImage imgCropped = pixelTrimmer.TrimImage(img);
 					
 					File file = jfc.getSelectedFile();
 					//we have to force a png extension, sigh
@@ -707,14 +745,14 @@ public class Puppeteer
 		});
 		mnHelp.add(mntmAbout);
 		
-		if (Configgles.gamePaths.size() == 0)
+		if (gamePaths.gamePaths.size() == 0)
 		{
 			mntmSetGameDirectories.doClick();
 			
 		}
 		else
 		{
-			GenerateCreature.DrawCreatureFromScratch(creature);
+			generateAndDrawDefaultCreature();
 		}
 	}
 }

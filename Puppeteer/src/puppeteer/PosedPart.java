@@ -1,7 +1,5 @@
 package puppeteer;
 
-import java.io.IOException;
-
 public class PosedPart
 {
 	int part;
@@ -15,22 +13,25 @@ public class PosedPart
 	int y;
 	PosedCreature origin;
 	FileInfo fileInfo;
+	CreatureInfo creatureInfo = new CreatureInfo();
+	Configgles gamePaths;
 	
-	public PosedPart(PosedCreature origin, int part, int spcs, int mf, char slot, int pose, int dirn, int x, int y)
+	public PosedPart(PosedCreature origin, int part, int spcs, int mf, char slot, int pose, int dirn, int x, int y, Configgles gamePaths)
 	{
+		this.gamePaths = gamePaths;
 		this.origin = origin;
 		this.part = part;
 		this.spcs = spcs;
 		this.mf = mf;
 		// important to know that gspcs is the combo of mf and spcs, a 0-7 index traced to CreatureInfo.speciesList
-		this.gspcs = CreatureInfo.GetSpcs(mf, spcs);
+		this.gspcs = creatureInfo.GetSpcs(mf, spcs);
 		this.slot = slot;
 		this.pose = pose;
 		this.dirn = dirn;
 		this.x = x;
 		this.y = y;
 		// get the info for your file
-			this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
+			this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes, gamePaths);
 
 		//System.out.println("Part " + part + " was created");
 		
@@ -39,7 +40,7 @@ public class PosedPart
 	public void updateFile()
 	{
 		//obviously don't update fileInfo if there's no files
-		if (Configgles.gamePaths.size() > 0)
+		if (gamePaths.gamePaths.size() > 0)
 		{
 				this.fileInfo.updateFile(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
 		}		
@@ -48,7 +49,7 @@ public class PosedPart
 	public void updateFrame()
 	{
 		//obviously don't update fileInfo if there's no files
-		if (Configgles.gamePaths.size() > 0)
+		if (gamePaths.gamePaths.size() > 0)
 		{
 				this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
 		}		
@@ -57,7 +58,7 @@ public class PosedPart
 	public void updateFace()
 	{
 		//obviously don't update fileInfo if there's no files
-		if (Configgles.gamePaths.size() > 0)
+		if (gamePaths.gamePaths.size() > 0)
 		{
 				this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
 		}		
@@ -67,14 +68,14 @@ public class PosedPart
 	{
 		this.spcs = spcs;
 		// important to know that gspcs is the combo of mf and spcs, a 0-7 index traced to CreatureInfo.speciesList
-		this.gspcs = CreatureInfo.GetSpcs(mf, spcs);
+		this.gspcs = creatureInfo.GetSpcs(mf, spcs);
 		updateFile();
 	}
 	
 	public void UpdateMF(int mf)
 	{
 		this.mf = mf;
-		this.gspcs = CreatureInfo.GetSpcs(mf, spcs);
+		this.gspcs = creatureInfo.GetSpcs(mf, spcs);
 		updateFile();
 	}
 	

@@ -5,17 +5,17 @@ import java.util.List;
 
 public class CreaturePoseLibrary
 {
-	public static List<String> poseList = new ArrayList<>();
-	public static List<String> poseStrings = new ArrayList<>();
+	public List<String> poseList = new ArrayList<>();
+	public List<String> poseStrings = new ArrayList<>();
 	
-	public static void addCreaturePose(String name, String poseString)
+	public void addCreaturePose(String name, String poseString)
 	{
 		poseList.add(name);
 		poseStrings.add(poseString);
 	}
 	
-	static
-	{
+	//this is the default-- later on maybe we'll do something else
+	CreaturePoseLibrary() {
 		// default genetic poses as stolen from the chichi genome
 		addCreaturePose("none", "XXXXXXXXXXXXXXXX");
 		addCreaturePose("Reach low near", "??1312312010100X");
@@ -259,7 +259,7 @@ public class CreaturePoseLibrary
 		addCreaturePose("Totter 4", "X33323323232322X");
 	}
 	
-	public static void setCreaturePose(int pose, PosedCreature creature)
+	public void setCreaturePose(int pose, PosedCreature creature)
 	{
 		String[] poseString = poseStrings.get(pose).split("");
 		for (int i = 0; i < 16; i++)

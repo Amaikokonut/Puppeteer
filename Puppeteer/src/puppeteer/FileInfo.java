@@ -38,10 +38,14 @@ public class FileInfo
 	int parentToX;
 	int parentToY;
 	
-	public FileInfo(int part, int pose, int dirn, int expression, int gspcs, int age, char slot, int eyes)
+	ATTParser aTTParser = new ATTParser();
+	Configgles gamePaths;
+
+	public FileInfo(int part, int pose, int dirn, int expression, int gspcs, int age, char slot, int eyes, Configgles gamePaths)
 	{
+		this.gamePaths = gamePaths;
 		// DON'T DO THIS if there are no files!! Problems will totally happen
-		if (Configgles.gamePaths.size() > 0)
+		if (gamePaths.gamePaths.size() > 0)
 		{
 			updateFile(part, pose, dirn, expression, gspcs, age, slot, eyes);
 		}
@@ -92,41 +96,41 @@ public class FileInfo
 			if (part == 0)
 			{
 				// first pair is where the sprite attaches to the body
-				this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[0]);
-				this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[1]);
+				this.attFromX = Integer.valueOf(aTTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[0]);
+				this.attFromY = Integer.valueOf(aTTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[1]);
 				// second pair is where the sprite attaches to something else (another part
-				this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[2]);
-				this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[3]);
+				this.attToX = Integer.valueOf(aTTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[2]);
+				this.attToY = Integer.valueOf(aTTParser.splitATTRow(attRows[4 * (3 - dirn) + pose])[3]);
 			}
 			else if (part == 1)
 			{
 				// first pair is where the head attaches
-				this.attToHeadX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[0]);
-				this.attToHeadY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[1]);
+				this.attToHeadX = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[0]);
+				this.attToHeadY = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[1]);
 				// second pair -- left leg
-				this.attToLeftLegX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[2]);
-				this.attToLeftLegY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[3]);
+				this.attToLeftLegX = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[2]);
+				this.attToLeftLegY = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[3]);
 				// third pair -- right leg
-				this.attToRightLegX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[4]);
-				this.attToRightLegY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[5]);
+				this.attToRightLegX = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[4]);
+				this.attToRightLegY = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[5]);
 				// fourth pair -- left arm
-				this.attToLeftArmX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[6]);
-				this.attToLeftArmY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[7]);
+				this.attToLeftArmX = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[6]);
+				this.attToLeftArmY = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[7]);
 				// fifth pair -- right arm
-				this.attToRightArmX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[8]);
-				this.attToRightArmY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[9]);
+				this.attToRightArmX = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[8]);
+				this.attToRightArmY = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[9]);
 				// sixth pair -- tail
-				this.attToTailX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[10]);
-				this.attToTailY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[11]);
+				this.attToTailX = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[10]);
+				this.attToTailY = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[11]);
 			}
 			else
 			{
 				// first pair is where the sprite attaches to the body
-				this.attFromX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[0]);
-				this.attFromY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[1]);
+				this.attFromX = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[0]);
+				this.attFromY = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[1]);
 				// second pair is where the sprite attaches to something else (another part or object/floor)
-				this.attToX = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[2]);
-				this.attToY = Integer.valueOf(ATTParser.splitATTRow(attRows[this.frame])[3]);
+				this.attToX = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[2]);
+				this.attToY = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[3]);
 			}
 		}
 		catch (IOException e)
@@ -152,7 +156,7 @@ public class FileInfo
 	}
 	
 	// build filename
-	public static String buildFilename(int part, int gspcs, int stage, char slot)
+	public String buildFilename(int part, int gspcs, int stage, char slot)
 	{
 		char x = 'a';
 		x += part;
@@ -160,20 +164,20 @@ public class FileInfo
 	}
 	
 	// find image file, returns the real filename or null if not found. If isSprite is false, it assumes bodydata
-	public static File findFile(String extName, Boolean isSprite)
+	public File findFile(String extName, Boolean isSprite)
 	{
 		File returnFile = null;
 		// System.out.println(extName);
-		for (int i = 0; i < Configgles.gamePaths.size(); i++)
+		for (int i = 0; i < gamePaths.gamePaths.size(); i++)
 		{
 			if (isSprite)
 			{
 				
-				returnFile = Configgles.gamePaths.get(i).imagesCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
+				returnFile = gamePaths.gamePaths.get(i).imagesCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
 			}
 			else
 			{
-				returnFile = Configgles.gamePaths.get(i).bodyDataCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
+				returnFile = gamePaths.gamePaths.get(i).bodyDataCID.findPathCaseInsensitivelyOrNullIfNonexistant(extName);
 			}
 			// break out of the loop once you found a file
 			if (returnFile != null)
@@ -186,7 +190,7 @@ public class FileInfo
 	
 	// this big return file or nearest file method
 	// If isSprite is false, it assumes bodydata
-	public static File getClosestFile(int part, int gspcs, int stage, char slot, Boolean isSprite)
+	public File getClosestFile(int part, int gspcs, int stage, char slot, Boolean isSprite)
 	{
 		// start out by checking for the closest life stages:
 		File returnFile = getClosestLifestageFile(part, gspcs, stage, slot, isSprite);
@@ -226,7 +230,7 @@ public class FileInfo
 		return null;
 	}
 	
-	public static File getClosestLifestageFile(int part, int gspcs, int stage, char slot, Boolean isSprite)
+	public File getClosestLifestageFile(int part, int gspcs, int stage, char slot, Boolean isSprite)
 	{
 		// build the filename
 		String name = buildFilename(part, gspcs, stage, slot) + ((isSprite) ? ".c16" : ".att");
@@ -288,7 +292,7 @@ public class FileInfo
 	}
 	
 	// apparently this is something we have to do
-	public static File getMaleFiles(int part, int gspcs, int stage, char slot, Boolean isSprite)
+	public File getMaleFiles(int part, int gspcs, int stage, char slot, Boolean isSprite)
 	{
 		// build a male filename
 		String name = buildFilename(part, (gspcs - 4), stage, slot) + ((isSprite) ? ".c16" : ".att");

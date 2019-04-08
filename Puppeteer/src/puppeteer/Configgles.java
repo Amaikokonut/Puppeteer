@@ -21,13 +21,13 @@ import puppeteer.pathcaseinsensitivity.CaseInsensitiveDirectory;
 public class Configgles
 {
 	
-	public static List<gamePathSet> gamePaths = new ArrayList<gamePathSet>();
-	public static String[] readableGamePaths =
+	public List<gamePathSet> gamePaths = new ArrayList<gamePathSet>();
+	public String[] readableGamePaths =
 	{
 			"none"
 	};
 	
-	public static void ListGamePaths()
+	public void ListGamePaths()
 	{
 		if (gamePaths.size() > 0)
 		{
@@ -43,12 +43,12 @@ public class Configgles
 		}
 	}
 	
-	static String[] pathStatuses =
+ String[] pathStatuses =
 	{
 			"Path added successfully!", "This is not a valid path", "This is not a valid game path", "This path is already in the list", "Something went wrong with the path checker method"
 	};
 	
-	public static String pathStatus(String sPath) throws IOException
+	public String pathStatus(String sPath) throws IOException
 	{
 		Path path;
 		System.out.println(sPath);
@@ -69,10 +69,6 @@ public class Configgles
 		File img = new CaseInsensitiveDirectory(path.toFile()).findPathCaseInsensitivelyOrNullIfNonexistant("images");
 		boolean x = bd == null ? false : true;
 		boolean y = img == null ? false : true;
-		System.out.println(bd);
-		System.out.println(img);
-		System.out.println(x);
-		System.out.println(y);
 		
 		if (x && y)
 		{
@@ -100,7 +96,7 @@ public class Configgles
 	}
 	
 	// this should save everything in the gamePaths list to file
-	public static void savePathsToFile()
+	public void savePathsToFile()
 	{
 		
 		Properties prop = new Properties();
@@ -148,7 +144,7 @@ public class Configgles
 	}
 	
 	// aaaand this should load everything from the properties file into the gamePaths list...
-	public static void loadPathsFromFile() {
+	public void loadPathsFromFile() {
 		Properties prop = new Properties();
 		InputStream input = null;
 
@@ -186,7 +182,7 @@ public class Configgles
 		}
 	}
 	
-	public static void removePath(int index) {
+	public void removePath(int index) {
 		gamePaths.remove(index);
 		ListGamePaths();
 		savePathsToFile();

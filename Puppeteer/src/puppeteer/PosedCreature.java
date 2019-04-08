@@ -11,13 +11,16 @@ public class PosedCreature {
 	int expression;
 	int eyes;
 	PosedPart[] part = new PosedPart[14];
+	CreatureInfo creatureInfo = new CreatureInfo();
+	Configgles gamePaths;
 	
 //creating a new PosedCreature	
-	public PosedCreature(int spcs, int mf, char slot, int age, int pose, int dirn, int expression, int eyes) {
+	public PosedCreature(int spcs, int mf, char slot, int age, int pose, int dirn, int expression, int eyes, Configgles gamePaths) {
+		this.gamePaths = gamePaths;
 		this.spcs = spcs;
 		this.mf = mf;
 //important to know that gspcs is the combo of mf and spcs, a 0-7 index traced to CreatureInfo.speciesList 
-		this.gspcs = CreatureInfo.GetSpcs (mf, spcs);
+		this.gspcs = creatureInfo.GetSpcs (mf, spcs);
 		this.slot = slot;
 		this.age = age;
 		this.pose = pose;
@@ -25,33 +28,33 @@ public class PosedCreature {
 		this.expression = expression + 1;
 		this.eyes = eyes;
 		
+		
 //now you gotta create all the body parts in their default states 
 		for(int i = 0; i < 14; i++) {
-			part[i] = new PosedPart(this, i, spcs, mf, slot, pose, dirn, 0, 0);
+			part[i] = new PosedPart(this, i, spcs, mf, slot, pose, dirn, 0, 0, gamePaths);
 		}
 		
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void DbgOuts() {
 		System.out.println("Debug info for this creature:");
 		System.out.println("");
-		System.out.println("Species: " + CreatureInfo.speciesList[this.gspcs]);
+		System.out.println("Species: " + creatureInfo.speciesList[this.gspcs]);
 		System.out.println("Slot: " + this.slot);
-		System.out.println("Age: " + CreatureInfo.lifeStages[this.age]);
+		System.out.println("Age: " + creatureInfo.lifeStages[this.age]);
 		System.out.println("Pose: " + this.pose);
-		System.out.println("Direction: " + CreatureInfo.dirn[this.dirn]);
-		System.out.println("Expression: " + CreatureInfo.expressions[this.expression]);
+		System.out.println("Direction: " + creatureInfo.dirn[this.dirn]);
+		System.out.println("Expression: " + creatureInfo.expressions[this.expression]);
 		System.out.println("Eyes: " + ((this.eyes == 1) ? "Closed" : "Open"));
 		System.out.println("");
 		System.out.println("Debug info for this creature's parts:");
 		System.out.println("");
 		for(int i = 0; i < 14; i++) {
-			System.out.println("Part " + CreatureInfo.bodyParts[i]);
-			System.out.println("Species: " + CreatureInfo.speciesList[this.part[i].gspcs]);
+			System.out.println("Part " + creatureInfo.bodyParts[i]);
+			System.out.println("Species: " + creatureInfo.speciesList[this.part[i].gspcs]);
 			System.out.println("Slot: " + this.part[i].slot);
 			System.out.println("Pose: " + this.part[i].pose);
-			System.out.println("Direction: " + CreatureInfo.dirn[this.part[i].dirn]);
+			System.out.println("Direction: " + creatureInfo.dirn[this.part[i].dirn]);
 			System.out.println("X-offset: " + this.part[i].x);
 			System.out.println("Y-offset: " + this.part[i].y);
 			System.out.println("Sprite Filename: " + this.part[i].fileInfo.sprite.getName());
@@ -63,24 +66,22 @@ public class PosedCreature {
 	
 	public void UpdateSpcs(int spcs) {
 		this.spcs = spcs;
-		this.gspcs = CreatureInfo.GetSpcs (mf, spcs);
+		this.gspcs = creatureInfo.GetSpcs (mf, spcs);
 		
 		//update all the part spcs too:
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateSpcs(spcs);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateMF(int mf) {
 		this.mf = mf;
-		this.gspcs = CreatureInfo.GetSpcs (mf, spcs);
+		this.gspcs = creatureInfo.GetSpcs (mf, spcs);
 		
 		//update all the part spcs too:
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateMF(mf);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateSlot(char slot) {
@@ -90,7 +91,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateSlot(slot);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateAge(int age) {
@@ -98,7 +98,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].updateFile();
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdatePose(int pose) {
@@ -108,7 +107,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdatePose(pose);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateDirn(int dirn) {
@@ -118,7 +116,6 @@ public class PosedCreature {
 		for(int i = 0; i < 14; i++) {
 			part[i].UpdateDirn(dirn);
 		}
-		GenerateCreature.DrawCreatureFromScratch(this);
 	}
 	
 	public void UpdateEyes(int eyes) {
@@ -126,7 +123,6 @@ public class PosedCreature {
 		//parts don't have individual.... eyes.. what, of course not
 		//why would you think that
 			part[0].updateFace();
-		GenerateCreature.UpdateAndDisplayPart(0,this);
 	}
 	
 	public void UpdateExpression(int expression) {
@@ -134,6 +130,5 @@ public class PosedCreature {
 		//parts don't have individual.... expressions.. what, of course not
 		//why would you think that
 		part[0].updateFace();
-		GenerateCreature.UpdateAndDisplayPart(0,this);
 	}
 }
