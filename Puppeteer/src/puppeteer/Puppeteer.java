@@ -539,10 +539,12 @@ public class Puppeteer
 		lblGeneticPoseCombos.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panelParts.add(lblGeneticPoseCombos);
 		
-		JComboBox<String> comboBoxGeneticPose = new JComboBox(CreaturePoseLibrary.poseList.toArray());
+		CreaturePoseLibrary defaultGeneticPoseLibrary = new CreaturePoseLibrary();
+		
+		JComboBox<String> comboBoxGeneticPose = new JComboBox(defaultGeneticPoseLibrary.poseList.toArray());
 		comboBoxGeneticPose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CreaturePoseLibrary.setCreaturePose(comboBoxGeneticPose.getSelectedIndex(),creature);
+				defaultGeneticPoseLibrary.setCreaturePose(comboBoxGeneticPose.getSelectedIndex(),creature);
 				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
