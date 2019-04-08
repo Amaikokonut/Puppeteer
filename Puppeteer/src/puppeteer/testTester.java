@@ -18,6 +18,7 @@ public class testTester
 		//otherwise you're gonna get SO MANY ERRORS
 		
 		CreatureInfo creatureInfo = new CreatureInfo();
+		ATTParser aTTParser = new ATTParser();
 		File file = new File("limbtests.txt");
 		String tests = (JavaSpecificBits.readAllTextUTF8(file));
 		String[] testLines = JavaSpecificBits.splitlines(tests);
@@ -30,7 +31,7 @@ public class testTester
 		
 		for (String x : testLines) {
 			//these are not ATTs but I guess we're testing the ATT Parser Today
-			String[] elements = ATTParser.splitATTRow(x);
+			String[] elements = aTTParser.splitATTRow(x);
 			int part = Integer.valueOf(elements[0]);
 			int gspcs = creatureInfo.GetSpcs(Integer.valueOf(elements[2]), Integer.valueOf(elements[1]));
 			int stage = Integer.valueOf(elements[3]);
