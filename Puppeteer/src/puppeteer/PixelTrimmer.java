@@ -3,7 +3,7 @@ package puppeteer;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-public class trimBlankPixels
+public class PixelTrimmer
 
 // I totally stole this from someone on stackoverflow because I'm lazy:
 // https://stackoverflow.com/questions/7385616/crop-trim-a-jpg-file-with-empty-space-with-java
@@ -11,7 +11,7 @@ public class trimBlankPixels
 {
 	
 	//Separating it out so the real meat of the code does 
-	public static BufferedImage TrimImage(BufferedImage img) {
+	public BufferedImage TrimImage(BufferedImage img) {
 		Rectangle bounds = getImageContentBounds_Original(img);
 		return img.getSubimage(bounds.x, bounds.y, bounds.width, bounds.height);
 	}
@@ -22,7 +22,7 @@ public class trimBlankPixels
 	
 	
 	
-	public static Rectangle getImageContentBounds_PuppyModified(BufferedImage img)
+	public Rectangle getImageContentBounds_PuppyModified(BufferedImage img)
 	{
 		final int initialWidth = img.getWidth();
 		final int initialHeight = img.getHeight();
@@ -153,7 +153,7 @@ public class trimBlankPixels
 	
 	
 	
-	public static Rectangle getImageContentBounds_Original(BufferedImage img) {
+	public Rectangle getImageContentBounds_Original(BufferedImage img) {
 		final int initialWidth  = img.getWidth();
 		final int initialHeight = img.getHeight();
 		
@@ -219,7 +219,7 @@ public class trimBlankPixels
 	
 	
 	
-	public static int getARGB32(int alpha, int red, int green, int blue)
+	public int getARGB32(int alpha, int red, int green, int blue)
 	{
 		return (alpha & 0xff) << 24 | (red & 0xff) << 16 | (green & 0xff) << 8 | (blue & 0xff);
 	}

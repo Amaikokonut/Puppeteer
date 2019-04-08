@@ -40,7 +40,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import puppeteer.SpriteCollectionComponent.DisplayedSprite;
 import javax.swing.JScrollPane;
-import puppeteer.trimBlankPixels;
+import puppeteer.PixelTrimmer;
 
 public class Puppeteer
 {
@@ -690,7 +690,9 @@ public class Puppeteer
 					Graphics g = img.createGraphics();
 					displayCreature.paint(g);
 					g.dispose();
-					BufferedImage imgCropped = trimBlankPixels.TrimImage(img);
+					
+					PixelTrimmer pixelTrimmer = new PixelTrimmer();
+					BufferedImage imgCropped = pixelTrimmer.TrimImage(img);
 					
 					File file = jfc.getSelectedFile();
 					//we have to force a png extension, sigh
