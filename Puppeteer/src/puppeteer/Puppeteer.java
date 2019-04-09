@@ -177,6 +177,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				creature.UpdateSpcs(comboSpcs.getSelectedIndex());
+				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
 				updatePartsUI();
 			}
 		});

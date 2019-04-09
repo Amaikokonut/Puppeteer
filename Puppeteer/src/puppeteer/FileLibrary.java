@@ -42,7 +42,8 @@ public class FileLibrary
 	}
 	
 	public String[] getATTFile(File file) {
-		GameFileInfo f = this.files.get(file);
+		GameFileInfo f = this.files.get(file.getName().toString());
+		System.out.println("looking for " + file);
 		return f.getBodyData();
 	}
 	

@@ -88,9 +88,7 @@ public class FileInfo
 	{
 		// then actually parse the atts for the details of that part.
 		String[] attRows;
-		try
-		{
-			attRows = JavaSpecificBits.splitlines(JavaSpecificBits.readAllTextUTF8(this.att));
+			attRows = gamePaths.fileLibrary.getATTFile(this.att);
 			
 			// head (part 0) and body (part 1) are special cases:
 			if (part == 0)
@@ -133,13 +131,7 @@ public class FileInfo
 				this.attToY = Integer.valueOf(aTTParser.splitATTRow(attRows[this.frame])[3]);
 			}
 		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-	}
 	
 	// this gets the sprite file frame for the part/pose/direction/expression in question.
 	// expression only really matters if the part in question is the head (part 0)
