@@ -677,7 +677,7 @@ public class Puppeteer
 		
 		mnFile.add(mntmSetGameDirectories);
 		
-		JMenuItem mntmSaveImage = new JMenuItem("Save image");
+		JMenuItem mntmSaveImage = new JMenuItem("Save Image");
 		mntmSaveImage.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -729,6 +729,15 @@ public class Puppeteer
 			}
 		});
 		mnFile.add(mntmSaveImage);
+		
+		JMenuItem mntmClearCache = new JMenuItem("Clear Cache");
+		mntmClearCache.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gamePaths.fileLibrary.clearCachedFiles();
+				JOptionPane.showMessageDialog(null, "Cache cleared!");
+			}
+		});
+		mnFile.add(mntmClearCache);
 		
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);

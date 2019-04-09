@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 import rebound.jagent.lib.c16.FromC16Converter;
 
 public class FileLibrary
@@ -72,5 +73,13 @@ public class FileLibrary
 			}
 		}
 		return r;
+	}
+	
+	public void clearCachedFiles() {
+        Set<String> keys = this.files.keySet();
+        for(String key: keys){
+        	GameFileInfo f = this.files.get(key);
+        	f.unload();
+        }
 	}
 }

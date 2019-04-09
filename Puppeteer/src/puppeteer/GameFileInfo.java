@@ -68,4 +68,11 @@ public class GameFileInfo
 		}
 		
 	}
+	
+	public void unload() {
+		isLoaded = false;
+		spriteData = new FromC16Converter();
+		bodyData = null;
+		
+	}
 }
