@@ -10,27 +10,42 @@ public class GameFileInfo
 	String fileName;
 	FromC16Converter spriteData = new FromC16Converter();
 	String[] bodyData;
+	Boolean isLoaded = false;
+	String ext = "";
 	
 	public GameFileInfo(File filePath) {
 		this.filePath = filePath;
 		this.fileName = filePath.getName();
 
 		//check for extensions
-		String ext = "";
 		if(fileName.contains("."))
 		{
 		    String parts[] = fileName.split("\\.");
-		    ext = parts[parts.length - 1];
-		} else {
-			//if there's no extension, there's no value in this
-			return;
+		    this.ext = parts[parts.length - 1];
 		}
-		
+	}
+	
+	public String[] getBodyData() {
+		if (!isLoaded) {
+			load();
+		}
+		return bodyData;
+	}
+	
+	public FromC16Converter getSpriteData() {
+		if (!isLoaded) {
+			load();
+		}
+		return spriteData;
+	}
+	
+	public void load() {
 		if (ext.equalsIgnoreCase("att"))
 		{
 			try
 			{
 				this.bodyData = JavaSpecificBits.splitlines(JavaSpecificBits.readAllTextUTF8(filePath));
+				isLoaded = true;
 			}
 			catch (IOException e)
 			{
@@ -43,6 +58,7 @@ public class GameFileInfo
 			try
 			{
 				spriteData.read(filePath);
+				isLoaded = true;
 			}
 			catch (IOException | FormatMismatchException e)
 			{
@@ -50,13 +66,6 @@ public class GameFileInfo
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	public String[] getBodyData() {
-		return bodyData;
-	}
-	
-	public FromC16Converter getSpriteData() {
-		return spriteData;
+		
 	}
 }
