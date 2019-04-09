@@ -27,8 +27,12 @@ public class FileLibrary
 			// make sure it doesn't already exist in the library:
 			if (!this.files.containsKey(lowerCaseName))
 			{
-				System.out.println(file);
+				//then take a stab at whether or not it's a valid creature file 
+				//(in this case we're only grabbing characters with 8 character filenames)
+				if (file.toString().length() == 8) {
+				System.out.println(file.toString());
 				this.files.put(lowerCaseName, new GameFileInfo(new File(folder, file)));
+				}
 			}
 		}
 	}
@@ -37,13 +41,14 @@ public class FileLibrary
 		this.files.clear();
 	}
 	
-	public String[] getATTFile(String file) {
+	public String[] getATTFile(File file) {
 		GameFileInfo f = this.files.get(file);
 		return f.getBodyData();
 	}
 	
-	public FromC16Converter getSpriteFile(String file) {
-		GameFileInfo f = this.files.get(file);
+	public FromC16Converter getSpriteFile(File file) {
+		GameFileInfo f = this.files.get(file.getName().toString());
+		System.out.println("looking for " + file);
 		return f.getSpriteData();
 	}
 }

@@ -12,6 +12,10 @@ import rebound.jagent.lib.c16.FromC16Converter;
 
 public class CreatureGenerator
 {
+	Configgles gamePaths;
+	public CreatureGenerator(Configgles gamePaths) {
+		this.gamePaths = gamePaths;
+	}
 	
 	public List<DisplayedSprite> getUnlayeredSpritesFromCreature(PosedCreature it, Configgles gamePaths)
 	{
@@ -161,17 +165,9 @@ public class CreatureGenerator
 	
 	public FromC16Converter makeOneSprite(PosedCreature it, int part)
 	{
-		FromC16Converter sprite = new FromC16Converter();
-		try
-		{
-			sprite.read(it.part[part].fileInfo.sprite);
-		}
-		catch (IOException | FormatMismatchException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return sprite;
+		
+		return gamePaths.fileLibrary.getSpriteFile(it.part[part].fileInfo.sprite);
+		
 	}
 	
 	// this orders your sprites so they layer/draw in the right order

@@ -47,9 +47,9 @@ public class Puppeteer
 	
 	private JFrame frmPuppeteer;
 
-	CreatureGenerator theCreatureGenerator = new CreatureGenerator();
 	CreatureInfo creatureInfo = new CreatureInfo();
 	Configgles gamePaths = new Configgles();
+	CreatureGenerator theCreatureGenerator = new CreatureGenerator(gamePaths);
 	// generate the initial default creature:
 	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0, gamePaths);
 	
