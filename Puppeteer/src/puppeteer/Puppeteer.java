@@ -650,7 +650,7 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				gamePathsWindow gamePathsDialog = new gamePathsWindow();
+				gamePathsWindow gamePathsDialog = new gamePathsWindow(gamePaths);
 				gamePathsDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				gamePathsDialog.setLocationRelativeTo(frmPuppeteer);
 				gamePathsDialog.setVisible(true);
@@ -660,11 +660,13 @@ public class Puppeteer
 				{
 				  public void windowClosed(WindowEvent e)
 				  {
+					  gamePaths.rebuildFileLibrary();
 					  generateAndDrawDefaultCreature();
 				  }
 
 				  public void windowClosing(WindowEvent e)
 				  {
+					  gamePaths.rebuildFileLibrary();
 					  generateAndDrawDefaultCreature();
 				  }
 				});
@@ -752,6 +754,7 @@ public class Puppeteer
 		}
 		else
 		{
+			gamePaths.rebuildFileLibrary();
 			generateAndDrawDefaultCreature();
 		}
 	}

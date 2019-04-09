@@ -23,7 +23,7 @@ import java.awt.Dialog.ModalityType;
 public class gamePathsWindow
 extends JDialog
 {
-	public gamePathsWindow()
+	public gamePathsWindow(Configgles gamePaths)
 	{
 		
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -31,7 +31,6 @@ extends JDialog
 		setBounds(100, 100, 469, 225);
 		setTitle("Configure Game Paths");
 		getContentPane().setLayout(null);
-		Configgles gamePaths = new Configgles();
 		
 		JList list = new JList(gamePaths.readableGamePaths);
 		
