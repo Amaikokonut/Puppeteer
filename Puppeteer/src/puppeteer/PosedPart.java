@@ -11,6 +11,9 @@ public class PosedPart
 	int dirn;
 	int x;
 	int y;
+	int age;
+	int expression;
+	int eyes;
 	PosedCreature origin;
 	FileInfo fileInfo;
 	CreatureInfo creatureInfo = new CreatureInfo();
@@ -20,6 +23,7 @@ public class PosedPart
 	{
 		this.gamePaths = gamePaths;
 		this.origin = origin;
+		this.age = this.origin.age;
 		this.part = part;
 		this.spcs = spcs;
 		this.mf = mf;
@@ -30,10 +34,19 @@ public class PosedPart
 		this.dirn = dirn;
 		this.x = x;
 		this.y = y;
+		//if you're the head you get expressions and eyes too
+		if (part == 0) {
+		this.expression = this.origin.expression;
+		this.eyes = this.origin.eyes;
+		}
 		// get the info for your file
 			this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes, gamePaths);
 
 		//System.out.println("Part " + part + " was created");
+		
+	}
+	
+	public PosedPart() {
 		
 	}
 	

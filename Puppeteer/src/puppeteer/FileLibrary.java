@@ -1,9 +1,7 @@
 package puppeteer;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Set;
 import rebound.jagent.lib.c16.FromC16Converter;
 
@@ -82,4 +80,12 @@ public class FileLibrary
         	f.unload();
         }
 	}
+	
+	public boolean contains(String fileName) {
+		if (this.files.containsKey(fileName)) {
+			return true;
+		} else {
+			return false;
+		}
+	} 
 }

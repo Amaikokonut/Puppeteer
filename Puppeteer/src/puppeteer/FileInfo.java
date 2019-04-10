@@ -1,10 +1,6 @@
 package puppeteer;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import puppeteer.pathcaseinsensitivity.CaseInsensitiveDirectory;
-import puppeteer.pathcaseinsensitivity.MultipleFilesDifferingOnlyByCaseDetectedWhenTheyShouldntException;
 
 public class FileInfo
 {
