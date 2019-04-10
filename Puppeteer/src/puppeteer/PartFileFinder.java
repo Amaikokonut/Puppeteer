@@ -1,7 +1,5 @@
 package puppeteer;
 
-import java.io.File;
-
 public class PartFileFinder
 {
 	FileLibrary fileLibrary;
@@ -20,6 +18,7 @@ public class PartFileFinder
 		//step 3: search for the sprite file:
 		String spriteAvailable = getClosestFile(posedPart, "c16");
 		String attAvailable = getClosestFile(posedPart, "att");
+		// and return it all together in a neat package
 		return new FileSet(spriteWanted, spriteAvailable, attWanted, attAvailable);
 		
 	}
