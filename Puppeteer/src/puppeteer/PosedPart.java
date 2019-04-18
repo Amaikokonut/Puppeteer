@@ -40,7 +40,7 @@ public class PosedPart
 		this.eyes = this.origin.eyes;
 		}
 		// get the info for your file
-			this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes, gamePaths);
+			//this.fileInfo = new FileInfo(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes, gamePaths);
 
 		//System.out.println("Part " + part + " was created");
 		
@@ -55,7 +55,7 @@ public class PosedPart
 		//obviously don't update fileInfo if there's no files
 		if (gamePaths.gamePaths.size() > 0)
 		{
-				this.fileInfo.updateFile(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
+				//this.fileInfo.updateFile(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
 		}		
 	}
 	
@@ -64,7 +64,7 @@ public class PosedPart
 		//obviously don't update fileInfo if there's no files
 		if (gamePaths.gamePaths.size() > 0)
 		{
-				this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
+				//this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
 		}		
 	}
 	
@@ -73,7 +73,7 @@ public class PosedPart
 		//obviously don't update fileInfo if there's no files
 		if (gamePaths.gamePaths.size() > 0)
 		{
-				this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
+				//this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
 		}		
 	}
 	

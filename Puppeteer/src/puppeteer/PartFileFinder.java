@@ -37,7 +37,7 @@ public class PartFileFinder
 	// find image file, returns the real filename or null if not found.
 	public String findFile(String fileName)
 	{
-		if (fileLibrary.contains(fileName)) {
+		if (!fileLibrary.contains(fileName)) {
 			return null;
 		} else
 		return fileName;

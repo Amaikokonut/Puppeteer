@@ -13,7 +13,7 @@ public class ATTset
 		try
 		{
 			String[] lines = JavaSpecificBits.splitlines(JavaSpecificBits.readAllTextUTF8(filePath));
-			System.out.println(lines);
+			//System.out.println(lines);
 			int x = 0;
 			int y = 0;
 			for (String line : lines)
@@ -23,7 +23,7 @@ public class ATTset
 					if (!att.equals(""))
 					{
 						atts[x][y] = Integer.valueOf(att);
-						System.out.println(atts[x][y]);
+						//System.out.println(atts[x][y]);
 					}
 					y++;
 				}

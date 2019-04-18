@@ -9,7 +9,7 @@ public class GameFileInfo
 	File filePath;
 	String fileName;
 	FromC16Converter spriteData = new FromC16Converter();
-	String[] bodyData;
+	ATTset bodyData = new ATTset();
 	Boolean isLoaded = false;
 	String ext = "";
 	
@@ -25,7 +25,7 @@ public class GameFileInfo
 		}
 	}
 	
-	public String[] getBodyData() {
+	public ATTset getBodyData() {
 		if (!isLoaded) {
 			load();
 		}
@@ -42,16 +42,9 @@ public class GameFileInfo
 	public void load() {
 		if (ext.equalsIgnoreCase("att"))
 		{
-			try
-			{
-				this.bodyData = JavaSpecificBits.splitlines(JavaSpecificBits.readAllTextUTF8(filePath));
+				System.out.println(filePath);
+				this.bodyData.read(filePath);
 				isLoaded = true;
-			}
-			catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		else if (ext.equalsIgnoreCase("c16"))
 		{
@@ -72,7 +65,7 @@ public class GameFileInfo
 	public void unload() {
 		isLoaded = false;
 		spriteData = new FromC16Converter();
-		bodyData = null;
+		ATTset bodyData = new ATTset();
 		
 	}
 }

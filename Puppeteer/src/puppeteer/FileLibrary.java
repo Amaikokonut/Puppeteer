@@ -28,7 +28,7 @@ public class FileLibrary
 			{
 				if (isACreatureFile(file.toString()))
 				{
-					System.out.println(file.toString());
+					//System.out.println(file.toString());
 					this.files.put(lowerCaseName, new GameFileInfo(new File(folder, file)));
 				}
 			}
@@ -40,17 +40,46 @@ public class FileLibrary
 		this.files.clear();
 	}
 	
-	public String[] getATTFile(File file)
+	public ATTset getATTFile(File file)
 	{
 		GameFileInfo f = this.files.get(file.getName().toString());
-		System.out.println("looking for " + file);
+		//System.out.println("looking for " + file);
 		return f.getBodyData();
+	}
+	
+	public ATTset getATTFile(String file)
+	{
+		if (contains(file)) {
+			//System.out.println("this file exists");
+		GameFileInfo f = this.files.get(file);
+		return f.getBodyData();
+	} else
+	{
+		System.out.println(file + ": this file doesn't exist--something is wrong");
+		return null;
+		}
+	}
+	
+	//not sure if this is needed
+	public ATTPoseSet getATTPoseSet(File file, int pose) {
+		return getATTFile(file).get(pose);
+	}
+	
+	public ATTPoseSet getATTPoseSet(String file, int pose) {
+		return getATTFile(file).get(pose);
 	}
 	
 	public FromC16Converter getSpriteFile(File file)
 	{
 		GameFileInfo f = this.files.get(file.getName().toString());
-		System.out.println("looking for " + file);
+		//System.out.println("looking for " + file);
+		return f.getSpriteData();
+	}
+	
+	public FromC16Converter getSpriteFile(String file)
+	{
+		GameFileInfo f = this.files.get(file);
+		//System.out.println("looking for " + file);
 		return f.getSpriteData();
 	}
 	

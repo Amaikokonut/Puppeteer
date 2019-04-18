@@ -97,16 +97,15 @@ public class Puppeteer
 		txtrAttInfo.validate();
 	}
 	
-	public void updateSprite(List<DisplayedSprite> unlayeredSprites)
+	public void updateSprite(List<DisplayedSprite> layeredSprites)
 	{
-		sprites = unlayeredSprites;
-		displayCreature.setSpritesAndRepaint(theCreatureGenerator.layerSpritesByDirn(creature.dirn, unlayeredSprites));
+		displayCreature.setSpritesAndRepaint(layeredSprites);
 	}
 	
 	public void generateAndDrawDefaultCreature()
 	{
 		creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0, gamePaths);
-		updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+		updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 		
 	}
 	
@@ -177,7 +176,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				creature.UpdateSpcs(comboSpcs.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -195,7 +194,7 @@ public class Puppeteer
 				char x = 'a';
 				x += comboSlot.getSelectedIndex();
 				creature.UpdateSlot(x);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -210,7 +209,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateMF(0);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 			}
 		});
 		buttonGroupMF.add(rdbtnM);
@@ -222,7 +221,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateMF(1);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 			}
 		});
 		rdbtnF.setSelected(true);
@@ -241,7 +240,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				creature.UpdateAge(comboAge.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -270,7 +269,7 @@ public class Puppeteer
 					// do something here maybe
 				}
 				creature.UpdatePose((Integer) spinMainPose.getValue());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -290,7 +289,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateDirn(comboMainDirn.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -310,7 +309,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateExpression(comboExpression.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 			}
 		});
 		pnlExpression.add(comboExpression);
@@ -331,7 +330,7 @@ public class Puppeteer
 				{
 					creature.UpdateEyes(0);
 				}
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 			}
 		});
 		pnlEyes.add(chckbxEyesClosed);
@@ -546,7 +545,7 @@ public class Puppeteer
 		comboBoxGeneticPose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				defaultGeneticPoseLibrary.setCreaturePose(comboBoxGeneticPose.getSelectedIndex(),creature);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
