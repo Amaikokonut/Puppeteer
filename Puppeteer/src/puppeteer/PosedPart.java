@@ -15,7 +15,6 @@ public class PosedPart
 	int expression;
 	int eyes;
 	PosedCreature origin;
-	FileInfo fileInfo;
 	CreatureInfo creatureInfo = new CreatureInfo();
 	Configgles gamePaths;
 	
@@ -50,33 +49,11 @@ public class PosedPart
 		
 	}
 	
-	public void updateFile()
-	{
-		//obviously don't update fileInfo if there's no files
-		if (gamePaths.gamePaths.size() > 0)
-		{
-				//this.fileInfo.updateFile(this.part, this.pose, this.dirn, this.origin.expression, this.gspcs, this.origin.age, this.slot, this.origin.eyes);
-		}		
-	}
-	
-	public void updateFrame()
-	{
-		//obviously don't update fileInfo if there's no files
-		if (gamePaths.gamePaths.size() > 0)
-		{
-				//this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
-		}		
-	}
-	
+
 	public void updateFace()
 	{
 		this.expression = this.origin.expression;
 		this.eyes = this.origin.eyes;
-		//obviously don't update fileInfo if there's no files
-		if (gamePaths.gamePaths.size() > 0)
-		{
-				//this.fileInfo.updateFrame(this.part, this.pose, this.dirn, this.origin.expression, this.origin.eyes);
-		}		
 	}
 	
 	public void UpdateSpcs(int spcs)
@@ -84,50 +61,42 @@ public class PosedPart
 		this.spcs = spcs;
 		// important to know that gspcs is the combo of mf and spcs, a 0-7 index traced to CreatureInfo.speciesList
 		this.gspcs = creatureInfo.GetSpcs(mf, spcs);
-		updateFile();
 	}
 	
 	public void UpdateMF(int mf)
 	{
 		this.mf = mf;
 		this.gspcs = creatureInfo.GetSpcs(mf, spcs);
-		updateFile();
 	}
 	
 	public void UpdateSlot(char slot)
 	{
 		this.slot = slot;
-		updateFile();
 	}
 	
 	public void UpdatePose(int pose)
 	{
 		this.pose = pose;
-		updateFrame();
 	}
 	
 	public void UpdateDirn(int dirn)
 	{
 		this.dirn = dirn;
-		updateFrame();
 	}
 	
 	public void UpdateX(int x)
 	{
 		this.x = x;
-		updateFrame();
 	}
 	
 	public void UpdateY(int y)
 	{
 		this.y = y;
-		updateFrame();
 	}
 	
 	public void UpdateAge(int age)
 	{
 		this.age = age;
-		updateFrame();
 	}
 	
 }

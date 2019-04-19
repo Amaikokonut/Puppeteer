@@ -1,15 +1,10 @@
 package puppeteer;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-import javax.imageio.ImageIO;
 import puppeteer.SpriteCollectionComponent.DisplayedSprite;
-import rebound.jagent.lib.FormatMismatchException;
-import rebound.jagent.lib.c16.FromC16Converter;
 
 public class CreatureGenerator
 {
@@ -81,7 +76,7 @@ public class CreatureGenerator
 		// place yourself into unlayered sprites
 		DisplayedSprite updatedSprite = new DisplayedSprite(img, position.getX(), position.getY());
 
-		System.out.println("time to set part " + part );
+		//System.out.println("time to set part " + part );
 		//the actual setting finally happens here
 		unlayeredSprites.set(part, updatedSprite);
 		
@@ -139,7 +134,7 @@ public class CreatureGenerator
 			//this is basically the formula of getFrame 
 			int partFrame = 4 * (3 - it.part[i].dirn) + it.part[i].pose;
 			String attFile = creatureFileSet.get(i).attAvailable;
-			System.out.println(attFile + " should exist");
+			//System.out.println(attFile + " should exist");
 			attCreatureSet.add(gamePaths.fileLibrary.getATTPoseSet(attFile, partFrame));
 		}
 	}

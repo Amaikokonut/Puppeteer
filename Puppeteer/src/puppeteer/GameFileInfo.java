@@ -42,7 +42,7 @@ public class GameFileInfo
 	public void load() {
 		if (ext.equalsIgnoreCase("att"))
 		{
-				System.out.println(filePath);
+				//System.out.println(filePath);
 				this.bodyData.read(filePath);
 				isLoaded = true;
 		}
@@ -65,7 +65,7 @@ public class GameFileInfo
 	public void unload() {
 		isLoaded = false;
 		spriteData = new FromC16Converter();
-		ATTset bodyData = new ATTset();
+		bodyData = new ATTset();
 		
 	}
 }

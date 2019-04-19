@@ -57,8 +57,8 @@ public class PosedCreature {
 			System.out.println("Direction: " + creatureInfo.dirn[this.part[i].dirn]);
 			System.out.println("X-offset: " + this.part[i].x);
 			System.out.println("Y-offset: " + this.part[i].y);
-			System.out.println("Sprite Filename: " + this.part[i].fileInfo.sprite.getName());
-			System.out.println("Att Filename: " + this.part[i].fileInfo.att.getName());
+//			System.out.println("Sprite Filename: " + this.part[i].fileInfo.sprite.getName());
+//			System.out.println("Att Filename: " + this.part[i].fileInfo.att.getName());
 			System.out.println("");
 			
 		}

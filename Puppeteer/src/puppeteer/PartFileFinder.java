@@ -19,7 +19,7 @@ public class PartFileFinder
 		String spriteAvailable = getClosestFile(posedPart, "c16");
 		String attAvailable = getClosestFile(posedPart, "att");
 		// and return it all together in a neat package
-		System.out.println("wanted: "+ spriteWanted + "/" + attWanted + " got: " + spriteAvailable + "/" + attAvailable);
+		//System.out.println("wanted: "+ spriteWanted + "/" + attWanted + " got: " + spriteAvailable + "/" + attAvailable);
 		return new FileSet(spriteWanted, spriteAvailable, attWanted, attAvailable);
 		
 	}
