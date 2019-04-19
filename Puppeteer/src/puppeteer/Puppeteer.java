@@ -406,7 +406,7 @@ public class Puppeteer
 				if (comboPartSpecies.hasFocus())
 				{
 					creature.part[selectedPart].UpdateSpcs(comboPartSpecies.getSelectedIndex());
-					updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+					updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				}
 			}
 		});
@@ -425,7 +425,7 @@ public class Puppeteer
 					char x = 'a';
 					x += comboPartSlot.getSelectedIndex();
 					creature.part[selectedPart].UpdateSlot(x);
-					updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+					updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				}
 			}
 		});
@@ -454,7 +454,7 @@ public class Puppeteer
 				}
 				// if (spinPartPose.hasFocus()) {
 				creature.part[selectedPart].UpdatePose((Integer) spinPartPose.getValue());
-				updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+				updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				// }
 			}
 		});
@@ -475,7 +475,7 @@ public class Puppeteer
 				if (comboPartDirn.hasFocus())
 				{
 					creature.part[selectedPart].UpdateDirn(comboPartDirn.getSelectedIndex());
-					updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+					updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				}
 			}
 		});
@@ -501,7 +501,7 @@ public class Puppeteer
 				}
 				
 				creature.part[selectedPart].UpdateX((Integer) spinXoffset.getValue());
-				updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+				updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				
 			}
 		});
@@ -528,7 +528,7 @@ public class Puppeteer
 				}
 				
 				creature.part[selectedPart].UpdateY((Integer) spinYoffset.getValue());
-				updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+				updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				
 			}
 		});
@@ -634,7 +634,7 @@ public class Puppeteer
 		JButton btnGetAttInfo = new JButton("Generate Pose Details");
 		btnGetAttInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateAttInfo(theCreatureGenerator.FileInfoToReadableString(creature));
+				//updateAttInfo(theCreatureGenerator.FileInfoToReadableString(creature));
 			}
 		});
 		PanelATT2.add(btnGetAttInfo);

@@ -70,6 +70,8 @@ public class PosedPart
 	
 	public void updateFace()
 	{
+		this.expression = this.origin.expression;
+		this.eyes = this.origin.eyes;
 		//obviously don't update fileInfo if there's no files
 		if (gamePaths.gamePaths.size() > 0)
 		{
@@ -119,6 +121,12 @@ public class PosedPart
 	public void UpdateY(int y)
 	{
 		this.y = y;
+		updateFrame();
+	}
+	
+	public void UpdateAge(int age)
+	{
+		this.age = age;
 		updateFrame();
 	}
 	

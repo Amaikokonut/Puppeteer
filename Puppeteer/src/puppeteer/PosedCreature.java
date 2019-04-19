@@ -95,8 +95,9 @@ public class PosedCreature {
 	
 	public void UpdateAge(int age) {
 		this.age = age;
+		//update all the part slots too:
 		for(int i = 0; i < 14; i++) {
-			part[i].updateFile();
+			part[i].UpdateAge(age);
 		}
 	}
 	

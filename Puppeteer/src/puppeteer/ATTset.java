@@ -22,10 +22,12 @@ public class ATTset
 				{
 					if (!att.equals(""))
 					{
+						System.out.println("trying to get row " + x + " column " + y + ":" + att) ;
 						atts[x][y] = Integer.valueOf(att);
 						//System.out.println(atts[x][y]);
+						y++;
 					}
-					y++;
+					
 				}
 				x++;
 				y = 0;
