@@ -70,6 +70,8 @@ public class CreatureGenerator
 			position = getATTPointfromParent(unlayeredSprites, part, it);
 			// actually subtract your from atts, that's your real position
 			position.subtract(myATTs);
+			// don't forget to add your offsets!
+			position.add(new XY(it.part[part].x, it.part[part].y));
 		}
 		else
 		{
