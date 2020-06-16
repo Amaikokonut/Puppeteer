@@ -34,7 +34,7 @@ public class CreatureGenerator
 		{
 			unlayeredSprites.add(null);
 		}
-		//repopulate attCreatureSet and creatureFileSet from scratch
+		//repopulate attCreatureSet and creatureFileSet from scratch??
 		populateCreatureSets(it);
 		//update the body part and the rest will cascade, like magic~
 		UpdatePartinSprites(it, 1);
@@ -49,6 +49,9 @@ public class CreatureGenerator
 		// layer your sprites by dirn
 		return layerSpritesByDirn(it.dirn, unlayeredSprites);
 	}
+	
+	//new return string of att/file info?? 
+	
 	
 	
 	void UpdatePartinSprites(PosedCreature it, int part) {

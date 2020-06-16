@@ -750,7 +750,7 @@ public class Puppeteer
 				+ "with many, many contributions (including the Jagent libraries, the name, a \n"
 				+ "smattering of useful functions, a bunch of impromptu crash course Java lessons,\n"
 				+ "and an endless amount of moral support) by RProgrammer (aka PuppyPi)\n\n"
-				+ "Test/Demo version 1.0, compiled April 2, 2019");
+				+ "Test/Demo version 1.1, compiled June 16, 2020");
 				
 			}
 		});
