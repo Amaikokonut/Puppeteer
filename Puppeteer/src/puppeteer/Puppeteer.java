@@ -47,9 +47,9 @@ public class Puppeteer
 	
 	private JFrame frmPuppeteer;
 
-	CreatureGenerator theCreatureGenerator = new CreatureGenerator();
 	CreatureInfo creatureInfo = new CreatureInfo();
 	Configgles gamePaths = new Configgles();
+	CreatureGenerator theCreatureGenerator = new CreatureGenerator(gamePaths);
 	// generate the initial default creature:
 	PosedCreature creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0, gamePaths);
 	
@@ -97,16 +97,15 @@ public class Puppeteer
 		txtrAttInfo.validate();
 	}
 	
-	public void updateSprite(List<DisplayedSprite> unlayeredSprites)
+	public void updateSprite(List<DisplayedSprite> layeredSprites)
 	{
-		sprites = unlayeredSprites;
-		displayCreature.setSpritesAndRepaint(theCreatureGenerator.layerSpritesByDirn(creature.dirn, unlayeredSprites));
+		displayCreature.setSpritesAndRepaint(layeredSprites);
 	}
 	
 	public void generateAndDrawDefaultCreature()
 	{
 		creature = new PosedCreature(0, 1, 'd', 0, 0, 1, 0, 0, gamePaths);
-		updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+		updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 		
 	}
 	
@@ -177,6 +176,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				creature.UpdateSpcs(comboSpcs.getSelectedIndex());
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -194,7 +194,7 @@ public class Puppeteer
 				char x = 'a';
 				x += comboSlot.getSelectedIndex();
 				creature.UpdateSlot(x);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -209,7 +209,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateMF(0);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 			}
 		});
 		buttonGroupMF.add(rdbtnM);
@@ -221,7 +221,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateMF(1);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 			}
 		});
 		rdbtnF.setSelected(true);
@@ -240,7 +240,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				creature.UpdateAge(comboAge.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -269,7 +269,7 @@ public class Puppeteer
 					// do something here maybe
 				}
 				creature.UpdatePose((Integer) spinMainPose.getValue());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -289,7 +289,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateDirn(comboMainDirn.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -309,7 +309,7 @@ public class Puppeteer
 			public void actionPerformed(ActionEvent e)
 			{
 				creature.UpdateExpression(comboExpression.getSelectedIndex());
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 			}
 		});
 		pnlExpression.add(comboExpression);
@@ -330,7 +330,7 @@ public class Puppeteer
 				{
 					creature.UpdateEyes(0);
 				}
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 			}
 		});
 		pnlEyes.add(chckbxEyesClosed);
@@ -406,7 +406,7 @@ public class Puppeteer
 				if (comboPartSpecies.hasFocus())
 				{
 					creature.part[selectedPart].UpdateSpcs(comboPartSpecies.getSelectedIndex());
-					updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+					updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				}
 			}
 		});
@@ -425,7 +425,7 @@ public class Puppeteer
 					char x = 'a';
 					x += comboPartSlot.getSelectedIndex();
 					creature.part[selectedPart].UpdateSlot(x);
-					updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+					updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				}
 			}
 		});
@@ -454,7 +454,7 @@ public class Puppeteer
 				}
 				// if (spinPartPose.hasFocus()) {
 				creature.part[selectedPart].UpdatePose((Integer) spinPartPose.getValue());
-				updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+				updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				// }
 			}
 		});
@@ -475,7 +475,7 @@ public class Puppeteer
 				if (comboPartDirn.hasFocus())
 				{
 					creature.part[selectedPart].UpdateDirn(comboPartDirn.getSelectedIndex());
-					updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+					updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				}
 			}
 		});
@@ -501,7 +501,7 @@ public class Puppeteer
 				}
 				
 				creature.part[selectedPart].UpdateX((Integer) spinXoffset.getValue());
-				updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+				updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				
 			}
 		});
@@ -528,7 +528,7 @@ public class Puppeteer
 				}
 				
 				creature.part[selectedPart].UpdateY((Integer) spinYoffset.getValue());
-				updateSprite(theCreatureGenerator.UpdateAndDisplayPart(selectedPart, creature, sprites));
+				updateSprite(theCreatureGenerator.UpdatePartAndGetSprites(creature, selectedPart));
 				
 			}
 		});
@@ -545,7 +545,7 @@ public class Puppeteer
 		comboBoxGeneticPose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				defaultGeneticPoseLibrary.setCreaturePose(comboBoxGeneticPose.getSelectedIndex(),creature);
-				updateSprite(theCreatureGenerator.getUnlayeredSpritesFromCreature(creature, gamePaths));
+				updateSprite(theCreatureGenerator.MakeNewCreatureAndGetSprites(creature));
 				updatePartsUI();
 			}
 		});
@@ -634,7 +634,7 @@ public class Puppeteer
 		JButton btnGetAttInfo = new JButton("Generate Pose Details");
 		btnGetAttInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateAttInfo(theCreatureGenerator.FileInfoToReadableString(creature));
+				//updateAttInfo(theCreatureGenerator.FileInfoToReadableString(creature));
 			}
 		});
 		PanelATT2.add(btnGetAttInfo);
@@ -650,7 +650,7 @@ public class Puppeteer
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				gamePathsWindow gamePathsDialog = new gamePathsWindow();
+				gamePathsWindow gamePathsDialog = new gamePathsWindow(gamePaths);
 				gamePathsDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				gamePathsDialog.setLocationRelativeTo(frmPuppeteer);
 				gamePathsDialog.setVisible(true);
@@ -660,11 +660,13 @@ public class Puppeteer
 				{
 				  public void windowClosed(WindowEvent e)
 				  {
+					  gamePaths.rebuildFileLibrary();
 					  generateAndDrawDefaultCreature();
 				  }
 
 				  public void windowClosing(WindowEvent e)
 				  {
+					  gamePaths.rebuildFileLibrary();
 					  generateAndDrawDefaultCreature();
 				  }
 				});
@@ -674,7 +676,7 @@ public class Puppeteer
 		
 		mnFile.add(mntmSetGameDirectories);
 		
-		JMenuItem mntmSaveImage = new JMenuItem("Save image");
+		JMenuItem mntmSaveImage = new JMenuItem("Save Image");
 		mntmSaveImage.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -727,6 +729,15 @@ public class Puppeteer
 		});
 		mnFile.add(mntmSaveImage);
 		
+		JMenuItem mntmClearCache = new JMenuItem("Clear Cache");
+		mntmClearCache.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gamePaths.fileLibrary.clearCachedFiles();
+				JOptionPane.showMessageDialog(null, "Cache cleared!");
+			}
+		});
+		mnFile.add(mntmClearCache);
+		
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 		
@@ -739,7 +750,7 @@ public class Puppeteer
 				+ "with many, many contributions (including the Jagent libraries, the name, a \n"
 				+ "smattering of useful functions, a bunch of impromptu crash course Java lessons,\n"
 				+ "and an endless amount of moral support) by RProgrammer (aka PuppyPi)\n\n"
-				+ "Test/Demo version 1.0, compiled April 2, 2019");
+				+ "Test/Demo version 1.1, compiled June 16, 2020");
 				
 			}
 		});
@@ -752,6 +763,7 @@ public class Puppeteer
 		}
 		else
 		{
+			gamePaths.rebuildFileLibrary();
 			generateAndDrawDefaultCreature();
 		}
 	}

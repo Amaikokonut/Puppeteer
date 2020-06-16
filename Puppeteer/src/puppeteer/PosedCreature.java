@@ -57,8 +57,8 @@ public class PosedCreature {
 			System.out.println("Direction: " + creatureInfo.dirn[this.part[i].dirn]);
 			System.out.println("X-offset: " + this.part[i].x);
 			System.out.println("Y-offset: " + this.part[i].y);
-			System.out.println("Sprite Filename: " + this.part[i].fileInfo.sprite.getName());
-			System.out.println("Att Filename: " + this.part[i].fileInfo.att.getName());
+//			System.out.println("Sprite Filename: " + this.part[i].fileInfo.sprite.getName());
+//			System.out.println("Att Filename: " + this.part[i].fileInfo.att.getName());
 			System.out.println("");
 			
 		}
@@ -95,8 +95,9 @@ public class PosedCreature {
 	
 	public void UpdateAge(int age) {
 		this.age = age;
+		//update all the part slots too:
 		for(int i = 0; i < 14; i++) {
-			part[i].updateFile();
+			part[i].UpdateAge(age);
 		}
 	}
 	

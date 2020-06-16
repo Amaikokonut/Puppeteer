@@ -2,14 +2,11 @@ package puppeteer;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Properties;
@@ -26,6 +23,7 @@ public class Configgles
 	{
 			"none"
 	};
+	FileLibrary fileLibrary = new FileLibrary();
 	
 	public void ListGamePaths()
 	{
@@ -48,6 +46,8 @@ public class Configgles
 			"Path added successfully!", "This is not a valid path", "This is not a valid game path", "This path is already in the list", "Something went wrong with the path checker method"
 	};
 	
+ //this is basically an addPath method, but it returns some info about it being
+ //successful or not
 	public String pathStatus(String sPath) throws IOException
 	{
 		Path path;
@@ -186,6 +186,21 @@ public class Configgles
 		gamePaths.remove(index);
 		ListGamePaths();
 		savePathsToFile();
+	}
+	
+	public void rebuildFileLibrary() {
+		fileLibrary.clear();
+		if (gamePaths.size() > 0)
+		{
+			readableGamePaths = new String[gamePaths.size()];
+			for (int i = 0; i < gamePaths.size(); i++)
+			{
+				//for each in game paths, add the sprite and bodydata folders 
+				fileLibrary.addFolder(gamePaths.get(i).images.toFile());
+				fileLibrary.addFolder(gamePaths.get(i).bodyData.toFile());
+			}
+		}
+		
 	}
 }
 

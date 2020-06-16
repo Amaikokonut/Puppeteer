@@ -1,6 +1,5 @@
 package puppeteer;
 
-import java.awt.EventQueue;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -8,22 +7,18 @@ import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
 import javax.swing.JList;
 import java.awt.Font;
 import java.awt.HeadlessException;
-import javax.swing.JTextPane;
 import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import java.awt.Dialog.ModalityType;
 
 public class gamePathsWindow
 extends JDialog
 {
-	public gamePathsWindow()
+	public gamePathsWindow(Configgles gamePaths)
 	{
 		
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -31,7 +26,6 @@ extends JDialog
 		setBounds(100, 100, 469, 225);
 		setTitle("Configure Game Paths");
 		getContentPane().setLayout(null);
-		Configgles gamePaths = new Configgles();
 		
 		JList list = new JList(gamePaths.readableGamePaths);
 		
